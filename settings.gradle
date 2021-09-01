@@ -1,0 +1,3 @@
+rootProject.name = 'PixelHuntRemastered'
+include 'api'
+include 'forge'

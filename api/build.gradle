@@ -1,0 +1,25 @@
+repositories {
+    maven {
+        name = 'spongepowered-repo'
+        url = 'https://repo.spongepowered.org/maven'
+    }
+
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
+
+    compileOnly group: 'com.github.Pixelmon-Development.API', name: 'commons', version: '0.2.8'
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    archiveName = rootProject.name + '-API.jar'
+
+    relocate('org.spongepowered.configurate', 'com.envyful.api.commons.shade.configurate')
+    relocate('org.yaml.snakeyaml', 'com.envyful.api.commons.shade.snakeyaml')
+    relocate('io.leangen.geantyref', 'com.envyful.api.commons.shade.geantyref')
+
+    exclude "**/module-info.class"
+}

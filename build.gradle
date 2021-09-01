@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2' }
+    }
+
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.2"
+    }
+}
+
+subprojects {
+    apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'java'
+
+    group = 'com.envyful.pixel.hunt.remastered'
+    version = '0.0.1'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+        maven { url 'https://repo.lucko.me/' }
+        maven { url = "https://repo.aikar.co/content/groups/aikar/" }
+        maven { url = "https://jitpack.io" }
+        maven {
+        	name = 'sponge'
+        	url = 'https://repo.spongepowered.org/maven'
+    	}
+    }
+}
