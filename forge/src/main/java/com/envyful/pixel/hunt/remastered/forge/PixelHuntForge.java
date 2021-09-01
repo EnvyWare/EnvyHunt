@@ -1,5 +1,6 @@
 package com.envyful.pixel.hunt.remastered.forge;
 
+import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.task.ParticleDisplayTask;
@@ -7,6 +8,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+
+import java.io.IOException;
 
 @Mod(
         modid = "pixelhuntremastered",
@@ -29,6 +32,16 @@ public class PixelHuntForge {
     @Mod.EventHandler
     public void onPreInit(FMLPreInitializationEvent event) {
         instance = this;
+
+        this.loadConfig();
+    }
+
+    public void loadConfig() {
+        try {
+            this.config = YamlConfigFactory.getInstance(PixelHuntConfig.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Mod.EventHandler

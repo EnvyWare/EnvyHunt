@@ -7,6 +7,8 @@ import com.envyful.api.command.annotate.executor.Argument;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
+import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
+import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
 import com.envyful.pixel.hunt.remastered.forge.ui.HuntUI;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
@@ -36,7 +38,8 @@ public class PixelHuntCommand {
     @Permissible("pixel.hunt.remastered.command.reload")
     public void executeReloadCommand(@Sender EntityPlayerMP sender) {
         sender.sendMessage(STARTED_RELOAD);
-        //TODO: reload
+        PixelHuntForge.getInstance().loadConfig();
+        PixelHuntFactory.reloadHunts();
         sender.sendMessage(RELOADED);
     }
 
