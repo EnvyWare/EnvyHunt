@@ -2,8 +2,8 @@ package com.envyful.pixel.hunt.remastered.api;
 
 import com.envyful.api.gui.pane.Pane;
 import com.envyful.api.player.EnvyPlayer;
+import com.envyful.api.reforged.pixelmon.PokemonSpec;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
-import com.pixelmonmod.pixelmon.api.pokemon.PokemonSpec;
 import org.spongepowered.configurate.ConfigurationNode;
 
 /**

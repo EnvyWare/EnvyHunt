@@ -1,5 +1,12 @@
-package com.envyful.pixel.hunt.remastered.forge.hunt.impl;
+package com.envyful.pixel.hunt.remastered.forge.hunt;
 
+import com.envyful.api.forge.server.UtilForgeServer;
+import com.envyful.api.gui.pane.Pane;
+import com.envyful.api.math.UtilRandom;
+import com.envyful.api.player.EnvyPlayer;
+import com.envyful.api.reforged.pixelmon.PokemonGenerator;
+import com.envyful.api.reforged.pixelmon.PokemonSpec;
+import com.envyful.pixel.hunt.remastered.api.PixelHunt;
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
 import com.envyful.pixel.hunt.remastered.forge.event.PixelHuntStartEvent;
 import com.envyful.pixel.hunt.remastered.forge.event.PixelHuntWonEvent;
@@ -8,14 +15,9 @@ import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
-import com.envyful.pixel.hunt.remastered.api.PixelHunt;
-import com.envyful.pixel.hunt.remastered.forge.utils.UtilServer;
-import com.envyful.pixel.hunt.remastered.forge.utils.math.UtilRandom;
-import com.envyful.pixel.hunt.remastered.forge.utils.pokemon.PokemonGenerator;
-import com.envyful.pixel.hunt.remastered.forge.utils.pokemon.PokemonSpec;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -23,9 +25,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class SimplePixelHunt implements PixelHunt {
+public class ForgePixelHunt implements PixelHunt {
 
-    private final String identifier;
     private final List<String> rewardCommands = Lists.newArrayList();
 
     private PokemonGenerator generator;
@@ -38,15 +39,8 @@ public class SimplePixelHunt implements PixelHunt {
     private long duration;
     private long currentStart;
 
-    public SimplePixelHunt(String identifier, ConfigurationNode node) {
-        this.identifier = identifier;
-
+    public ForgePixelHunt(ConfigurationNode node) {
         this.load(node);
-    }
-
-    @Override
-    public String getIdentifier() {
-        return this.identifier;
     }
 
     @Override
@@ -99,9 +93,10 @@ public class SimplePixelHunt implements PixelHunt {
         return Collections.emptyList();
     }
 
+
     @Override
-    public ItemStack getDisplay() {
-        return this.displayItem;
+    public void display(Pane pane) {
+        //TODO:
     }
 
     @Override
@@ -116,8 +111,9 @@ public class SimplePixelHunt implements PixelHunt {
         this.currentPokemon = event.getGeneratedPokemon();
 
         for (String broadcast : PixelHuntForge.getInstance().getConfig().getSpawnBroadcast()) {
-            PixelHuntForge.getServer().getPlayerList()
-                    .sendMessage(new TextComponentString(broadcast.replace("%pokemon%", this.currentPokemon.getName())));
+            FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
+                    .sendMessage(new TextComponentString(broadcast
+                            .replace("%pokemon%", this.currentPokemon.getName())));
         }
 
         return this.currentPokemon;
@@ -129,7 +125,7 @@ public class SimplePixelHunt implements PixelHunt {
     }
 
     @Override
-    public void rewardCatch(EntityPlayerMP player, Pokemon caught) {
+    public void rewardCatch(EnvyPlayer<?> player, Pokemon caught) {
         PixelHuntWonEvent wonEvent = new PixelHuntWonEvent(this, player, caught, this.currentPokemon);
 
         Pixelmon.EVENT_BUS.post(wonEvent);
@@ -153,10 +149,10 @@ public class SimplePixelHunt implements PixelHunt {
         }
 
         if (this.randomCommands) {
-            UtilServer.executeCommand(UtilRandom.getRandomElement(this.rewardCommands).replace("%player%", player.getName()));
+            UtilForgeServer.executeCommand(UtilRandom.getRandomElement(this.rewardCommands).replace("%player%", player.getName()));
         } else {
             for (String rewardCommand : this.rewardCommands) {
-                UtilServer.executeCommand(rewardCommand.replace("%player%", player.getName()));
+                UtilForgeServer.executeCommand(rewardCommand.replace("%player%", player.getName()));
             }
         }
     }
@@ -164,7 +160,7 @@ public class SimplePixelHunt implements PixelHunt {
     @Override
     public void end() {
         for (String message : PixelHuntForge.getInstance().getConfig().getTimeoutBroadcast()) {
-            PixelHuntForge.getServer().getPlayerList()
+            FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
                     .sendMessage(new TextComponentString(message.replace("%pokemon%", this.currentPokemon.getName())));
         }
     }
