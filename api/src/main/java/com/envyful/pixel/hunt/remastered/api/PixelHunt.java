@@ -1,9 +1,9 @@
-package com.xpgaming.pixelhunt.hunt;
+package com.envyful.pixel.hunt.remastered.api;
 
+import com.envyful.api.gui.pane.Pane;
+import com.envyful.api.player.EnvyPlayer;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
-import com.xpgaming.pixelhunt.utils.pokemon.PokemonSpec;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
+import com.pixelmonmod.pixelmon.api.pokemon.PokemonSpec;
 import org.spongepowered.configurate.ConfigurationNode;
 
 /**
@@ -15,14 +15,6 @@ public interface PixelHunt {
 
     /**
      *
-     * Identifier of the hunt rarity
-     *
-     * @return The hunt's identifier
-     */
-    String getIdentifier();
-
-    /**
-     *
      * Loads the hunt from the {@link ConfigurationNode}
      *
      * @param config The node the hunt is being loaded from
@@ -31,11 +23,10 @@ public interface PixelHunt {
 
     /**
      *
-     * Get the display item for the hunt UI
+     * Displays the hunt on the GUI
      *
-     * @return the display item for the pixelhunt GUI
      */
-    ItemStack getDisplay();
+    void display(Pane pane);
 
     /**
      *
@@ -60,7 +51,7 @@ public interface PixelHunt {
      *
      * @param player The player who won the hunt
      */
-    void rewardCatch(EntityPlayerMP player, Pokemon caught);
+    void rewardCatch(EnvyPlayer<?> player, Pokemon caught);
 
     /**
      *
