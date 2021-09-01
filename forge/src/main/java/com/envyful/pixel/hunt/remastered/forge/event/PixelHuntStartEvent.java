@@ -1,7 +1,7 @@
 package com.envyful.pixel.hunt.remastered.forge.event;
 
+import com.envyful.api.reforged.pixelmon.PokemonSpec;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
-import com.envyful.pixel.hunt.remastered.forge.utils.pokemon.PokemonSpec;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
