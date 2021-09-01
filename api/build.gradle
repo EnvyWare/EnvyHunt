@@ -16,6 +16,7 @@ dependencies {
     compileOnly 'com.pixelmonmod.pixelmon:Pixelmon-1.12.2-8.2.0-server:1.0'
 
     compileOnly group: 'com.github.Pixelmon-Development.API', name: 'commons', version: '0.2.8'
+    compileOnly group: 'com.github.Pixelmon-Development.API', name: 'reforged', version: '0.2.8'
 }
 
 shadowJar {
