@@ -1,7 +1,7 @@
 package com.envyful.pixel.hunt.remastered.forge.listener;
 
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
-import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntFactory;
+import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntForgeFactory;
 import com.pixelmonmod.pixelmon.api.events.CaptureEvent;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
@@ -22,7 +22,7 @@ public class PokemonCaptureListener {
         Pokemon caught = event.getPokemon().getPokemonData();
         EntityPlayerMP player = event.player;
 
-        for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
+        for (PixelHunt hunt : PixelHuntForgeFactory.getAllHunts()) {
             if (hunt.isBeingHunted(caught)) {
                 hunt.rewardCatch(player, caught);
                 hunt.generatePokemon();

@@ -5,7 +5,7 @@ import ca.landonjw.gooeylibs.inventory.api.Page;
 import ca.landonjw.gooeylibs.inventory.api.Template;
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
-import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntFactory;
+import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntForgeFactory;
 import com.envyful.pixel.hunt.remastered.forge.utils.item.ItemBuilder;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -34,7 +34,7 @@ public class HuntUI {
         int deltaY = 0;
         int deltaX = 0;
 
-        for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
+        for (PixelHunt hunt : PixelHuntForgeFactory.getAllHunts()) {
             template.set(1 + deltaX, 1 + deltaY, Button.of(hunt.getDisplay()));
 
             ++deltaX;

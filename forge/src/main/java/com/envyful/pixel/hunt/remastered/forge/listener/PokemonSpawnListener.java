@@ -1,7 +1,7 @@
 package com.envyful.pixel.hunt.remastered.forge.listener;
 
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
-import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntFactory;
+import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntForgeFactory;
 import com.envyful.pixel.hunt.remastered.forge.utils.UtilConcurrency;
 import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
@@ -28,7 +28,7 @@ public class PokemonSpawnListener {
 
             EntityPixelmon pixelmon = (EntityPixelmon) entity;
 
-            for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
+            for (PixelHunt hunt : PixelHuntForgeFactory.getAllHunts()) {
                 if (hunt.isBeingHunted(pixelmon.getPokemonData())) {
                     this.main.getDisplayTask().addPokemon(pixelmon);
                     return;

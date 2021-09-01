@@ -1,6 +1,6 @@
 package com.envyful.pixel.hunt.remastered.forge.task;
 
-import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntFactory;
+import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntForgeFactory;
 import com.google.common.collect.Lists;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
@@ -55,7 +55,7 @@ public class ParticleDisplayTask {
                         0, 0, 0, 0.05);
             }
 
-            for (PixelHunt allHunt : PixelHuntFactory.getAllHunts()) {
+            for (PixelHunt allHunt : PixelHuntForgeFactory.getAllHunts()) {
                 if (allHunt.hasTimedOut()) {
                     allHunt.end();
                     allHunt.generatePokemon();
@@ -65,7 +65,7 @@ public class ParticleDisplayTask {
     }
 
     private boolean isHuntPokemon(Pokemon pokemon) {
-        for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
+        for (PixelHunt hunt : PixelHuntForgeFactory.getAllHunts()) {
             if (hunt.isBeingHunted(pokemon)) {
                 return true;
             }
