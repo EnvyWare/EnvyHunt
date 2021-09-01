@@ -2,10 +2,10 @@ package com.envyful.pixel.hunt.remastered.forge;
 
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.command.ForgeCommandFactory;
+import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntForgeFactory;
-import com.envyful.pixel.hunt.remastered.forge.task.ParticleDisplayTask;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -26,8 +26,8 @@ public class PixelHuntForge {
 
     private static PixelHuntForge instance;
 
-    private final ParticleDisplayTask displayTask = new ParticleDisplayTask();
     private final ForgeCommandFactory commandFactory = new ForgeCommandFactory();
+    private final ForgePlayerManager playerManager = new ForgePlayerManager();
 
     private PixelHuntConfig config;
 
@@ -65,5 +65,9 @@ public class PixelHuntForge {
 
     public PixelHuntConfig getConfig() {
         return this.config;
+    }
+
+    public ForgePlayerManager getPlayerManager() {
+        return this.playerManager;
     }
 }
