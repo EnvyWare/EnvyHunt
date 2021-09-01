@@ -10,6 +10,8 @@ repositories {
 dependencies {
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
+    compileOnly 'com.pixelmonmod.pixelmon:Pixelmon-1.12.2-8.2.0-server:1.0'
+
     compileOnly group: 'com.github.Pixelmon-Development.API', name: 'commons', version: '0.2.8'
 }
 
