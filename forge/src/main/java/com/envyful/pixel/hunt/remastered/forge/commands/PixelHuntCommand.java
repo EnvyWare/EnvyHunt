@@ -1,14 +1,11 @@
 package com.envyful.pixel.hunt.remastered.forge.commands;
 
 
-import com.envyful.acaf.api.command.Command;
-import com.envyful.acaf.api.command.Permissible;
-import com.envyful.acaf.api.command.executor.Argument;
-import com.envyful.acaf.api.command.executor.CommandProcessor;
-import com.envyful.acaf.api.command.executor.Sender;
-import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
-import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
-import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntFactory;
+import com.envyful.api.command.annotate.Command;
+import com.envyful.api.command.annotate.Permissible;
+import com.envyful.api.command.annotate.executor.Argument;
+import com.envyful.api.command.annotate.executor.CommandProcessor;
+import com.envyful.api.command.annotate.executor.Sender;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
 import com.envyful.pixel.hunt.remastered.forge.ui.HuntUI;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -36,16 +33,15 @@ public class PixelHuntCommand {
     }
 
     @CommandProcessor("reload")
-    @Permissible("com.envyful.pixel.hunt.remastered.forge.pixelhunt.admin.reload")
+    @Permissible("pixel.hunt.remastered.command.reload")
     public void executeReloadCommand(@Sender EntityPlayerMP sender) {
         sender.sendMessage(STARTED_RELOAD);
-        PixelHuntForge.getInstance().setConfig(PixelHuntConfig.getInstance(PixelHuntConfig.CONFIG_PATH));
-        PixelHuntFactory.reloadAll();
+        //TODO: reload
         sender.sendMessage(RELOADED);
     }
 
     @CommandProcessor("start")
-    @Permissible("com.envyful.pixel.hunt.remastered.forge.pixelhunt.admin.start")
+    @Permissible("pixel.hunt.remastered.command.start")
     public void executeStartCommand(@Sender EntityPlayerMP sender, @Argument PixelHunt target) {
         sender.sendMessage(STARTED);
 
@@ -54,15 +50,6 @@ public class PixelHuntCommand {
         }
 
         target.generatePokemon();
-    }
-
-    @CommandProcessor("list")
-    @Permissible("com.envyful.pixel.hunt.remastered.forge.pixelhunt.admin.list")
-    public void executeListCommand(@Sender EntityPlayerMP sender) {
-        sender.sendMessage(new TextComponentString("Hunts: "));
-        for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
-            sender.sendMessage(new TextComponentString("  " + hunt.getIdentifier()));
-        }
     }
 }
 
