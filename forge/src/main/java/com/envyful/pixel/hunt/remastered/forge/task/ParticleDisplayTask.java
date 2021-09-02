@@ -48,7 +48,8 @@ public class ParticleDisplayTask extends LazyListener {
 
             EntityPixelmon pixelmon = iterator.next();
 
-            if (pixelmon == null || pixelmon.isDead || pixelmon.hasOwner() || !this.isHuntPokemon(pixelmon.getPokemonData())) {
+            if (pixelmon == null || pixelmon.isDead || pixelmon.hasOwner()
+                    || !this.isHuntPokemon(pixelmon.getPokemonData())) {
                 iterator.remove();
                 continue;
             }

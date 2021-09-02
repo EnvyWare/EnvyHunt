@@ -5,7 +5,7 @@ import com.envyful.api.forge.listener.LazyListener;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
 import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
-import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntForgeFactory;
+import com.envyful.pixel.hunt.remastered.forge.task.ParticleDisplayTask;
 import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -34,7 +34,7 @@ public class PokemonSpawnListener extends LazyListener {
 
             for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
                 if (hunt.isBeingHunted(pixelmon.getPokemonData())) {
-                    //TODO: add to display
+                    ParticleDisplayTask.addPokemon(pixelmon);
                     return;
                 }
             }

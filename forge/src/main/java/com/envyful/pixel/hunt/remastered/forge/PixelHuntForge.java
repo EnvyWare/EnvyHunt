@@ -8,6 +8,7 @@ import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntForgeFactory;
+import com.envyful.pixel.hunt.remastered.forge.task.ParticleDisplayTask;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -42,6 +43,7 @@ public class PixelHuntForge {
         GuiFactory.setPlatformFactory(new ForgeGuiFactory());
         PixelHuntFactory.setPlatformFactory(new PixelHuntForgeFactory(this));
 
+        new ParticleDisplayTask();
     }
 
     public void loadConfig() {
