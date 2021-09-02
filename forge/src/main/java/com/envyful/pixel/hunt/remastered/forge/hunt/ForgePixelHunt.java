@@ -1,6 +1,7 @@
 package com.envyful.pixel.hunt.remastered.forge.hunt;
 
 import com.envyful.api.forge.server.UtilForgeServer;
+import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.gui.pane.Pane;
 import com.envyful.api.math.UtilRandom;
 import com.envyful.api.player.EnvyPlayer;
@@ -39,6 +40,8 @@ public class ForgePixelHunt implements PixelHunt {
     private float ivMultiplier;
     private long duration;
     private long currentStart;
+    private int guiX;
+    private int guiY;
 
     public ForgePixelHunt(ConfigurationNode node) {
         this.load(node);
@@ -52,6 +55,9 @@ public class ForgePixelHunt implements PixelHunt {
         this.ivMultiplierEnabled = config.node("iv-multiplier-enabled").getBoolean();
         this.ivMultiplier = config.node("iv-multiplier").getFloat();
         this.duration = TimeUnit.MINUTES.toMillis(config.node("max-duration-minutes").getLong());
+
+        this.guiX = config.node("gui", "X").getInt(0);
+        this.guiY = config.node("gui", "Y").getInt(0);
 
         PokemonGenerator.Builder builder = PokemonGenerator.builder();
 
@@ -97,7 +103,9 @@ public class ForgePixelHunt implements PixelHunt {
 
     @Override
     public void display(Pane pane) {
-        //TODO:
+        pane.set(this.guiX, this.guiY, GuiFactory.displayableBuilder(ItemStack.class)
+                .itemStack(this.displayItem)
+                .build());
     }
 
     @Override
