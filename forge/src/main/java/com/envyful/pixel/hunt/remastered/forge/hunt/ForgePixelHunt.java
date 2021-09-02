@@ -15,6 +15,7 @@ import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -126,7 +127,8 @@ public class ForgePixelHunt implements PixelHunt {
 
     @Override
     public void rewardCatch(EnvyPlayer<?> player, Pokemon caught) {
-        PixelHuntWonEvent wonEvent = new PixelHuntWonEvent(this, player, caught, this.currentPokemon);
+        EntityPlayerMP parent = (EntityPlayerMP) player.getParent();
+        PixelHuntWonEvent wonEvent = new PixelHuntWonEvent(this, parent, caught, this.currentPokemon);
 
         Pixelmon.EVENT_BUS.post(wonEvent);
 
@@ -149,10 +151,10 @@ public class ForgePixelHunt implements PixelHunt {
         }
 
         if (this.randomCommands) {
-            UtilForgeServer.executeCommand(UtilRandom.getRandomElement(this.rewardCommands).replace("%player%", player.getName()));
+            UtilForgeServer.executeCommand(UtilRandom.getRandomElement(this.rewardCommands).replace("%player%", parent.getName()));
         } else {
             for (String rewardCommand : this.rewardCommands) {
-                UtilForgeServer.executeCommand(rewardCommand.replace("%player%", player.getName()));
+                UtilForgeServer.executeCommand(rewardCommand.replace("%player%", parent.getName()));
             }
         }
     }
@@ -161,7 +163,8 @@ public class ForgePixelHunt implements PixelHunt {
     public void end() {
         for (String message : PixelHuntForge.getInstance().getConfig().getTimeoutBroadcast()) {
             FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
-                    .sendMessage(new TextComponentString(message.replace("%pokemon%", this.currentPokemon.getName())));
+                    .sendMessage(new TextComponentString(message.replace("%pokemon%",
+                            this.currentPokemon.getName())));
         }
     }
 

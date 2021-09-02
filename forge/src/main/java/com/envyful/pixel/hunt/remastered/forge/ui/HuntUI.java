@@ -1,53 +1,52 @@
 package com.envyful.pixel.hunt.remastered.forge.ui;
 
-import ca.landonjw.gooeylibs.inventory.api.Button;
-import ca.landonjw.gooeylibs.inventory.api.Page;
-import ca.landonjw.gooeylibs.inventory.api.Template;
-import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
+import com.envyful.api.config.type.ConfigInterface;
+import com.envyful.api.config.type.ConfigItem;
+import com.envyful.api.forge.chat.UtilChatColour;
+import com.envyful.api.forge.items.ItemBuilder;
+import com.envyful.api.gui.factory.GuiFactory;
+import com.envyful.api.gui.pane.Pane;
+import com.envyful.api.player.EnvyPlayer;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
-import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntForgeFactory;
-import com.envyful.pixel.hunt.remastered.forge.utils.item.ItemBuilder;
+import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
+import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class HuntUI {
 
-    private static final Button BACKGROUND_FILLER = Button.of(new ItemBuilder()
-            .type(Item.getByNameOrId(PixelHuntForge.getInstance().getConfig().getBackgroundItem()))
-            .damage(PixelHuntForge.getInstance().getConfig().getBackgroundItemDamage())
-            .build());
+    public static void open(EnvyPlayer<EntityPlayerMP> player) {
+        ConfigInterface guiConfig = PixelHuntForge.getInstance().getConfig().getConfigInterface();
+        Pane pane = GuiFactory.paneBuilder()
+                .topLeftY(0)
+                .topLeftX(0)
+                .height(guiConfig.getHeight())
+                .width(9)
+                .build();
 
-    private static final Button BACKGROUND_OFF_FILLER = Button.of(new ItemBuilder()
-            .type(Item.getByNameOrId(PixelHuntForge.getInstance().getConfig().getOffColourBackgroundItem()))
-            .damage(PixelHuntForge.getInstance().getConfig().getOffColourBackgroundItemDamage())
-            .build());
 
-    public static void open(EntityPlayerMP player) {
-        Template.Builder template = Template.builder(PixelHuntForge.getInstance().getConfig().getGuiHeight());
-
-        if (PixelHuntForge.getInstance().getConfig().isCheckeredBackground()) {
-            template.checker(0, 0, 8, PixelHuntForge.getInstance().getConfig().getGuiHeight() - 1, BACKGROUND_FILLER, BACKGROUND_OFF_FILLER);
-        } else {
-            template.fill(BACKGROUND_FILLER);
+        for (ConfigItem fillerItem : guiConfig.getFillType().convert(guiConfig.getFillerItems(), guiConfig.getHeight())) {
+            pane.add(GuiFactory.displayableBuilder(ItemStack.class)
+                    .itemStack(new ItemBuilder()
+                            .type(Item.getByNameOrId(fillerItem.getType()))
+                            .name(fillerItem.getName())
+                            .lore(fillerItem.getLore())
+                            .damage(fillerItem.getDamage())
+                            .amount(fillerItem.getAmount())
+                            .build())
+                    .build());
         }
 
-        int deltaY = 0;
-        int deltaX = 0;
-
-        for (PixelHunt hunt : PixelHuntForgeFactory.getAllHunts()) {
-            template.set(1 + deltaX, 1 + deltaY, Button.of(hunt.getDisplay()));
-
-            ++deltaX;
-
-            if (deltaX == 7) {
-                deltaX = 1;
-                ++deltaY;
-            }
+        for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
+            hunt.display(pane);
         }
 
-        Page.builder()
-                .title(PixelHuntForge.getInstance().getConfig().getGuiName())
-                .template(template.build())
-                .build().forceOpenPage(player);
+        GuiFactory.guiBuilder()
+                .height(guiConfig.getHeight())
+                .title(UtilChatColour.translateColourCodes('&', guiConfig.getTitle()))
+                .addPane(pane)
+                .setCloseConsumer(envyPlayer -> {})
+                .build().open(player);
     }
 }

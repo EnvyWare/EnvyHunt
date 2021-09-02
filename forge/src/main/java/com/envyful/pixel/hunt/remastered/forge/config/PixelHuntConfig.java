@@ -28,4 +28,8 @@ public class PixelHuntConfig extends AbstractYamlConfig {
     public List<String> getTimeoutBroadcast() {
         return this.timeoutBroadcast;
     }
+
+    public ConfigInterface getConfigInterface() {
+        return this.configInterface;
+    }
 }
