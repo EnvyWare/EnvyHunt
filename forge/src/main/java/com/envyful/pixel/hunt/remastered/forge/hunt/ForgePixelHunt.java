@@ -114,7 +114,7 @@ public class ForgePixelHunt implements PixelHunt {
         for (String broadcast : PixelHuntForge.getInstance().getConfig().getSpawnBroadcast()) {
             FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
                     .sendMessage(new TextComponentString(broadcast
-                            .replace("%pokemon%", this.currentPokemon.getName())));
+                            .replace("%pokemon%", this.currentPokemon.getDisplayName())));
         }
 
         return this.currentPokemon;
@@ -164,7 +164,7 @@ public class ForgePixelHunt implements PixelHunt {
         for (String message : PixelHuntForge.getInstance().getConfig().getTimeoutBroadcast()) {
             FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
                     .sendMessage(new TextComponentString(message.replace("%pokemon%",
-                            this.currentPokemon.getName())));
+                            this.currentPokemon.getDisplayName())));
         }
     }
 
