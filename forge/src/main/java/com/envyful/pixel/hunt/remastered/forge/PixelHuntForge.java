@@ -2,7 +2,9 @@ package com.envyful.pixel.hunt.remastered.forge;
 
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.command.ForgeCommandFactory;
+import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
+import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntForgeFactory;
@@ -37,6 +39,7 @@ public class PixelHuntForge {
 
         this.loadConfig();
 
+        GuiFactory.setPlatformFactory(new ForgeGuiFactory());
         PixelHuntFactory.setPlatformFactory(new PixelHuntForgeFactory(this));
 
     }
