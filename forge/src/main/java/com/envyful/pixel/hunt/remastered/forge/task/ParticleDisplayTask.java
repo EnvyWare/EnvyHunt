@@ -20,7 +20,7 @@ public class ParticleDisplayTask extends LazyListener {
 
     private static ParticleDisplayTask instance;
 
-    private final List<EntityPixelmon> huntPokemon = Lists.newCopyOnWriteArrayList();
+    private final List<EntityPixelmon> huntPokemon = Lists.newArrayList();
 
     private int currentTick = 0;
 
@@ -45,7 +45,6 @@ public class ParticleDisplayTask extends LazyListener {
         Iterator<EntityPixelmon> iterator = this.huntPokemon.iterator();
 
         while (iterator.hasNext()) {
-
             EntityPixelmon pixelmon = iterator.next();
 
             if (pixelmon == null || pixelmon.isDead || pixelmon.hasOwner()
