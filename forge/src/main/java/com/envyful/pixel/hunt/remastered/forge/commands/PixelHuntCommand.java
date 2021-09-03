@@ -3,10 +3,8 @@ package com.envyful.pixel.hunt.remastered.forge.commands;
 
 import com.envyful.api.command.annotate.Command;
 import com.envyful.api.command.annotate.Permissible;
-import com.envyful.api.command.annotate.executor.Argument;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
-import com.envyful.pixel.hunt.remastered.api.PixelHunt;
 import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
 import com.envyful.pixel.hunt.remastered.forge.ui.HuntUI;
@@ -31,7 +29,7 @@ public class PixelHuntCommand {
 
     @CommandProcessor
     public void executeCommand(@Sender EntityPlayerMP sender) {
-        HuntUI.open(sender);
+        HuntUI.open(PixelHuntForge.getInstance().getPlayerManager().getPlayer(sender));
     }
 
     @CommandProcessor("reload")
@@ -41,18 +39,6 @@ public class PixelHuntCommand {
         PixelHuntForge.getInstance().loadConfig();
         PixelHuntFactory.reloadHunts();
         sender.sendMessage(RELOADED);
-    }
-
-    @CommandProcessor("start")
-    @Permissible("pixel.hunt.remastered.command.start")
-    public void executeStartCommand(@Sender EntityPlayerMP sender, @Argument PixelHunt target) {
-        sender.sendMessage(STARTED);
-
-        if (!target.hasTimedOut()) {
-            target.end();
-        }
-
-        target.generatePokemon();
     }
 }
 
