@@ -1,5 +1,7 @@
 package com.envyful.pixel.hunt.remastered.forge.hunt;
 
+import com.envyful.api.forge.concurrency.UtilForgeConcurrency;
+import com.envyful.api.forge.items.ItemBuilder;
 import com.envyful.api.forge.server.UtilForgeServer;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.gui.pane.Pane;
@@ -104,7 +106,9 @@ public class ForgePixelHunt implements PixelHunt {
     @Override
     public void display(Pane pane) {
         pane.set(this.guiX, this.guiY, GuiFactory.displayableBuilder(ItemStack.class)
-                .itemStack(this.displayItem)
+                .itemStack(new ItemBuilder(this.displayItem)
+                        .lore(this.currentPokemon.getDescription("§a", "§b"))
+                        .build())
                 .build());
     }
 
@@ -158,13 +162,15 @@ public class ForgePixelHunt implements PixelHunt {
             }
         }
 
-        if (this.randomCommands) {
-            UtilForgeServer.executeCommand(UtilRandom.getRandomElement(this.rewardCommands).replace("%player%", parent.getName()));
-        } else {
-            for (String rewardCommand : this.rewardCommands) {
-                UtilForgeServer.executeCommand(rewardCommand.replace("%player%", parent.getName()));
+        UtilForgeConcurrency.runSync(() -> {
+            if (this.randomCommands) {
+                UtilForgeServer.executeCommand(UtilRandom.getRandomElement(this.rewardCommands).replace("%player%", parent.getName()));
+            } else {
+                for (String rewardCommand : this.rewardCommands) {
+                    UtilForgeServer.executeCommand(rewardCommand.replace("%player%", parent.getName()));
+                }
             }
-        }
+        });
     }
 
     @Override
