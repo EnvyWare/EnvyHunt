@@ -25,8 +25,7 @@ public class HuntUI {
                 .width(9)
                 .build();
 
-
-        for (ConfigItem fillerItem : guiConfig.getFillType().convert(guiConfig.getFillerItems(), guiConfig.getHeight())) {
+        for (ConfigItem fillerItem : guiConfig.getFillerItems()) {
             pane.add(GuiFactory.displayableBuilder(ItemStack.class)
                     .itemStack(new ItemBuilder()
                             .type(Item.getByNameOrId(fillerItem.getType()))
@@ -47,6 +46,7 @@ public class HuntUI {
                 .title(UtilChatColour.translateColourCodes('&', guiConfig.getTitle()))
                 .addPane(pane)
                 .setCloseConsumer(envyPlayer -> {})
+                .setPlayerManager(PixelHuntForge.getInstance().getPlayerManager())
                 .build().open(player);
     }
 }

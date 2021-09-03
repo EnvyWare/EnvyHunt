@@ -6,8 +6,11 @@ import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
+import com.envyful.pixel.hunt.remastered.forge.commands.PixelHuntCommand;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntForgeFactory;
+import com.envyful.pixel.hunt.remastered.forge.listener.PokemonCaptureListener;
+import com.envyful.pixel.hunt.remastered.forge.listener.PokemonSpawnListener;
 import com.envyful.pixel.hunt.remastered.forge.task.ParticleDisplayTask;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -44,6 +47,8 @@ public class PixelHuntForge {
         PixelHuntFactory.setPlatformFactory(new PixelHuntForgeFactory(this));
 
         new ParticleDisplayTask();
+        new PokemonSpawnListener(this);
+        new PokemonCaptureListener(this);
     }
 
     public void loadConfig() {
@@ -56,7 +61,7 @@ public class PixelHuntForge {
 
     @Mod.EventHandler
     public void onServerStarting(FMLServerStartingEvent event) {
-
+        this.commandFactory.registerCommand(event.getServer(), new PixelHuntCommand());
     }
 
     @Mod.EventHandler
