@@ -12,7 +12,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 
 @Command(
-        value = "reoad",
+        value = "reload",
         description = "Reloads the config"
 )
 @Permissible("pixel.hunt.remastered.command.reload")
