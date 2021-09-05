@@ -135,6 +135,10 @@ public class ForgePixelHunt implements PixelHunt {
 
     @Override
     public boolean isBeingHunted(Pokemon pokemon) {
+        if (this.currentPokemon == null || pokemon == null) {
+            return false;
+        }
+
         return this.currentPokemon.matches(pokemon);
     }
 
