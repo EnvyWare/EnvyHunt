@@ -1,5 +1,6 @@
 package com.envyful.pixel.hunt.remastered.forge.hunt;
 
+import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.concurrency.UtilForgeConcurrency;
 import com.envyful.api.forge.items.ItemBuilder;
 import com.envyful.api.forge.server.UtilForgeServer;
@@ -125,8 +126,8 @@ public class ForgePixelHunt implements PixelHunt {
 
         for (String broadcast : PixelHuntForge.getInstance().getConfig().getSpawnBroadcast()) {
             FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
-                    .sendMessage(new TextComponentString(broadcast
-                            .replace("%pokemon%", this.currentPokemon.getDisplayName())));
+                    .sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&', broadcast
+                            .replace("%pokemon%", this.currentPokemon.getDisplayName()))));
         }
 
         return this.currentPokemon;
@@ -177,8 +178,9 @@ public class ForgePixelHunt implements PixelHunt {
     public void end() {
         for (String message : PixelHuntForge.getInstance().getConfig().getTimeoutBroadcast()) {
             FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
-                    .sendMessage(new TextComponentString(message.replace("%pokemon%",
-                            this.currentPokemon.getDisplayName())));
+                    .sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
+                            message.replace("%pokemon%",
+                            this.currentPokemon.getDisplayName()))));
         }
     }
 
