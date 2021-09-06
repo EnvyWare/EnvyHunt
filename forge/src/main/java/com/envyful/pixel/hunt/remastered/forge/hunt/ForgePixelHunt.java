@@ -180,6 +180,10 @@ public class ForgePixelHunt implements PixelHunt {
 
     @Override
     public void end() {
+        if (this.currentPokemon == null) {
+            return;
+        }
+
         for (String message : PixelHuntForge.getInstance().getConfig().getTimeoutBroadcast()) {
             FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
                     .sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
