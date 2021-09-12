@@ -17,6 +17,11 @@ public class PixelHuntConfig extends AbstractYamlConfig {
     private List<String> spawnBroadcast = Lists.newArrayList();
     private List<String> timeoutBroadcast = Lists.newArrayList();
 
+    private List<String> extraLore = Lists.newArrayList(
+            "",
+            "&bTime remaining: %time%"
+    );
+
     public PixelHuntConfig() {
         super();
     }
@@ -31,5 +36,9 @@ public class PixelHuntConfig extends AbstractYamlConfig {
 
     public ConfigInterface getConfigInterface() {
         return this.configInterface;
+    }
+
+    public List<String> getExtraLore() {
+        return this.extraLore;
     }
 }

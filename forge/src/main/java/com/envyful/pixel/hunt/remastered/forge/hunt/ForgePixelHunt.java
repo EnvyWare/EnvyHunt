@@ -1,5 +1,6 @@
 package com.envyful.pixel.hunt.remastered.forge.hunt;
 
+import com.envyful.api.config.util.UtilConfig;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.concurrency.UtilForgeConcurrency;
 import com.envyful.api.forge.items.ItemBuilder;
@@ -10,6 +11,7 @@ import com.envyful.api.math.UtilRandom;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.api.reforged.pixelmon.PokemonGenerator;
 import com.envyful.api.reforged.pixelmon.PokemonSpec;
+import com.envyful.api.time.UtilTimeFormat;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
 import com.envyful.pixel.hunt.remastered.forge.event.PixelHuntStartEvent;
@@ -24,15 +26,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.serialize.SerializationException;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class ForgePixelHunt implements PixelHunt {
 
     private final List<String> rewardCommands = Lists.newArrayList();
+    private final List<String> rewardDescription = Lists.newArrayList();
 
     private PokemonGenerator generator;
     private ItemStack displayItem;
@@ -53,7 +54,8 @@ public class ForgePixelHunt implements PixelHunt {
     @Override
     public void load(ConfigurationNode config) {
         this.randomCommands = config.node("random-reward-commands").getBoolean(false);
-        this.rewardCommands.addAll(this.getStringList(config, "reward-commands"));
+        this.rewardCommands.addAll(UtilConfig.getList(config, String.class, "reward-commands"));
+        this.rewardDescription.addAll(UtilConfig.getList(config, String.class, "reward-description"));
         this.maxIvs = config.node("max-ivs").getBoolean();
         this.ivMultiplierEnabled = config.node("iv-multiplier-enabled").getBoolean();
         this.ivMultiplier = config.node("iv-multiplier").getFloat();
@@ -86,31 +88,27 @@ public class ForgePixelHunt implements PixelHunt {
             }
         }
 
-        for (String type : this.getStringList(config, "blocked-types")) {
+        for (String type : UtilConfig.getList(config, String.class, "blocked-types")) {
             builder.addBlockedType(EnumSpecies.getFromNameAnyCase(type));
         }
 
         this.generator = builder.build();
     }
 
-    private List<String> getStringList(ConfigurationNode node, String... path) {
-        try {
-            return node.node((Object[]) path).getList(String.class);
-        } catch (SerializationException e) {
-            e.printStackTrace();
-        }
-
-        return Collections.emptyList();
-    }
-
-
     @Override
     public void display(Pane pane) {
+        ItemBuilder builder = new ItemBuilder(this.displayItem)
+                .lore(this.currentPokemon.getDescription("§a", "§b"));
+
+        for (String s : PixelHuntForge.getInstance().getConfig().getExtraLore()) {
+            builder.addLore(UtilChatColour.translateColourCodes('&', s.replace("%time%",
+                    UtilTimeFormat.getFormattedDuration((this.currentStart + this.duration) - System.currentTimeMillis()))));
+        }
+
+        builder.addLore(UtilChatColour.translateColourCodes('&', this.rewardDescription).toArray(new String[0]));
+
         pane.set(this.guiX, this.guiY, GuiFactory.displayableBuilder(ItemStack.class)
-                .itemStack(new ItemBuilder(this.displayItem)
-                        .lore(this.currentPokemon.getDescription("§a", "§b"))
-                        .build())
-                .build());
+                .itemStack(builder.build()).build());
     }
 
     @Override
