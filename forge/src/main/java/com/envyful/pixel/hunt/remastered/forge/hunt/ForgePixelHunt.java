@@ -76,7 +76,8 @@ public class ForgePixelHunt implements PixelHunt {
                 .setNatureRequirement(config.node("require-nature").getBoolean())
                 .setPotentialNatureRequirements(config.node("number-of-possible-natures").getInt())
                 .setIVRequirement(config.node("require-iv-percentage").getBoolean())
-                .setRandomIVGeneration(config.node("random-iv-generation").getBoolean());
+                .setRandomIVGeneration(config.node("random-iv-generation").getBoolean())
+                .setOnlyLegends(config.node("legend-only").getBoolean(false));
 
         if (config.node("require-iv-percentage").getBoolean()) {
             if (config.node("random-iv-generation").getBoolean()) {
