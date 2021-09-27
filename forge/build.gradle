@@ -41,9 +41,9 @@ dependencies {
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow group: 'com.github.Pixelmon-Development.API', name: 'commons', version: '0.5.2'
-    shadow group: 'com.github.Pixelmon-Development.API', name: 'forge', version: '0.5.2'
-    shadow group: 'com.github.Pixelmon-Development.API', name: 'reforged', version: '0.5.2'
+    shadow group: 'com.github.Pixelmon-Development.API', name: 'commons', version: '0.5.4'
+    shadow group: 'com.github.Pixelmon-Development.API', name: 'forge', version: '0.5.4'
+    shadow group: 'com.github.Pixelmon-Development.API', name: 'reforged', version: '0.5.4'
 
     shadow project(':api')
 }
