@@ -98,8 +98,14 @@ public class ForgePixelHunt implements PixelHunt {
 
     @Override
     public void display(Pane pane) {
-        ItemBuilder builder = new ItemBuilder(this.displayItem)
-                .lore(this.currentPokemon.getDescription("§a", "§b"));
+        ItemBuilder builder = new ItemBuilder(this.displayItem);
+
+        for (String s : PixelHuntForge.getInstance().getConfig().getPreLore()) {
+            builder.addLore(UtilChatColour.translateColourCodes('&', s.replace("%time%",
+                                                                               UtilTimeFormat.getFormattedDuration((this.currentStart + this.duration) - System.currentTimeMillis()))));
+        }
+
+        builder.lore(this.currentPokemon.getDescription("§a", "§b"));
 
         for (String s : PixelHuntForge.getInstance().getConfig().getExtraLore()) {
             builder.addLore(UtilChatColour.translateColourCodes('&', s.replace("%time%",

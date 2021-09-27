@@ -22,6 +22,11 @@ public class PixelHuntConfig extends AbstractYamlConfig {
             "&bTime remaining: %time%"
     );
 
+    private List<String> preLore = Lists.newArrayList(
+            "",
+            "This goes at the top"
+    );
+
     public PixelHuntConfig() {
         super();
     }
@@ -40,5 +45,9 @@ public class PixelHuntConfig extends AbstractYamlConfig {
 
     public List<String> getExtraLore() {
         return this.extraLore;
+    }
+
+    public List<String> getPreLore() {
+        return this.preLore;
     }
 }
