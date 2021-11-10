@@ -14,6 +14,7 @@ import com.envyful.api.reforged.pixelmon.PokemonSpec;
 import com.envyful.api.time.UtilTimeFormat;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
+import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.event.PixelHuntStartEvent;
 import com.envyful.pixel.hunt.remastered.forge.event.PixelHuntWonEvent;
 import com.google.common.collect.Lists;
@@ -47,54 +48,17 @@ public class ForgePixelHunt implements PixelHunt {
     private int guiX;
     private int guiY;
 
-    public ForgePixelHunt(ConfigurationNode node) {
-        this.load(node);
+    public ForgePixelHunt(PixelHuntConfig.HuntConfig huntConfig) {
+        this.generator = new PokemonGenerator(huntConfig.getGeneratorConfig());
+        this.randomCommands = huntConfig.isRandomCommands();
+        this.maxIvs = huntConfig.isMaxIvs();
+        this.ivMultiplierEnabled = huntConfig.isIvMultiplierEnabled();
+        this.ivMultiplier = huntConfig.getIvMultiplier();
+        this.duration = TimeUnit.MINUTES.toMillis(huntConfig.getMaxDurationMinutes());
     }
 
     @Override
-    public void load(ConfigurationNode config) {
-        this.randomCommands = config.node("random-reward-commands").getBoolean(false);
-        this.rewardCommands.addAll(UtilConfig.getList(config, String.class, "reward-commands"));
-        this.rewardDescription.addAll(UtilConfig.getList(config, String.class, "reward-description"));
-        this.maxIvs = config.node("max-ivs").getBoolean();
-        this.ivMultiplierEnabled = config.node("iv-multiplier-enabled").getBoolean();
-        this.ivMultiplier = config.node("iv-multiplier").getFloat();
-        this.duration = TimeUnit.MINUTES.toMillis(config.node("max-duration-minutes").getLong());
-
-        this.guiX = config.node("gui", "X").getInt(0);
-        this.guiY = config.node("gui", "Y").getInt(0);
-
-        PokemonGenerator.Builder builder = PokemonGenerator.builder();
-
-        builder.setSpeciesRequired(config.node("require-species").getBoolean())
-                .setAllowLegends(config.node("allow-legends").getBoolean())
-                .setAllowUltraBeasts(config.node("allow-ultra-beasts").getBoolean())
-                .setAllowEvolutions(config.node("allow-evolutions").getBoolean())
-                .setGenderRequirement(config.node("require-gender").getBoolean())
-                .setGrowthRequirement(config.node("require-growth").getBoolean())
-                .setPotentialRequiredGrowths(config.node("number-of-possible-growths").getInt())
-                .setNatureRequirement(config.node("require-nature").getBoolean())
-                .setPotentialNatureRequirements(config.node("number-of-possible-natures").getInt())
-                .setIVRequirement(config.node("require-iv-percentage").getBoolean())
-                .setRandomIVGeneration(config.node("random-iv-generation").getBoolean())
-                .setOnlyLegends(config.node("legend-only").getBoolean(false));
-
-        if (config.node("require-iv-percentage").getBoolean()) {
-            if (config.node("random-iv-generation").getBoolean()) {
-                builder.setMinimumIVPercentage(config.node("minimum-iv-percentage").getInt())
-                        .setMaximumIVPercentage(config.node("maximum-iv-percentage").getInt());
-            } else {
-                builder.setMinimumIVPercentage(config.node("required-iv-percentage").getInt())
-                        .setMaximumIVPercentage(config.node("required-iv-percentage").getInt());
-            }
-        }
-
-        for (String type : UtilConfig.getList(config, String.class, "blocked-types")) {
-            builder.addBlockedType(EnumSpecies.getFromNameAnyCase(type));
-        }
-
-        this.generator = builder.build();
-    }
+    public void load(ConfigurationNode config) {}
 
     @Override
     public void display(Pane pane) {
