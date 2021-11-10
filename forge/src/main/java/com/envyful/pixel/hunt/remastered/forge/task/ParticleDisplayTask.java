@@ -76,7 +76,7 @@ public class ParticleDisplayTask extends LazyListener {
 
     private boolean isHuntPokemon(Pokemon pokemon) {
         for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
-            if (hunt.isBeingHunted(pokemon)) {
+            if (hunt.isSpeciesHunted(pokemon)) {
                 return true;
             }
         }

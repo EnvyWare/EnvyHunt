@@ -47,6 +47,15 @@ public interface PixelHunt {
 
     /**
      *
+     * Checks if a given species is currently the target for this hunt
+     *
+     * @param pokemon The pokemon
+     * @return True if it's hunted
+     */
+    boolean isSpeciesHunted(Pokemon pokemon);
+
+    /**
+     *
      * Rewards the player for catching the hunted pokemon
      *
      * @param player The player who won the hunt

@@ -148,6 +148,15 @@ public class ForgePixelHunt implements PixelHunt {
     }
 
     @Override
+    public boolean isSpeciesHunted(Pokemon pokemon) {
+        if (this.currentPokemon == null || pokemon == null) {
+            return false;
+        }
+
+        return this.currentPokemon.doesSpeciesMatch(pokemon);
+    }
+
+    @Override
     public void rewardCatch(EnvyPlayer<?> player, Pokemon caught) {
         EntityPlayerMP parent = (EntityPlayerMP) player.getParent();
         PixelHuntWonEvent wonEvent = new PixelHuntWonEvent(this, parent, caught, this.currentPokemon);
