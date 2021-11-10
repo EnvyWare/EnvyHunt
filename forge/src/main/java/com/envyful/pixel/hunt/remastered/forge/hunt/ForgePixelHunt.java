@@ -55,6 +55,10 @@ public class ForgePixelHunt implements PixelHunt {
         this.ivMultiplierEnabled = huntConfig.isIvMultiplierEnabled();
         this.ivMultiplier = huntConfig.getIvMultiplier();
         this.duration = TimeUnit.MINUTES.toMillis(huntConfig.getMaxDurationMinutes());
+        this.rewardCommands.addAll(huntConfig.getRewardCommands());
+        this.rewardDescription.addAll(huntConfig.getRewardDescription());
+        this.guiX = huntConfig.getGuiX();
+        this.guiY = huntConfig.getGuiY();
     }
 
     @Override
