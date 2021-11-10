@@ -18,7 +18,9 @@ public interface PixelHunt {
      * Loads the hunt from the {@link ConfigurationNode}
      *
      * @param config The node the hunt is being loaded from
+     * @deprecated Loading now changed to use Configurate
      */
+    @Deprecated
     void load(ConfigurationNode config);
 
     /**
