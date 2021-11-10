@@ -3,6 +3,7 @@ package com.envyful.pixel.hunt.remastered.forge.hunt;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
 import com.envyful.pixel.hunt.remastered.api.factory.PixelHuntPlatformFactory;
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
+import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.google.common.collect.Lists;
 import org.spongepowered.configurate.ConfigurationNode;
 
@@ -23,8 +24,8 @@ public class PixelHuntForgeFactory implements PixelHuntPlatformFactory {
     public void reloadHunts() {
         this.loadedHunts.clear();
 
-        for (ConfigurationNode hunts : this.mod.getConfig().getNode().node("hunts").childrenMap().values()) {
-            this.loadedHunts.add(new ForgePixelHunt(hunts));
+        for (PixelHuntConfig.HuntConfig value : PixelHuntForge.getInstance().getConfig().getHunts().values()) {
+            this.loadedHunts.add(new ForgePixelHunt(value));
         }
     }
 
