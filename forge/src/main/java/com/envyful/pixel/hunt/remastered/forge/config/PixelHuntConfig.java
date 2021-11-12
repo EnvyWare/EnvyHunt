@@ -34,6 +34,8 @@ public class PixelHuntConfig extends AbstractYamlConfig {
             "This goes at the top"
     );
 
+    private boolean enableParticles = true;
+
     private Map<String, HuntConfig> hunts = Maps.newHashMap();
 
     public PixelHuntConfig() {
@@ -64,20 +66,12 @@ public class PixelHuntConfig extends AbstractYamlConfig {
         return this.hunts;
     }
 
+    public boolean isEnableParticles() {
+        return this.enableParticles;
+    }
+
     @ConfigSerializable
     public static class HuntConfig {
-
-        /**
-         *
-         *
-         public PokemonGeneratorConfig(Set<EnumSpecies> blockedTypes, boolean speciesRequirement, boolean allowLegends,
-         boolean allowUltraBeasts, boolean genderRequirement, boolean growthRequirement,
-         boolean natureRequirement, int potentialGrowthRequirements,
-         int potentialNatureRequirements, boolean allowEvolutions, boolean ivRequirement,
-         boolean randomIVGeneration, int minIVPercentage, int maxIVPercentage,
-         boolean onlyLegends) {
-         *
-         */
 
         private List<String> rewardCommands = Lists.newArrayList("broadcast Testing %player%");
         private List<String> rewardDescription = Lists.newArrayList("Hello");

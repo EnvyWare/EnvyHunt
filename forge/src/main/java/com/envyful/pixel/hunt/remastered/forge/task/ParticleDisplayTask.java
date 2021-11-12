@@ -4,6 +4,7 @@ import com.envyful.api.concurrency.UtilConcurrency;
 import com.envyful.api.forge.listener.LazyListener;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
 import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
+import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
 import com.google.common.collect.Lists;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
@@ -36,6 +37,10 @@ public class ParticleDisplayTask extends LazyListener {
 
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
+        if (!PixelHuntForge.getInstance().getConfig().isEnableParticles()) {
+            return;
+        }
+
         ++this.currentTick;
 
         if (this.currentTick % 10 != 0) {
