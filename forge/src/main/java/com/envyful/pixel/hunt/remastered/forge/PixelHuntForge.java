@@ -24,11 +24,12 @@ import java.io.IOException;
         name = "PixelHuntRemastered Forge",
         version = PixelHuntForge.MOD_VERSION,
         acceptableRemoteVersions = "*",
-        dependencies = "required-after:pixelmon;"
+        dependencies = "required-after:pixelmon;",
+        updateJSON = "https://ogn.pixelmonmod.com/update/sm-ph/update.json"
 )
 public class PixelHuntForge {
 
-    public static final String MOD_VERSION = "1.0.0";
+    public static final String MOD_VERSION = "1.0.1";
 
     private static PixelHuntForge instance;
 
