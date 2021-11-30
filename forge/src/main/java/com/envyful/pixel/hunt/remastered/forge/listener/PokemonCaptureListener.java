@@ -43,7 +43,7 @@ public class PokemonCaptureListener {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onPokemonCaught(CaptureEvent.SuccessfulRaidCapture event) {
         UtilConcurrency.runAsync(() -> {
-            Pokemon caught = event.getPokemon().getPokemonData();
+            Pokemon caught = event.getRaidPokemon();
             EntityPlayerMP player = event.player;
             ForgeEnvyPlayer envyPlayer = this.mod.getPlayerManager().getPlayer(player);
 
