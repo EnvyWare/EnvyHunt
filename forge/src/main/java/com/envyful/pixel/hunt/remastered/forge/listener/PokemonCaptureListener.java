@@ -2,13 +2,12 @@ package com.envyful.pixel.hunt.remastered.forge.listener;
 
 import com.envyful.api.concurrency.UtilConcurrency;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
+import com.envyful.pixel.hunt.remastered.api.PixelHunt;
 import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
 import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.events.CaptureEvent;
-import com.pixelmonmod.pixelmon.api.events.raids.EndRaidEvent;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
-import com.envyful.pixel.hunt.remastered.api.PixelHunt;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
