@@ -6,6 +6,7 @@ import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
 import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.events.CaptureEvent;
+import com.pixelmonmod.pixelmon.api.events.raids.EndRaidEvent;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -24,6 +25,24 @@ public class PokemonCaptureListener {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onPokemonCaught(CaptureEvent.SuccessfulCapture event) {
+        UtilConcurrency.runAsync(() -> {
+            Pokemon caught = event.getPokemon().getPokemonData();
+            EntityPlayerMP player = event.player;
+            ForgeEnvyPlayer envyPlayer = this.mod.getPlayerManager().getPlayer(player);
+
+            for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
+                if (hunt.isBeingHunted(caught)) {
+                    hunt.rewardCatch(envyPlayer, caught);
+                    hunt.generatePokemon();
+                    break;
+                }
+            }
+        });
+    }
+
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onPokemonCaught(CaptureEvent.SuccessfulRaidCapture event) {
         UtilConcurrency.runAsync(() -> {
             Pokemon caught = event.getPokemon().getPokemonData();
             EntityPlayerMP player = event.player;
