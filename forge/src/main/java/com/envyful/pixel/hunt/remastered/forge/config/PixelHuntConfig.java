@@ -3,13 +3,10 @@ package com.envyful.pixel.hunt.remastered.forge.config;
 import com.envyful.api.config.data.ConfigPath;
 import com.envyful.api.config.type.ConfigInterface;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
-import com.envyful.api.reforged.pixelmon.PokemonGenerator;
-import com.envyful.api.reforged.pixelmon.PokemonSpec;
 import com.envyful.api.reforged.pixelmon.config.PokemonGeneratorConfig;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import net.minecraft.item.ItemStack;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.util.List;
@@ -36,7 +33,9 @@ public class PixelHuntConfig extends AbstractYamlConfig {
 
     private boolean enableParticles = true;
 
-    private Map<String, HuntConfig> hunts = Maps.newHashMap();
+    private Map<String, HuntConfig> hunts = ImmutableMap.of(
+            "one", new HuntConfig()
+    );
 
     public PixelHuntConfig() {
         super();
