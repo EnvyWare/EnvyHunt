@@ -66,7 +66,7 @@ public class ForgePixelHunt implements PixelHunt {
 
     @Override
     public void display(Pane pane) {
-        ItemBuilder builder = new ItemBuilder(this.displayItem);
+        ItemBuilder builder = new ItemBuilder(this.displayItem.copy());
 
         for (String s : PixelHuntForge.getInstance().getConfig().getPreLore()) {
             builder.addLore(UtilChatColour.translateColourCodes('&', s.replace("%time%",
