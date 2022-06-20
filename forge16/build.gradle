@@ -52,9 +52,15 @@ dependencies {
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow group: 'com.github.Daniel-Forge-Development.API', name: 'commons', version: '2.5.0'
-    shadow group: 'com.github.Daniel-Forge-Development.API', name: 'forge16', version: '2.5.0'
-    shadow group: 'com.github.Daniel-Forge-Development.API', name: 'reforged16', version: '2.5.0'
+    shadow (group: 'com.github.Daniel-Forge-Development.API', name: 'commons', version: '2.5.0') {
+        transitive = false
+    }
+    shadow (group: 'com.github.Daniel-Forge-Development.API', name: 'forge16', version: '2.5.0') {
+        transitive = false
+    }
+    shadow (group: 'com.github.Daniel-Forge-Development.API', name: 'reforged16', version: '2.5.0') {
+        transitive = false
+    }
 
     shadow project(':api')
 }
