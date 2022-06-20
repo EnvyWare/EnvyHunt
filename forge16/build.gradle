@@ -1,0 +1,85 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = 'forge'
+            url = 'https://files.minecraftforge.net/maven'
+        }
+        maven {
+            url = 'https://plugins.gradle.org/m2/'
+        }
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.+', changing: true
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+
+minecraft {
+    mappings channel: 'official', version: '1.16.5'
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    maven {
+        name = 'spongepowered-repo'
+        url = 'https://repo.spongepowered.org/maven'
+    }
+
+    maven { url 'https://jitpack.io' }
+
+    flatDir {
+        dirs '../Libraries/'
+    }
+
+    ivy {
+        setUrl('https://download.nodecdn.net/containers/reforged/server/release')
+        metadataSources {
+            artifact()
+        }
+        patternLayout {
+            artifact('[revision]/[artifact].[ext]')
+        }
+    }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
+    implementation 'pixelmon:Pixelmon-1.16.5-9.0.2-server:9.0.2'
+
+    shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
+
+    shadow group: 'com.github.Daniel-Forge-Development.API', name: 'commons', version: '2.4.9'
+    shadow group: 'com.github.Daniel-Forge-Development.API', name: 'forge16', version: '2.4.9'
+    shadow group: 'com.github.Daniel-Forge-Development.API', name: 'reforged16', version: '2.4.9'
+
+    shadow project(':api')
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    archiveName = rootProject.name + '-Forge.jar'
+
+    relocate('org.spongepowered.configurate', 'com.envyful.pixel.hunt.remastered.forge.shade.configurate')
+    relocate('org.yaml.snakeyaml', 'com.envyful.pixel.hunt.remastered.forge.shade.snakeyaml')
+    relocate('io.leangen.geantyref', 'com.envyful.pixel.hunt.remastered.forge.shade.geantyref')
+    relocate('com.google.gson', 'com.envyful.pixel.hunt.remastered.forge.shade.gson')
+    relocate('com.zaxxer', 'com.envyful.pixel.hunt.remastered.forge.shade.hikari')
+    relocate('org.slf4j', 'com.envyful.pixel.hunt.remastered.forge.shade.slf4j')
+    relocate('com.envyful.api', 'com.envyful.pixel.hunt.remastered.forge.shade.envy.api')
+    relocate('org.bstats', 'com.envyful.pixel.hunt.remastered.forge.shade.bstats')
+
+
+    exclude "**/module-info.class"
+}
+
+reobf {
+    shadowJar {
+        classpath = sourceSets.main.compileClasspath
+    }
+}
+
+jar.finalizedBy('reobfJar')
+build.finalizedBy('versionedRelease')
