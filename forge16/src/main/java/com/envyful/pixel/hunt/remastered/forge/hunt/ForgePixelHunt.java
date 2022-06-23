@@ -30,6 +30,7 @@ import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class ForgePixelHunt implements PixelHunt {
 
@@ -73,7 +74,7 @@ public class ForgePixelHunt implements PixelHunt {
                                                                                UtilTimeFormat.getFormattedDuration((this.currentStart + this.duration) - System.currentTimeMillis()))));
         }
 
-        builder.lore(this.currentPokemon.getDescription("§a", "§b"));
+        builder.lore(this.currentPokemon.getDescription("§a", "§b").stream().map(StringTextComponent::new).collect(Collectors.toList()));
 
         for (String s : PixelHuntForge.getInstance().getConfig().getExtraLore()) {
             builder.addLore(UtilChatColour.translateColourCodes('&', s.replace("%time%",
