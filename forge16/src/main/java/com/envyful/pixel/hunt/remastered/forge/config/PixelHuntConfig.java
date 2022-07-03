@@ -18,21 +18,6 @@ public class PixelHuntConfig extends AbstractYamlConfig {
 
     private ConfigInterface configInterface = new ConfigInterface();
 
-    private List<String> spawnBroadcast = Lists.newArrayList();
-    private List<String> timeoutBroadcast = Lists.newArrayList();
-
-    private String displayName = "&b%species%";
-
-    private List<String> extraLore = Lists.newArrayList(
-            "",
-            "&bTime remaining: %time%"
-    );
-
-    private List<String> preLore = Lists.newArrayList(
-            "",
-            "This goes at the top"
-    );
-
     private boolean enableParticles = true;
 
     private Map<String, HuntConfig> hunts = ImmutableMap.of(
@@ -43,41 +28,33 @@ public class PixelHuntConfig extends AbstractYamlConfig {
         super();
     }
 
-    public List<String> getSpawnBroadcast() {
-        return this.spawnBroadcast;
-    }
-
-    public List<String> getTimeoutBroadcast() {
-        return this.timeoutBroadcast;
-    }
-
     public ConfigInterface getConfigInterface() {
         return this.configInterface;
-    }
-
-    public String getDisplayName() {
-        return this.displayName;
-    }
-
-    public List<String> getExtraLore() {
-        return this.extraLore;
-    }
-
-    public List<String> getPreLore() {
-        return this.preLore;
-    }
-
-    public Map<String, HuntConfig> getHunts() {
-        return this.hunts;
     }
 
     public boolean isEnableParticles() {
         return this.enableParticles;
     }
 
+    public Map<String, HuntConfig> getHunts() {
+        return this.hunts;
+    }
+
     @ConfigSerializable
     public static class HuntConfig {
 
+        private String displayName = "&b%species%";
+        private List<String> extraLore = Lists.newArrayList(
+                "",
+                "&bTime remaining: %time%"
+        );
+
+        private List<String> preLore = Lists.newArrayList(
+                "",
+                "This goes at the top"
+        );
+        private List<String> spawnBroadcast = Lists.newArrayList();
+        private List<String> timeoutBroadcast = Lists.newArrayList();
         private List<String> rewardCommands = Lists.newArrayList("broadcast Testing %player%");
         private List<String> rewardDescription = Lists.newArrayList("Hello");
         private PokemonGeneratorConfig generatorConfig = new PokemonGeneratorConfig(
@@ -95,6 +72,26 @@ public class PixelHuntConfig extends AbstractYamlConfig {
         private int guiY = 1;
 
         public HuntConfig() {}
+
+        public String getDisplayName() {
+            return this.displayName;
+        }
+
+        public List<String> getExtraLore() {
+            return this.extraLore;
+        }
+
+        public List<String> getPreLore() {
+            return this.preLore;
+        }
+
+        public List<String> getSpawnBroadcast() {
+            return this.spawnBroadcast;
+        }
+
+        public List<String> getTimeoutBroadcast() {
+            return this.timeoutBroadcast;
+        }
 
         public List<String> getRewardCommands() {
             return this.rewardCommands;
