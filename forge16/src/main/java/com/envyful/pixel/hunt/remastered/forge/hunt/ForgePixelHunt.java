@@ -69,6 +69,8 @@ public class ForgePixelHunt implements PixelHunt {
     public void display(Pane pane) {
         ItemBuilder builder = new ItemBuilder(this.displayItem.copy());
 
+        builder.name(UtilChatColour.translateColourCodes('&', PixelHuntForge.getInstance().getConfig().getDisplayName().replace("%species%", this.currentPokemon.getDisplayName())));
+
         for (String s : PixelHuntForge.getInstance().getConfig().getPreLore()) {
             builder.addLore(UtilChatColour.translateColourCodes('&', s.replace("%time%",
                                                                                UtilTimeFormat.getFormattedDuration((this.currentStart + this.duration) - System.currentTimeMillis()))));
