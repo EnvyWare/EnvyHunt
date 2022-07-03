@@ -23,7 +23,7 @@ public class PokemonSpawnListener extends LazyListener {
 
     @SubscribeEvent
     public void onPokemonSpawn(EntityJoinWorldEvent event) {
-        if (!PixelHuntForge.getInstance().getConfig().isEnableParticles()) {
+        if (!this.mod.getConfig().isEnableParticles()) {
             return;
         }
 
