@@ -12,7 +12,6 @@ import com.envyful.api.reforged.pixelmon.PokemonGenerator;
 import com.envyful.api.reforged.pixelmon.PokemonSpec;
 import com.envyful.api.time.UtilTimeFormat;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
-import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.event.PixelHuntStartEvent;
 import com.envyful.pixel.hunt.remastered.forge.event.PixelHuntWonEvent;
@@ -37,6 +36,7 @@ public class ForgePixelHunt implements PixelHunt {
     private final List<String> rewardCommands = Lists.newArrayList();
     private final List<String> rewardDescription = Lists.newArrayList();
 
+    private final PixelHuntConfig.HuntConfig huntConfig;
     private PokemonGenerator generator;
     private ItemStack displayItem;
     private PokemonSpec currentPokemon;
@@ -50,6 +50,7 @@ public class ForgePixelHunt implements PixelHunt {
     private int guiY;
 
     public ForgePixelHunt(PixelHuntConfig.HuntConfig huntConfig) {
+        this.huntConfig = huntConfig;
         this.generator = new PokemonGenerator(huntConfig.getGeneratorConfig());
         this.randomCommands = huntConfig.isRandomCommands();
         this.maxIvs = huntConfig.isMaxIvs();
@@ -69,16 +70,17 @@ public class ForgePixelHunt implements PixelHunt {
     public void display(Pane pane) {
         ItemBuilder builder = new ItemBuilder(this.displayItem.copy());
 
-        builder.name(UtilChatColour.translateColourCodes('&', PixelHuntForge.getInstance().getConfig().getDisplayName().replace("%species%", this.currentPokemon.getDisplayName())));
+        builder.name(UtilChatColour.translateColourCodes('&',
+                this.huntConfig.getDisplayName().replace("%species%", this.currentPokemon.getDisplayName())));
 
-        for (String s : PixelHuntForge.getInstance().getConfig().getPreLore()) {
+        for (String s : this.huntConfig.getPreLore()) {
             builder.addLore(UtilChatColour.translateColourCodes('&', s.replace("%time%",
                                                                                UtilTimeFormat.getFormattedDuration((this.currentStart + this.duration) - System.currentTimeMillis()))));
         }
 
         builder.lore(this.currentPokemon.getDescription("§a", "§b").stream().map(StringTextComponent::new).collect(Collectors.toList()));
 
-        for (String s : PixelHuntForge.getInstance().getConfig().getExtraLore()) {
+        for (String s : this.huntConfig.getExtraLore()) {
             builder.addLore(UtilChatColour.translateColourCodes('&', s.replace("%time%",
                     UtilTimeFormat.getFormattedDuration((this.currentStart + this.duration) - System.currentTimeMillis()))));
         }
@@ -100,7 +102,7 @@ public class ForgePixelHunt implements PixelHunt {
         this.currentStart = System.currentTimeMillis();
         this.currentPokemon = event.getGeneratedPokemon();
 
-        for (String broadcast : PixelHuntForge.getInstance().getConfig().getSpawnBroadcast()) {
+        for (String broadcast : this.huntConfig.getSpawnBroadcast()) {
             ServerLifecycleHooks.getCurrentServer().getPlayerList().broadcastMessage(
                     new StringTextComponent(UtilChatColour.translateColourCodes('&', broadcast
                             .replace("%pokemon%", this.currentPokemon.getDisplayName()))), ChatType.CHAT, Util.NIL_UUID);
@@ -169,7 +171,7 @@ public class ForgePixelHunt implements PixelHunt {
             return;
         }
 
-        for (String message : PixelHuntForge.getInstance().getConfig().getTimeoutBroadcast()) {
+        for (String message : this.huntConfig.getTimeoutBroadcast()) {
             ServerLifecycleHooks.getCurrentServer().getPlayerList()
                     .broadcastMessage(new StringTextComponent(UtilChatColour.translateColourCodes('&',
                             message.replace("%pokemon%",
