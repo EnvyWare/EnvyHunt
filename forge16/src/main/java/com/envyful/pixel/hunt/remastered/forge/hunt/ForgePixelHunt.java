@@ -85,7 +85,7 @@ public class ForgePixelHunt implements PixelHunt {
         }
 
         for (String s : this.huntConfig.getExtraLore()) {
-            builder.addLore(UtilChatColour.translateColourCodes('&', s.replace("%time%",
+            builder.addLore(UtilChatColour.colour(s.replace("%time%",
                     UtilTimeFormat.getFormattedDuration((this.currentStart + this.duration) - System.currentTimeMillis()))));
         }
 
