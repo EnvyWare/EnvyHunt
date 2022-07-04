@@ -81,7 +81,7 @@ public class ForgePixelHunt implements PixelHunt {
         }
 
         for (String s : this.currentPokemon.getDescription(this.huntConfig.getDescriptionColour(), this.huntConfig.getDescriptionOffColour())) {
-            builder.lore(UtilChatColour.colour(s));
+            builder.addLore(UtilChatColour.colour(s));
         }
 
         for (String s : this.huntConfig.getExtraLore()) {
