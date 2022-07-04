@@ -58,6 +58,7 @@ public class PixelHuntConfig extends AbstractYamlConfig {
                 "",
                 "This goes at the top"
         );
+        private String pokemonNickname = "&6> &r%species% &6<";
         private String descriptionColour = "§a";
         private String descriptionOffColour = "§b";
         private IParticleData particles = ParticleTypes.FLAME;
@@ -91,6 +92,10 @@ public class PixelHuntConfig extends AbstractYamlConfig {
 
         public List<String> getPreLore() {
             return this.preLore;
+        }
+
+        public String getPokemonNickname() {
+            return this.pokemonNickname;
         }
 
         public String getDescriptionColour() {
