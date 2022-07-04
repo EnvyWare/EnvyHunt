@@ -25,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
@@ -203,5 +204,16 @@ public class ForgePixelHunt implements PixelHunt {
         worldServer.addParticle(this.huntConfig.getParticles(),
                 positionVector.x, positionVector.y, positionVector.z,
                 5, 0, 0.05);
+    }
+
+    @Override
+    public void applyNickname(Object o) {
+        if (!(o instanceof PixelmonEntity)) {
+            return;
+        }
+
+        PixelmonEntity pixelmon = (PixelmonEntity) o;
+        ITextComponent nickname = UtilChatColour.colour(this.huntConfig.getPokemonNickname().replace("%species%", pixelmon.getLocalizedName()));
+        pixelmon.getPokemon().setNickname(nickname);
     }
 }
