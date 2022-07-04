@@ -1,12 +1,16 @@
 package com.envyful.pixel.hunt.remastered.forge.config;
 
 import com.envyful.api.config.data.ConfigPath;
+import com.envyful.api.config.data.Serializers;
 import com.envyful.api.config.type.ConfigInterface;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.reforged.pixelmon.config.PokemonGeneratorConfig;
+import com.envyful.pixel.hunt.remastered.forge.config.typeadapter.ParticleDataTypeAdapter;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleTypes;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.util.List;
@@ -14,6 +18,7 @@ import java.util.Map;
 
 @ConfigPath("config/PixelHuntRemastered/config.yml")
 @ConfigSerializable
+@Serializers(ParticleDataTypeAdapter.class)
 public class PixelHuntConfig extends AbstractYamlConfig {
 
     private ConfigInterface configInterface = new ConfigInterface();
@@ -53,6 +58,7 @@ public class PixelHuntConfig extends AbstractYamlConfig {
                 "",
                 "This goes at the top"
         );
+        private IParticleData particles = ParticleTypes.FLAME;
         private List<String> spawnBroadcast = Lists.newArrayList();
         private List<String> timeoutBroadcast = Lists.newArrayList();
         private List<String> rewardCommands = Lists.newArrayList("broadcast Testing %player%");
@@ -83,6 +89,10 @@ public class PixelHuntConfig extends AbstractYamlConfig {
 
         public List<String> getPreLore() {
             return this.preLore;
+        }
+
+        public IParticleData getParticles() {
+            return this.particles;
         }
 
         public List<String> getSpawnBroadcast() {
