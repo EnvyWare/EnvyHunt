@@ -39,6 +39,7 @@ public class PokemonSpawnListener extends LazyListener {
             for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
                 if (hunt.isSpeciesHunted(pixelmon.getPokemon())) {
                     ParticleDisplayTask.addPokemon(pixelmon);
+                    hunt.applyNickname(pixelmon);
                     return;
                 }
             }

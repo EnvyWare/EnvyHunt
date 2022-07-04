@@ -33,6 +33,7 @@ public class PokemonCaptureListener {
                 if (hunt.isBeingHunted(caught)) {
                     hunt.rewardCatch(envyPlayer, caught);
                     hunt.generatePokemon();
+                    caught.setNickname(caught.getLocalizedName());
                     break;
                 }
             }
@@ -51,6 +52,7 @@ public class PokemonCaptureListener {
                 if (hunt.isBeingHunted(caught)) {
                     hunt.rewardCatch(envyPlayer, caught);
                     hunt.generatePokemon();
+                    caught.setNickname(caught.getLocalizedName());
                     break;
                 }
             }
