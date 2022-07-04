@@ -19,11 +19,14 @@ import com.google.common.collect.Lists;
 import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.pokemon.stats.BattleStatsType;
+import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.spongepowered.configurate.ConfigurationNode;
 
@@ -70,8 +73,7 @@ public class ForgePixelHunt implements PixelHunt {
     public void display(Pane pane) {
         ItemBuilder builder = new ItemBuilder(this.displayItem.copy());
 
-        builder.name(UtilChatColour.translateColourCodes('&',
-                this.huntConfig.getDisplayName().replace("%species%", this.currentPokemon.getDisplayName())));
+        builder.name(UtilChatColour.colour(this.huntConfig.getDisplayName().replace("%species%", this.currentPokemon.getDisplayName())));
 
         for (String s : this.huntConfig.getPreLore()) {
             builder.addLore(UtilChatColour.translateColourCodes('&', s.replace("%time%",
@@ -184,5 +186,21 @@ public class ForgePixelHunt implements PixelHunt {
         long timePassed = System.currentTimeMillis() - this.currentStart;
 
         return timePassed >= this.duration;
+    }
+
+    @Override
+    public void spawnParticle(Object o) {
+        if (!(o instanceof PixelmonEntity)) {
+            return;
+        }
+
+        PixelmonEntity pixelmon = (PixelmonEntity) o;
+
+        ServerWorld worldServer = (ServerWorld) pixelmon.level;
+        Vector3d positionVector = pixelmon.position();
+
+        worldServer.addParticle(this.huntConfig.getParticles(),
+                positionVector.x, positionVector.y, positionVector.z,
+                5, 0, 0.05);
     }
 }

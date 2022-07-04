@@ -79,4 +79,5 @@ public interface PixelHunt {
      */
     boolean hasTimedOut();
 
+    void spawnParticle(Object o);
 }
