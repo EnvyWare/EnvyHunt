@@ -58,6 +58,8 @@ public class PixelHuntConfig extends AbstractYamlConfig {
                 "",
                 "This goes at the top"
         );
+        private String descriptionColour = "§a";
+        private String descriptionOffColour = "§b";
         private IParticleData particles = ParticleTypes.FLAME;
         private List<String> spawnBroadcast = Lists.newArrayList();
         private List<String> timeoutBroadcast = Lists.newArrayList();
@@ -89,6 +91,14 @@ public class PixelHuntConfig extends AbstractYamlConfig {
 
         public List<String> getPreLore() {
             return this.preLore;
+        }
+
+        public String getDescriptionColour() {
+            return this.descriptionColour;
+        }
+
+        public String getDescriptionOffColour() {
+            return this.descriptionOffColour;
         }
 
         public IParticleData getParticles() {
