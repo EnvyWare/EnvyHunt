@@ -90,7 +90,7 @@ public class ForgePixelHunt implements PixelHunt {
         }
 
         for (String s : this.rewardDescription) {
-            builder.addLore(s);
+            builder.addLore(UtilChatColour.colour(s));
         }
 
         pane.set(this.guiX, this.guiY, GuiFactory.displayableBuilder(ItemStack.class)
