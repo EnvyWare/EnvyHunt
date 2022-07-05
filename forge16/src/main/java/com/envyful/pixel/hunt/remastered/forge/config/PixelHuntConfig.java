@@ -64,6 +64,7 @@ public class PixelHuntConfig extends AbstractYamlConfig {
         private IParticleData particles = ParticleTypes.FLAME;
         private List<String> spawnBroadcast = Lists.newArrayList();
         private List<String> timeoutBroadcast = Lists.newArrayList();
+        private List<String> rewardBroadcast = Lists.newArrayList("broadcast Rewarded %player%");
         private List<String> rewardCommands = Lists.newArrayList("broadcast Testing %player%");
         private List<String> rewardDescription = Lists.newArrayList("Hello");
         private PokemonGeneratorConfig generatorConfig = new PokemonGeneratorConfig(
@@ -116,6 +117,10 @@ public class PixelHuntConfig extends AbstractYamlConfig {
 
         public List<String> getTimeoutBroadcast() {
             return this.timeoutBroadcast;
+        }
+
+        public List<String> getRewardBroadcast() {
+            return this.rewardBroadcast;
         }
 
         public List<String> getRewardCommands() {
