@@ -141,15 +141,15 @@ public class ForgePixelHunt implements PixelHunt {
             }
         }
 
-        UtilForgeConcurrency.runSync(() -> {
-            // TODO: if empty?
-            for (String broadcast : this.huntConfig.getRewardBroadcast()) {
-                ServerLifecycleHooks.getCurrentServer().getPlayerList().broadcastMessage(
-                        UtilChatColour.colour(broadcast.replace("%pokemon%", this.currentPokemon.getDisplayName())),
-                        ChatType.CHAT, Util.NIL_UUID
-                );
-            }
+        for (String broadcast : this.huntConfig.getRewardBroadcast()) {
+            ServerLifecycleHooks.getCurrentServer().getPlayerList().broadcastMessage(
+                    UtilChatColour.colour(broadcast
+                            .replace("%pokemon%", this.currentPokemon.getDisplayName())
+                            .replace("%player%", parent.getName().toString())), ChatType.CHAT, Util.NIL_UUID
+            );
+        }
 
+        UtilForgeConcurrency.runSync(() -> {
             if (this.huntConfig.isRandomCommands()) {
                 UtilForgeServer.executeCommand(UtilRandom.getRandomElement(this.huntConfig.getRewardCommands())
                         .replace("%player%", parent.getName().getString()));
@@ -205,7 +205,8 @@ public class ForgePixelHunt implements PixelHunt {
         }
 
         PixelmonEntity pixelmon = (PixelmonEntity) o;
-        ITextComponent nickname = UtilChatColour.colour(this.huntConfig.getPokemonNickname().replace("%species%", pixelmon.getLocalizedName()));
+        ITextComponent nickname = UtilChatColour.colour(this.huntConfig.getPokemonNickname().replace("%species%",
+                pixelmon.getLocalizedName()));
         pixelmon.getPokemon().setNickname(nickname);
     }
 }
