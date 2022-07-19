@@ -60,7 +60,6 @@ public class ParticleDisplayTask extends LazyListener {
                 }
             }
 
-
             for (PixelHunt allHunt : PixelHuntFactory.getAllHunts()) {
                 if (allHunt.hasTimedOut()) {
                     allHunt.end();
