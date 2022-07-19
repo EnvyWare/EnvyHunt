@@ -145,7 +145,7 @@ public class ForgePixelHunt implements PixelHunt {
             ServerLifecycleHooks.getCurrentServer().getPlayerList().broadcastMessage(
                     UtilChatColour.colour(broadcast
                             .replace("%pokemon%", this.currentPokemon.getDisplayName())
-                            .replace("%player%", parent.getName().toString())), ChatType.CHAT, Util.NIL_UUID
+                            .replace("%player%", parent.getName().getString())), ChatType.CHAT, Util.NIL_UUID
             );
         }
 
