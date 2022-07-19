@@ -24,6 +24,7 @@ public class PokemonCaptureListener {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onPokemonCaught(CaptureEvent.SuccessfulCapture event) {
+        event.getPokemon().getPokemon().removeNickname();
         UtilConcurrency.runAsync(() -> {
             Pokemon caught = event.getPokemon().getPokemon();
             ServerPlayerEntity player = event.player;
@@ -33,7 +34,6 @@ public class PokemonCaptureListener {
                 if (hunt.isBeingHunted(caught)) {
                     hunt.rewardCatch(envyPlayer, caught);
                     hunt.generatePokemon();
-                    caught.removeNickname();
                     break;
                 }
             }
@@ -43,6 +43,7 @@ public class PokemonCaptureListener {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onPokemonCaught(CaptureEvent.SuccessfulRaidCapture event) {
+        event.getPokemon().getPokemon().removeNickname();
         UtilConcurrency.runAsync(() -> {
             Pokemon caught = event.getRaidPokemon();
             ServerPlayerEntity player = event.player;
@@ -52,7 +53,6 @@ public class PokemonCaptureListener {
                 if (hunt.isBeingHunted(caught)) {
                     hunt.rewardCatch(envyPlayer, caught);
                     hunt.generatePokemon();
-                    caught.removeNickname();
                     break;
                 }
             }
