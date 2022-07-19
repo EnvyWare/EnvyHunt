@@ -28,12 +28,12 @@ public class PokemonCaptureListener {
             Pokemon caught = event.getPokemon().getPokemon();
             ServerPlayerEntity player = event.player;
             ForgeEnvyPlayer envyPlayer = this.mod.getPlayerManager().getPlayer(player);
-            caught.removeNickname();
 
             for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
                 if (hunt.isBeingHunted(caught)) {
                     hunt.rewardCatch(envyPlayer, caught);
                     hunt.generatePokemon();
+                    caught.removeNickname();
                     break;
                 }
             }
@@ -47,12 +47,12 @@ public class PokemonCaptureListener {
             Pokemon caught = event.getRaidPokemon();
             ServerPlayerEntity player = event.player;
             ForgeEnvyPlayer envyPlayer = this.mod.getPlayerManager().getPlayer(player);
-            caught.removeNickname();
 
             for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
                 if (hunt.isBeingHunted(caught)) {
                     hunt.rewardCatch(envyPlayer, caught);
                     hunt.generatePokemon();
+                    caught.removeNickname();
                     break;
                 }
             }
