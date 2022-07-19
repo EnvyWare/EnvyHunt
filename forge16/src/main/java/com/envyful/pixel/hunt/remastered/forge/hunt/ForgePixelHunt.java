@@ -205,6 +205,10 @@ public class ForgePixelHunt implements PixelHunt {
         }
 
         PixelmonEntity pixelmon = (PixelmonEntity) o;
+        if (pixelmon.hasOwner()) {
+            return;
+        }
+
         ITextComponent nickname = UtilChatColour.colour(this.huntConfig.getPokemonNickname().replace("%species%",
                 pixelmon.getLocalizedName()));
         pixelmon.getPokemon().setNickname(nickname);
