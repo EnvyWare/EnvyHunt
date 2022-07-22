@@ -24,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.spongepowered.configurate.ConfigurationNode;
 
@@ -188,8 +189,18 @@ public class ForgePixelHunt implements PixelHunt {
 
         PixelmonEntity pixelmon = (PixelmonEntity) o;
 
-        pixelmon.level.addParticle(this.huntConfig.getParticles(), pixelmon.getX(), pixelmon.getY(), pixelmon.getZ(),
-                5, 0, 0.05);
+        ServerWorld serverWorld = (ServerWorld) pixelmon.level;
+
+        serverWorld.sendParticles(this.huntConfig.getParticles(),
+                pixelmon.getX(),
+                pixelmon.getY(),
+                pixelmon.getZ(),
+                1,
+                serverWorld.random.nextDouble() - 0.5,
+                serverWorld.random.nextDouble() - 0.5,
+                serverWorld.random.nextDouble() - 0.5,
+                1
+        );
     }
 
     @Override
