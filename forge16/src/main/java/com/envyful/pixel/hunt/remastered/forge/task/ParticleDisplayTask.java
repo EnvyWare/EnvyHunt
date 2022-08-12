@@ -61,9 +61,13 @@ public class ParticleDisplayTask extends LazyListener {
             ServerWorld worldServer = (ServerWorld)pixelmon.level;
             Vector3d positionVector = pixelmon.position();
 
-            worldServer.addParticle(ParticleTypes.FLAME,
-                    positionVector.x, positionVector.y, positionVector.z,
-                    5, 0, 0.05);
+            worldServer.sendParticles(
+                    ParticleTypes.FLAME,
+                    positionVector.x, positionVector.y, positionVector.z, 
+                    5,
+                    worldServer.random.nextDouble() - 0.5, worldServer.random.nextDouble() - 0.5, worldServer.random.nextDouble() - 0.5, 
+                    0.05
+            );
         }
 
         UtilConcurrency.runAsync(() -> {
