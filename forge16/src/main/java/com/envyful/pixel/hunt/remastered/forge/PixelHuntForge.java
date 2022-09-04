@@ -1,5 +1,6 @@
 package com.envyful.pixel.hunt.remastered.forge;
 
+import com.envyful.api.concurrency.UtilLogger;
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
@@ -17,6 +18,8 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -29,8 +32,10 @@ public class PixelHuntForge {
     private final ForgePlayerManager playerManager = new ForgePlayerManager();
 
     private PixelHuntConfig config;
+    private Logger logger = LogManager.getLogger("pixelhuntremastered");
 
     public PixelHuntForge() {
+        UtilLogger.setLogger(this.logger);
         MinecraftForge.EVENT_BUS.register(this);
         instance = this;
     }

@@ -43,7 +43,10 @@ public class PokemonCaptureListener {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onPokemonCaught(CaptureEvent.SuccessfulRaidCapture event) {
-        event.getPokemon().getPokemon().removeNickname();
+        if (event.getRaidPokemon() != null) {
+            event.getRaidPokemon().removeNickname();
+        }
+
         UtilConcurrency.runAsync(() -> {
             Pokemon caught = event.getRaidPokemon();
             ServerPlayerEntity player = event.player;

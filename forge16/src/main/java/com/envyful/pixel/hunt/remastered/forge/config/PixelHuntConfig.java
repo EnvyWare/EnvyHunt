@@ -68,7 +68,7 @@ public class PixelHuntConfig extends AbstractYamlConfig {
         private List<String> rewardCommands = Lists.newArrayList("broadcast Testing %player%");
         private List<String> rewardDescription = Lists.newArrayList("Hello");
         private PokemonGeneratorConfig generatorConfig = new PokemonGeneratorConfig(
-                Sets.newHashSet(), true, false, false, true,
+                Sets.newHashSet(), Lists.newArrayList(), true, false, false, true,
                 false, false, 2, 2,
                 false, true, false, 30, 100,
                 false
