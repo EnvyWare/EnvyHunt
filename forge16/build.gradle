@@ -60,7 +60,9 @@ dependencies {
         transitive = false
     }
 
-    shadow project(':api')
+    shadow (project(':api')) {
+        transitive = false
+    }
 }
 
 shadowJar {
