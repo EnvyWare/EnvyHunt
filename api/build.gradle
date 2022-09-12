@@ -5,18 +5,24 @@ repositories {
     }
 
     maven { url 'https://jitpack.io' }
-    flatDir {
-        dirs '../Libraries/'
+    ivy {
+        setUrl('https://download.nodecdn.net/containers/reforged/server/release')
+        metadataSources {
+            artifact()
+        }
+        patternLayout {
+            artifact('[revision]/[artifact].[ext]')
+        }
     }
 }
 
 dependencies {
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    compileOnly 'com.pixelmonmod.pixelmon:Pixelmon-1.12.2-8.2.0-server:1.0'
+    implementation 'pixelmon:Pixelmon-1.16.5-9.0.8a-server:9.0.8'
 
-    compileOnly group: 'com.github.Pixelmon-Development.API', name: 'commons', version: '0.2.8'
-    compileOnly group: 'com.github.Pixelmon-Development.API', name: 'reforged', version: '0.2.8'
+    compileOnly group: 'com.github.EnvyWare.API', name: 'commons', version: '3.3.4'
+    compileOnly group: 'com.github.EnvyWare.API', name: 'reforged', version: '3.3.4'
 }
 
 shadowJar {

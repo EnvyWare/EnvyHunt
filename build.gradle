@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.2"
+        classpath "com.github.jengelman.gradle.plugins:shadow:6.1.0"
     }
 }
 
@@ -13,7 +13,7 @@ subprojects {
     apply plugin: 'java'
 
     group = 'com.envyful.pixel.hunt.remastered'
-    version = '3.2.0'
+    version = '3.2.1'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8

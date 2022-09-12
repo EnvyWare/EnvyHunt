@@ -29,7 +29,7 @@ import java.io.IOException;
 )
 public class PixelHuntForge {
 
-    public static final String MOD_VERSION = "3.2.0";
+    public static final String MOD_VERSION = "3.2.1";
 
     private static PixelHuntForge instance;
 
