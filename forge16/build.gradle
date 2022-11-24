@@ -48,15 +48,15 @@ repositories {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
-    implementation 'pixelmon:Pixelmon-1.16.5-9.0.8a-server:9.0.8'
+    implementation 'pixelmon:Pixelmon-1.16.5-9.1.0-server:9.1.0'
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow (group: 'com.github.EnvyWare.API', name: 'commons', version: '3.5.5')
-    shadow (group: 'com.github.EnvyWare.API', name: 'forge16', version: '3.5.5') {
+    shadow (group: 'com.github.EnvyWare.API', name: 'commons', version: '3.8.5')
+    shadow (group: 'com.github.EnvyWare.API', name: 'forge16', version: '3.8.5') {
         transitive = false
     }
-    shadow (group: 'com.github.EnvyWare.API', name: 'reforged16', version: '3.5.5') {
+    shadow (group: 'com.github.EnvyWare.API', name: 'reforged16', version: '3.8.5') {
         transitive = false
     }
 
