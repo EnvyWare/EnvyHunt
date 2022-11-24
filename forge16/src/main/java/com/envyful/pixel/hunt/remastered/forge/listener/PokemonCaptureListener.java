@@ -27,7 +27,7 @@ public class PokemonCaptureListener {
         event.getPokemon().getPokemon().removeNickname();
         UtilConcurrency.runAsync(() -> {
             Pokemon caught = event.getPokemon().getPokemon();
-            ServerPlayerEntity player = event.player;
+            ServerPlayerEntity player = event.getPlayer();
             ForgeEnvyPlayer envyPlayer = this.mod.getPlayerManager().getPlayer(player);
 
             for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
@@ -49,7 +49,7 @@ public class PokemonCaptureListener {
 
         UtilConcurrency.runAsync(() -> {
             Pokemon caught = event.getRaidPokemon();
-            ServerPlayerEntity player = event.player;
+            ServerPlayerEntity player = event.getPlayer();
             ForgeEnvyPlayer envyPlayer = this.mod.getPlayerManager().getPlayer(player);
 
             for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
