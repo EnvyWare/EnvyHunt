@@ -27,7 +27,6 @@ public class ReloadCommand {
     public void executeCommand(@Sender ICommandSource sender) {
         sender.sendMessage(STARTED_RELOAD, Util.NIL_UUID);
         PixelHuntForge.getInstance().loadConfig();
-        PixelHuntFactory.reloadHunts();
         sender.sendMessage(RELOADED, Util.NIL_UUID);
     }
 }

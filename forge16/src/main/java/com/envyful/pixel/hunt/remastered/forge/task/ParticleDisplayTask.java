@@ -5,8 +5,10 @@ import com.envyful.api.forge.listener.LazyListener;
 import com.envyful.pixel.hunt.remastered.api.PixelHunt;
 import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
+import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.google.common.collect.Lists;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -33,10 +35,6 @@ public class ParticleDisplayTask extends LazyListener {
 
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
-        if (!PixelHuntForge.getInstance().getConfig().isEnableParticles()) {
-            return;
-        }
-
         ++this.currentTick;
 
         if (this.currentTick % 10 != 0) {
@@ -53,17 +51,25 @@ public class ParticleDisplayTask extends LazyListener {
                     continue;
                 }
 
-                for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
-                    if (hunt.isSpeciesHunted(pixelmon.getPokemon())) {
-                        hunt.spawnParticle(pixelmon);
+                for (PixelHuntConfig.HuntConfig hunt : PixelHuntForge.getConfig().getHunts()) {
+                    if (hunt.shouldPlayParticles() && hunt.matchesHunt(pixelmon)) {
+                        ((ServerWorld) pixelmon.level).sendParticles(hunt.getParticles(),
+                                pixelmon.getX(),
+                                pixelmon.getY(),
+                                pixelmon.getZ(),
+                                1,
+                                pixelmon.level.random.nextDouble() - 0.5,
+                                pixelmon.level.random.nextDouble() - 0.5,
+                                pixelmon.level.random.nextDouble() - 0.5,
+                                1
+                        );
                     }
                 }
             }
 
-            for (PixelHunt allHunt : PixelHuntFactory.getAllHunts()) {
-                if (allHunt.hasTimedOut()) {
-                    allHunt.end();
-                    allHunt.generatePokemon();
+            for (PixelHuntConfig.HuntConfig hunt : PixelHuntForge.getConfig().getHunts()) {
+                if (hunt.hasTimedOut()) {
+                    hunt.end();
                 }
             }
         });

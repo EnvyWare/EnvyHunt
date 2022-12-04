@@ -1,42 +1,64 @@
 package com.envyful.pixel.hunt.remastered.forge.ui;
 
-import com.envyful.api.config.type.ConfigInterface;
-import com.envyful.api.config.type.ConfigItem;
 import com.envyful.api.forge.chat.UtilChatColour;
+import com.envyful.api.forge.config.UtilConfigInterface;
 import com.envyful.api.forge.config.UtilConfigItem;
+import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.gui.pane.Pane;
-import com.envyful.api.player.EnvyPlayer;
-import com.envyful.pixel.hunt.remastered.api.PixelHunt;
-import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
+import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntGraphics;
 
 public class HuntUI {
 
-    public static void open(EnvyPlayer<ServerPlayerEntity> player) {
-        ConfigInterface guiConfig = PixelHuntForge.getInstance().getConfig().getConfigInterface();
+    public static void open(ForgeEnvyPlayer player, int page) {
+        PixelHuntGraphics.HuntUI guiConfig = PixelHuntForge.getGraphics().getHuntUI();
+
         Pane pane = GuiFactory.paneBuilder()
                 .topLeftY(0)
                 .topLeftX(0)
-                .height(guiConfig.getHeight())
+                .height(guiConfig.getGuiSettings().getHeight())
                 .width(9)
                 .build();
 
-        for (ConfigItem fillerItem : guiConfig.getFillerItems()) {
-            pane.add(GuiFactory.displayable(UtilConfigItem.fromConfigItem(fillerItem)));
+        UtilConfigInterface.fillBackground(pane, guiConfig.getGuiSettings());
+
+        for (PixelHuntConfig.HuntConfig hunt : PixelHuntForge.getConfig().getHunts()) {
+            if (page != hunt.getPage()) {
+                continue;
+            }
+
+            UtilConfigItem.builder()
+                    .singleClick()
+                    .asyncClick()
+                    .clickHandler((envyPlayer, clickType) -> {
+                        if (hunt.isAllowRewardUI()) {
+                            RewardUI.open(player, hunt, 1);
+                        }
+                    })
+                    .extendedConfigItem(player, pane, hunt.getDisplayItem());
         }
 
-        for (PixelHunt hunt : PixelHuntFactory.getAllHunts()) {
-            hunt.display(pane);
+        if (page != guiConfig.getPages()) {
+            UtilConfigItem.builder()
+                    .asyncClick()
+                    .clickHandler((envyPlayer, clickType) -> open(player, page + 1))
+                    .extendedConfigItem(player, pane, guiConfig.getNextPage());
+        }
+
+        if (page != 1) {
+            UtilConfigItem.builder()
+                    .asyncClick()
+                    .clickHandler((envyPlayer, clickType) -> open(player, page - 1))
+                    .extendedConfigItem(player, pane, guiConfig.getPreviousPage());
         }
 
         GuiFactory.guiBuilder()
-                .height(guiConfig.getHeight())
-                .title(UtilChatColour.translateColourCodes('&', guiConfig.getTitle()))
+                .height(guiConfig.getGuiSettings().getHeight())
+                .title(UtilChatColour.colour(guiConfig.getGuiSettings().getTitle()))
                 .addPane(pane)
-                .setCloseConsumer(envyPlayer -> {})
-                .setPlayerManager(PixelHuntForge.getInstance().getPlayerManager())
+                .setPlayerManager(PixelHuntForge.getPlayerManager())
                 .build().open(player);
     }
 }

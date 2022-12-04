@@ -6,10 +6,9 @@ import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.api.gui.factory.GuiFactory;
-import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
 import com.envyful.pixel.hunt.remastered.forge.commands.PixelHuntCommand;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
-import com.envyful.pixel.hunt.remastered.forge.hunt.PixelHuntForgeFactory;
+import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntGraphics;
 import com.envyful.pixel.hunt.remastered.forge.listener.PokemonCaptureListener;
 import com.envyful.pixel.hunt.remastered.forge.listener.PokemonSpawnListener;
 import com.envyful.pixel.hunt.remastered.forge.task.ParticleDisplayTask;
@@ -30,9 +29,10 @@ public class PixelHuntForge {
 
     private final ForgeCommandFactory commandFactory = new ForgeCommandFactory();
     private final ForgePlayerManager playerManager = new ForgePlayerManager();
+    private final Logger logger = LogManager.getLogger("envyhunt");
 
     private PixelHuntConfig config;
-    private Logger logger = LogManager.getLogger("envyhunt");
+    private PixelHuntGraphics graphics;
 
     public PixelHuntForge() {
         UtilLogger.setLogger(this.logger);
@@ -47,16 +47,16 @@ public class PixelHuntForge {
         this.loadConfig();
 
         GuiFactory.setPlatformFactory(new ForgeGuiFactory());
-        PixelHuntFactory.setPlatformFactory(new PixelHuntForgeFactory(this));
 
         new ParticleDisplayTask();
-        new PokemonSpawnListener(this);
-        new PokemonCaptureListener(this);
+        new PokemonSpawnListener();
+        new PokemonCaptureListener();
     }
 
     public void loadConfig() {
         try {
             this.config = YamlConfigFactory.getInstance(PixelHuntConfig.class);
+            this.graphics = YamlConfigFactory.getInstance(PixelHuntGraphics.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,15 +67,24 @@ public class PixelHuntForge {
         this.commandFactory.registerCommand(event.getDispatcher(), new PixelHuntCommand());
     }
 
-    public static final PixelHuntForge getInstance() {
+    public static PixelHuntForge getInstance() {
         return instance;
     }
 
-    public PixelHuntConfig getConfig() {
-        return this.config;
+    public static PixelHuntConfig getConfig() {
+        return instance.config;
     }
 
-    public ForgePlayerManager getPlayerManager() {
-        return this.playerManager;
+    public static PixelHuntGraphics getGraphics() {
+        return instance.graphics;
     }
+
+    public static ForgePlayerManager getPlayerManager() {
+        return instance.playerManager;
+    }
+
+    public static Logger getLogger() {
+        return instance.logger;
+    }
+
 }
