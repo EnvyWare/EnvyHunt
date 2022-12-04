@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-@Mod("pixelhuntremastered")
+@Mod("envyhunt")
 public class PixelHuntForge {
 
     private static PixelHuntForge instance;
@@ -32,7 +32,7 @@ public class PixelHuntForge {
     private final ForgePlayerManager playerManager = new ForgePlayerManager();
 
     private PixelHuntConfig config;
-    private Logger logger = LogManager.getLogger("pixelhuntremastered");
+    private Logger logger = LogManager.getLogger("envyhunt");
 
     public PixelHuntForge() {
         UtilLogger.setLogger(this.logger);

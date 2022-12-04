@@ -12,7 +12,7 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import java.util.List;
 import java.util.Map;
 
-@ConfigPath("config/PixelHuntRemastered/config.yml")
+@ConfigPath("config/EnvyHunt/config.yml")
 @ConfigSerializable
 public class PixelHuntConfig extends AbstractYamlConfig {
 

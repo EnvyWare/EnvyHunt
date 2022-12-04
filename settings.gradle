@@ -1,4 +1,4 @@
-rootProject.name = 'PixelHuntRemastered'
+rootProject.name = 'EnvyHunt'
 include 'api'
 //include 'forge'
 include 'forge16'

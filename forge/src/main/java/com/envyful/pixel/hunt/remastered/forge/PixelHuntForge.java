@@ -20,8 +20,8 @@ import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import java.io.IOException;
 
 @Mod(
-        modid = "pixelhuntremastered",
-        name = "PixelHuntRemastered Forge",
+        modid = "envyhunt",
+        name = "EnvyHunt",
         version = PixelHuntForge.MOD_VERSION,
         acceptableRemoteVersions = "*",
         dependencies = "required-after:pixelmon;",

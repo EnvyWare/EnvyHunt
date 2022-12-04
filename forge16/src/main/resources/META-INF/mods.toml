@@ -1,12 +1,12 @@
 modLoader="javafml"
 loaderVersion="[36,)"
 license="MIT"
-issueTrackerURL="https://github.com/EnvyWare/PixelHuntRemastered/issues"
+issueTrackerURL="https://github.com/EnvyWare/EnvyHunt/issues"
 
 [[mods]]
-modId="pixelhuntremastered"
+modId="envyhunt"
 version="3.2.4"
-displayName="PixelHuntRemastered Forge"
+displayName="EnvyHunt Forge"
 displayURL="https://github.com/EnvyWare"
 credits="https://github.com/EnvyWare"
 authors="https://github.com/EnvyWare"
@@ -15,14 +15,14 @@ description='''
 Adds PixelHunt
 '''
 
-[[dependencies.pixelhuntremastered]]
+[[dependencies.envyhunt]]
 modId="forge"
 mandatory=true
 versionRange="[36,)"
 ordering="NONE"
 side="BOTH"
 
-[[dependencies.pixelhuntremastered]]
+[[dependencies.envyhunt]]
 modId="minecraft"
 mandatory=true
 versionRange="[1.16.5,1.17)"
