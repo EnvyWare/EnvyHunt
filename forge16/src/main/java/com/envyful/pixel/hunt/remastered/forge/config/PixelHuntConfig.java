@@ -71,7 +71,8 @@ public class PixelHuntConfig extends AbstractYamlConfig {
         private List<String> startCommands = Lists.newArrayList();
         private List<String> timeoutCommands = Lists.newArrayList();
 
-        private List<PokemonSpecification> requirementSpecs = Lists.newArrayList(PokemonSpecificationProxy.create("shiny"));
+        private List<String> requirementSpecs;
+        private List<PokemonSpecification> requirementSpecCache = null;
 
         private ConfigRandomWeightedSet<Reward> rewardCommands = new ConfigRandomWeightedSet<>(
                 new ConfigRandomWeightedSet.WeightedObject<>(10, new Reward(
@@ -147,7 +148,7 @@ public class PixelHuntConfig extends AbstractYamlConfig {
         }
 
         public boolean matchesHunt(PixelmonEntity pixelmon) {
-            for (PokemonSpecification requirementSpec : this.requirementSpecs) {
+            for (PokemonSpecification requirementSpec : this.getRequirementSpecs()) {
                 if (requirementSpec != null && !requirementSpec.matches(pixelmon)) {
                     return false;
                 }
@@ -157,7 +158,7 @@ public class PixelHuntConfig extends AbstractYamlConfig {
         }
 
         public boolean matchesHunt(Pokemon pokemon) {
-            for (PokemonSpecification requirementSpec : this.requirementSpecs) {
+            for (PokemonSpecification requirementSpec : this.getRequirementSpecs()) {
                 if (requirementSpec != null && !requirementSpec.matches(pokemon)) {
                     return false;
                 }
@@ -166,7 +167,24 @@ public class PixelHuntConfig extends AbstractYamlConfig {
             return true;
         }
 
+        public List<PokemonSpecification> getRequirementSpecs() {
+            if (this.requirementSpecCache == null) {
+                this.requirementSpecCache = Lists.newArrayList();
+
+                for (String requirementSpec : this.requirementSpecs) {
+                    this.requirementSpecCache.add(PokemonSpecificationProxy.create(requirementSpec));
+                }
+            }
+
+            return this.requirementSpecCache;
+        }
+
+        public void reset() {
+            this.requirementSpecCache = null;
+        }
+
         public void rewardHunt(ServerPlayerEntity player, Pokemon pokemon) {
+            this.reset();
             Reward random = this.rewardCommands.getRandom();
 
             if (random != null) {
@@ -209,13 +227,7 @@ public class PixelHuntConfig extends AbstractYamlConfig {
         }
 
         public void end() {
-            List<PokemonSpecification> specs = Lists.newArrayList();
-
-            for (PokemonSpecification requirementSpecs : this.requirementSpecs) {
-                specs.add(PokemonSpecificationProxy.create(requirementSpecs.toString()));
-            }
-
-            this.requirementSpecs = specs;
+            this.reset();
 
             for (String s : this.timeoutCommands) {
                 UtilForgeServer.executeCommand(s);
@@ -224,6 +236,14 @@ public class PixelHuntConfig extends AbstractYamlConfig {
             for (String spawnCommand : this.startCommands) {
                 UtilForgeServer.executeCommand(spawnCommand);
             }
+        }
+
+        public long getCurrentStart() {
+            return this.currentStart;
+        }
+
+        public long getMaxDurationMinutes() {
+            return this.maxDurationMinutes;
         }
     }
 
