@@ -13,6 +13,7 @@ import com.envyful.pixel.hunt.remastered.forge.listener.PokemonCaptureListener;
 import com.envyful.pixel.hunt.remastered.forge.listener.PokemonSpawnListener;
 import com.envyful.pixel.hunt.remastered.forge.spec.RandomAbilityRequirement;
 import com.envyful.pixel.hunt.remastered.forge.spec.RandomGenderRequirement;
+import com.envyful.pixel.hunt.remastered.forge.spec.RandomIVPercentageRequirement;
 import com.envyful.pixel.hunt.remastered.forge.spec.RandomNaturesRequirement;
 import com.envyful.pixel.hunt.remastered.forge.task.ParticleDisplayTask;
 import com.pixelmonmod.api.pokemon.PokemonSpecificationProxy;
@@ -46,6 +47,7 @@ public class PixelHuntForge {
         PokemonSpecificationProxy.register(new RandomAbilityRequirement());
         PokemonSpecificationProxy.register(new RandomNaturesRequirement());
         PokemonSpecificationProxy.register(new RandomGenderRequirement());
+        PokemonSpecificationProxy.register(new RandomIVPercentageRequirement());
     }
 
     @SubscribeEvent
