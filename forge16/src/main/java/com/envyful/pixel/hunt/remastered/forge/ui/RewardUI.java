@@ -3,7 +3,6 @@ package com.envyful.pixel.hunt.remastered.forge.ui;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.config.UtilConfigInterface;
 import com.envyful.api.forge.config.UtilConfigItem;
-import com.envyful.api.forge.gui.close.ForgeCloseConsumer;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.gui.pane.Pane;
@@ -11,6 +10,10 @@ import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 
 public class RewardUI {
+
+    private RewardUI() {
+        throw new UnsupportedOperationException("Static UI class");
+    }
 
     public static void open(ForgeEnvyPlayer player, PixelHuntConfig.HuntConfig hunt, int page) {
         PixelHuntConfig.HuntRewardUI rewardUI = hunt.getRewardUI();

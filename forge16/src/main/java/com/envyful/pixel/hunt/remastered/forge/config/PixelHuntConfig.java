@@ -71,8 +71,15 @@ public class PixelHuntConfig extends AbstractYamlConfig {
         private List<String> startCommands = Lists.newArrayList();
         private List<String> timeoutCommands = Lists.newArrayList();
 
-        private List<String> requirementSpecs;
-        private List<PokemonSpecification> requirementSpecCache = null;
+        private List<String> requirementSpecs = Lists.newArrayList(
+                "random",
+                "randomivpercent:10-20",
+                "randomability:stickyhold,cursedbody,shadowshield",
+                "randomgender",
+                "randomgrowths:Ordinary,Huge,Giant:2",
+                "randomnatures:hardy,serious,quirky,bashful:3"
+        );
+        private transient List<PokemonSpecification> requirementSpecCache = null;
 
         private ConfigRandomWeightedSet<Reward> rewardCommands = new ConfigRandomWeightedSet<>(
                 new ConfigRandomWeightedSet.WeightedObject<>(10, new Reward(
@@ -93,7 +100,15 @@ public class PixelHuntConfig extends AbstractYamlConfig {
                 .positions(Pair.of(1, 1))
                 .lore(
                         "Requirements: ",
-                        " > Shiny"
+                        " > %species% ",
+                        " > %ivs%",
+                        " > %ability%",
+                        " > %gender%",
+                        " > %growth_1%",
+                        " > %growth_2%",
+                        " > %nature_1%",
+                        " > %nature_2%",
+                        " > %nature_3%"
                 )
                 .build();
 

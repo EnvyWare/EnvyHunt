@@ -36,7 +36,7 @@ public class RandomNaturesRequirement extends AbstractPokemonRequirement<List<Na
             return Collections.emptyList();
         }
 
-        String[] args = spec.split(key + ":");
+        String[] args = spec.split(":");
 
         if (args.length != 3) {
             return Collections.emptyList();

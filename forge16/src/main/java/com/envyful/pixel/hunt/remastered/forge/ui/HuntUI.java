@@ -13,6 +13,10 @@ import com.envyful.pixel.hunt.remastered.forge.ui.transformer.HuntTransformer;
 
 public class HuntUI {
 
+    private HuntUI() {
+        throw new UnsupportedOperationException("Static UI class");
+    }
+
     public static void open(ForgeEnvyPlayer player, int page) {
         PixelHuntGraphics.HuntUI guiConfig = PixelHuntForge.getGraphics().getHuntUI();
 

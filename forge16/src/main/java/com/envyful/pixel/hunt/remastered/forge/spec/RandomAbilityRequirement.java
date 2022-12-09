@@ -1,6 +1,7 @@
 package com.envyful.pixel.hunt.remastered.forge.spec;
 
 import com.envyful.api.math.UtilRandom;
+import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
 import com.google.common.collect.Sets;
 import com.pixelmonmod.api.pokemon.requirement.AbstractPokemonRequirement;
 import com.pixelmonmod.api.requirement.Requirement;
@@ -9,10 +10,7 @@ import com.pixelmonmod.pixelmon.api.pokemon.ability.Ability;
 import com.pixelmonmod.pixelmon.api.pokemon.ability.AbilityRegistry;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class RandomAbilityRequirement extends AbstractPokemonRequirement<Ability> {
 
@@ -36,7 +34,8 @@ public class RandomAbilityRequirement extends AbstractPokemonRequirement<Ability
             return Collections.emptyList();
         }
 
-        String[] args = spec.split(key + ":");
+        String[] args = spec.split(":");
+        System.out.println("ARGS: " + args.length);
 
         if (args.length != 2) {
             return Collections.emptyList();
@@ -49,7 +48,12 @@ public class RandomAbilityRequirement extends AbstractPokemonRequirement<Ability
             return Collections.emptyList();
         }
 
-        Ability randomAbility = AbilityRegistry.getAbility(abilityName).orElse(null);
+        Ability randomAbility = AbilityRegistry.getAbility(abilityName.toLowerCase(Locale.ROOT)).orElse(null);
+
+        if (randomAbility == null) {
+            PixelHuntForge.getLogger().error("Unable to find ability: " + abilityName);
+        }
+
         return randomAbility == null ? Collections.emptyList() : Collections.singletonList(this.createInstance(randomAbility));
     }
 

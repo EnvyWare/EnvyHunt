@@ -71,7 +71,7 @@ public class HuntTransformer implements Transformer {
 
         name = name.replace("%time%", UtilTimeFormat.getFormattedDuration((this.hunt.getCurrentStart() + TimeUnit.MINUTES.toMillis(this.hunt.getMaxDurationMinutes())) - System.currentTimeMillis()));
 
-        return null;
+        return name;
     }
 
     private <T> T getValue(List<PokemonSpecification> specs,

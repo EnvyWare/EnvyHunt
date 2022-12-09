@@ -31,7 +31,7 @@ public class RandomGenderRequirement extends AbstractPokemonRequirement<Gender> 
 
     @Override
     public List<Requirement<Pokemon, PixelmonEntity, ?>> createSimple(String key, String spec) {
-        if (!spec.startsWith(key + ":")) {
+        if (!spec.startsWith(key)) {
             return Collections.emptyList();
         }
 

@@ -46,13 +46,13 @@ public class PixelHuntForge {
         PokemonSpecificationProxy.register(new RandomGenderRequirement());
         PokemonSpecificationProxy.register(new RandomIVPercentageRequirement());
         PokemonSpecificationProxy.register(new RandomGrowthsRequirement());
+
+        this.loadConfig();
     }
 
     @SubscribeEvent
     public void onPreInit(FMLServerAboutToStartEvent event) {
         instance = this;
-
-        this.loadConfig();
 
         GuiFactory.setPlatformFactory(new ForgeGuiFactory());
 
