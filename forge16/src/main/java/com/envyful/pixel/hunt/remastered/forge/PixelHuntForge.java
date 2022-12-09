@@ -11,7 +11,9 @@ import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntGraphics;
 import com.envyful.pixel.hunt.remastered.forge.listener.PokemonCaptureListener;
 import com.envyful.pixel.hunt.remastered.forge.listener.PokemonSpawnListener;
+import com.envyful.pixel.hunt.remastered.forge.spec.RandomAbilityRequirement;
 import com.envyful.pixel.hunt.remastered.forge.task.ParticleDisplayTask;
+import com.pixelmonmod.api.pokemon.PokemonSpecificationProxy;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,6 +40,8 @@ public class PixelHuntForge {
         UtilLogger.setLogger(this.logger);
         MinecraftForge.EVENT_BUS.register(this);
         instance = this;
+
+        PokemonSpecificationProxy.register(new RandomAbilityRequirement());
     }
 
     @SubscribeEvent
