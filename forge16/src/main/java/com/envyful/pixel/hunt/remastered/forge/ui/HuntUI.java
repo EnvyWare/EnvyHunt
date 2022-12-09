@@ -9,6 +9,7 @@ import com.envyful.api.gui.pane.Pane;
 import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntGraphics;
+import com.envyful.pixel.hunt.remastered.forge.ui.transformer.HuntTransformer;
 
 public class HuntUI {
 
@@ -37,7 +38,7 @@ public class HuntUI {
                             RewardUI.open(player, hunt, 1);
                         }
                     })
-                    .extendedConfigItem(player, pane, hunt.getDisplayItem());
+                    .extendedConfigItem(player, pane, hunt.getDisplayItem(), new HuntTransformer(hunt));
         }
 
         if (page != guiConfig.getPages()) {
