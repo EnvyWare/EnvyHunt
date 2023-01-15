@@ -32,7 +32,8 @@ public class HuntTransformer implements Transformer {
         RegistryValue<Species> species = this.getValue(this.hunt.getRequirementSpecs(), SpeciesRequirement.class);
 
         if (species != null && species.isInitialized() && species.getValue().isPresent()) {
-            name = name.replace("%species%", species.getValueUnsafe().getName());
+            name = name.replace("%species%", species.getValueUnsafe().getName())
+                    .replace("%dex_number%", String.valueOf(species.getValueUnsafe().getDex()));
         }
 
         Ability ability = this.getValue(this.hunt.getRequirementSpecs(), RandomAbilityRequirement.class);
