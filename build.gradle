@@ -13,7 +13,7 @@ subprojects {
     apply plugin: 'java'
 
     group = 'com.envyful.pixel.hunt.remastered'
-    version = '4.0.1'
+    version = '4.0.2'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
