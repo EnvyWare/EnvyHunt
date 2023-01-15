@@ -56,6 +56,8 @@ public class PixelHuntForge {
 
         GuiFactory.setPlatformFactory(new ForgeGuiFactory());
 
+        PokemonSpecificationProxy.register(new MaxIVRequirement());
+
         new ParticleDisplayTask();
         new PokemonSpawnListener();
         new PokemonCaptureListener();
