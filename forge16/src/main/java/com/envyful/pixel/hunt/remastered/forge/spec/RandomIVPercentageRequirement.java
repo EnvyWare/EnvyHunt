@@ -60,6 +60,7 @@ public class RandomIVPercentageRequirement extends AbstractIntegerPokemonRequire
 
     @Override
     public void applyData(Pokemon pixelmon) {
-        // No application
+        int iv = (int) ((this.value / 100.00) * 31);
+        pixelmon.getIVs().fillFromArray(iv, iv, iv, iv, iv, iv);
     }
 }
