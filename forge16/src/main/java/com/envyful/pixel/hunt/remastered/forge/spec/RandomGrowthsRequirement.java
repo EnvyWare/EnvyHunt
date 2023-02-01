@@ -10,9 +10,11 @@ import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class RandomGrowthsRequirement extends AbstractPokemonRequirement<List<EnumGrowth>> {
 
@@ -49,19 +51,17 @@ public class RandomGrowthsRequirement extends AbstractPokemonRequirement<List<En
             return Collections.emptyList();
         }
 
-        List<EnumGrowth> randomGrowths = Lists.newArrayList();
+        List<String> randomGrowths = Lists.newArrayList();
 
         if (amount == growths.length) {
-            for (String nature : growths) {
-                randomGrowths.add(EnumGrowth.getGrowthFromString(nature));
-            }
+            randomGrowths.addAll(Arrays.asList(growths));
         } else {
             while (randomGrowths.size() < amount) {
-                randomGrowths.add(EnumGrowth.getGrowthFromString(UtilRandom.getRandomElement(growths)));
+                randomGrowths.add(UtilRandom.getRandomElementExcluding(growths, randomGrowths.toArray(new String[0])));
             }
         }
 
-        return Collections.singletonList(this.createInstance(randomGrowths));
+        return Collections.singletonList(this.createInstance(randomGrowths.stream().map(EnumGrowth::getGrowthFromString).collect(Collectors.toList())));
     }
 
     @Override

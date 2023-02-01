@@ -10,9 +10,11 @@ import com.pixelmonmod.pixelmon.api.pokemon.Nature;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class RandomNaturesRequirement extends AbstractPokemonRequirement<List<Nature>> {
 
@@ -49,19 +51,17 @@ public class RandomNaturesRequirement extends AbstractPokemonRequirement<List<Na
             return Collections.emptyList();
         }
 
-        List<Nature> randomNatures = Lists.newArrayList();
+        List<String> randomNatures = Lists.newArrayList();
 
         if (amount == natures.length) {
-            for (String nature : natures) {
-                randomNatures.add(Nature.natureFromString(nature));
-            }
+            randomNatures.addAll(Arrays.asList(natures));
         } else {
             while (randomNatures.size() < amount) {
-                randomNatures.add(Nature.natureFromString(UtilRandom.getRandomElement(natures)));
+                randomNatures.add(UtilRandom.getRandomElementExcluding(natures, randomNatures.toArray(new String[0])));
             }
         }
 
-        return Collections.singletonList(this.createInstance(randomNatures));
+        return Collections.singletonList(this.createInstance(randomNatures.stream().map(Nature::natureFromString).collect(Collectors.toList())));
     }
 
     @Override
