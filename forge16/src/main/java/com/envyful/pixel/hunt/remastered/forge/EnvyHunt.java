@@ -46,6 +46,7 @@ public class EnvyHunt {
         PokemonSpecificationProxy.register(new RandomGenderRequirement());
         PokemonSpecificationProxy.register(new RandomIVPercentageRequirement());
         PokemonSpecificationProxy.register(new RandomGrowthsRequirement());
+        PokemonSpecificationProxy.register(new RandomSpeciesIngoringBlockedRequirement());
 
         this.loadConfig();
     }

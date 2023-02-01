@@ -39,6 +39,12 @@ public class PixelHuntConfig extends AbstractYamlConfig {
             "one", new HuntConfig()
     );
 
+    private List<String> blockedSpecies = Lists.newArrayList(
+            "articuno",
+            "zygarde",
+            "nidorina"
+    );
+
     private boolean catchesCountForMultipleHunts = false;
 
     public PixelHuntConfig() {
@@ -51,6 +57,10 @@ public class PixelHuntConfig extends AbstractYamlConfig {
 
     public boolean isCatchesCountForMultipleHunts() {
         return this.catchesCountForMultipleHunts;
+    }
+
+    public List<String> getBlockedSpecies() {
+        return this.blockedSpecies;
     }
 
     @ConfigSerializable
