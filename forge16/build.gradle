@@ -29,10 +29,8 @@ repositories {
         url = 'https://repo.spongepowered.org/maven'
     }
 
-    maven { url 'https://jitpack.io' }
-
-    flatDir {
-        dirs '../Libraries/'
+    maven {
+        url "https://maven.envyware.co.uk/releases"
     }
 
     ivy {
@@ -48,15 +46,15 @@ repositories {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
-    implementation 'pixelmon:Pixelmon-1.16.5-9.1.0-server:9.1.0'
+    implementation 'pixelmon:Pixelmon-1.16.5-9.1.2-server:9.1.2'
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow (group: 'com.github.EnvyWare.API', name: 'commons', version: '3.9.3')
-    shadow (group: 'com.github.EnvyWare.API', name: 'forge16', version: '3.9.3') {
+    shadow (group: 'com.envyful.api', name: 'commons', version: '4.2.0')
+    shadow (group: 'com.envyful.api', name: 'forge16', version: '4.2.0') {
         transitive = false
     }
-    shadow (group: 'com.github.EnvyWare.API', name: 'reforged16', version: '3.9.3') {
+    shadow (group: 'com.envyful.api', name: 'reforged16', version: '4.2.0') {
         transitive = false
     }
 
