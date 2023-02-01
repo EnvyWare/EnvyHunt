@@ -6,7 +6,7 @@ import com.envyful.api.forge.config.UtilConfigItem;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.gui.pane.Pane;
-import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
+import com.envyful.pixel.hunt.remastered.forge.EnvyHunt;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntGraphics;
 import com.envyful.pixel.hunt.remastered.forge.ui.transformer.HuntTransformer;
@@ -18,7 +18,7 @@ public class HuntUI {
     }
 
     public static void open(ForgeEnvyPlayer player, int page) {
-        PixelHuntGraphics.HuntUI guiConfig = PixelHuntForge.getGraphics().getHuntUI();
+        PixelHuntGraphics.HuntUI guiConfig = EnvyHunt.getGraphics().getHuntUI();
 
         Pane pane = GuiFactory.paneBuilder()
                 .topLeftY(0)
@@ -29,7 +29,7 @@ public class HuntUI {
 
         UtilConfigInterface.fillBackground(pane, guiConfig.getGuiSettings());
 
-        for (PixelHuntConfig.HuntConfig hunt : PixelHuntForge.getConfig().getHunts()) {
+        for (PixelHuntConfig.HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
             if (page != hunt.getPage()) {
                 continue;
             }
@@ -63,7 +63,7 @@ public class HuntUI {
                 .height(guiConfig.getGuiSettings().getHeight())
                 .title(UtilChatColour.colour(guiConfig.getGuiSettings().getTitle()))
                 .addPane(pane)
-                .setPlayerManager(PixelHuntForge.getPlayerManager())
+                .setPlayerManager(EnvyHunt.getPlayerManager())
                 .build().open(player);
     }
 }

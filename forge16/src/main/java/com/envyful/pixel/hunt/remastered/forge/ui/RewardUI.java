@@ -6,7 +6,7 @@ import com.envyful.api.forge.config.UtilConfigItem;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.gui.pane.Pane;
-import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
+import com.envyful.pixel.hunt.remastered.forge.EnvyHunt;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 
 public class RewardUI {
@@ -59,7 +59,7 @@ public class RewardUI {
                         .delayTicks(1)
                         .handler(envyPlayer -> HuntUI.open(player, 1))
                         .build())
-                .setPlayerManager(PixelHuntForge.getPlayerManager())
+                .setPlayerManager(EnvyHunt.getPlayerManager())
                 .build().open(player);
     }
 }

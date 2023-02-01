@@ -25,9 +25,9 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 
 @Mod("envyhunt")
-public class PixelHuntForge {
+public class EnvyHunt {
 
-    private static PixelHuntForge instance;
+    private static EnvyHunt instance;
 
     private final ForgeCommandFactory commandFactory = new ForgeCommandFactory();
     private final ForgePlayerManager playerManager = new ForgePlayerManager();
@@ -36,7 +36,7 @@ public class PixelHuntForge {
     private PixelHuntConfig config;
     private PixelHuntGraphics graphics;
 
-    public PixelHuntForge() {
+    public EnvyHunt() {
         UtilLogger.setLogger(this.logger);
         MinecraftForge.EVENT_BUS.register(this);
         instance = this;
@@ -77,7 +77,7 @@ public class PixelHuntForge {
         this.commandFactory.registerCommand(event.getDispatcher(), new PixelHuntCommand());
     }
 
-    public static PixelHuntForge getInstance() {
+    public static EnvyHunt getInstance() {
         return instance;
     }
 

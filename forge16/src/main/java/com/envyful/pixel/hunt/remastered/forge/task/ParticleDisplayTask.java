@@ -2,9 +2,7 @@ package com.envyful.pixel.hunt.remastered.forge.task;
 
 import com.envyful.api.concurrency.UtilConcurrency;
 import com.envyful.api.forge.listener.LazyListener;
-import com.envyful.pixel.hunt.remastered.api.PixelHunt;
-import com.envyful.pixel.hunt.remastered.api.PixelHuntFactory;
-import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
+import com.envyful.pixel.hunt.remastered.forge.EnvyHunt;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.google.common.collect.Lists;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
@@ -51,7 +49,7 @@ public class ParticleDisplayTask extends LazyListener {
                     continue;
                 }
 
-                for (PixelHuntConfig.HuntConfig hunt : PixelHuntForge.getConfig().getHunts()) {
+                for (PixelHuntConfig.HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
                     if (hunt.shouldPlayParticles() && hunt.matchesHunt(pixelmon)) {
                         ((ServerWorld) pixelmon.level).sendParticles(hunt.getParticles(),
                                 pixelmon.getX(),
@@ -67,7 +65,7 @@ public class ParticleDisplayTask extends LazyListener {
                 }
             }
 
-            for (PixelHuntConfig.HuntConfig hunt : PixelHuntForge.getConfig().getHunts()) {
+            for (PixelHuntConfig.HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
                 if (hunt.hasTimedOut()) {
                     hunt.end();
                 }

@@ -5,7 +5,7 @@ import com.envyful.api.command.annotate.Command;
 import com.envyful.api.command.annotate.Permissible;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
-import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
+import com.envyful.pixel.hunt.remastered.forge.EnvyHunt;
 import net.minecraft.command.ICommandSource;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
@@ -25,7 +25,7 @@ public class ReloadCommand {
     @CommandProcessor
     public void executeCommand(@Sender ICommandSource sender) {
         sender.sendMessage(STARTED_RELOAD, Util.NIL_UUID);
-        PixelHuntForge.getInstance().loadConfig();
+        EnvyHunt.getInstance().loadConfig();
         sender.sendMessage(RELOADED, Util.NIL_UUID);
     }
 }

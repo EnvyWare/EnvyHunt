@@ -1,7 +1,7 @@
 package com.envyful.pixel.hunt.remastered.forge.listener;
 
 import com.envyful.api.concurrency.UtilConcurrency;
-import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
+import com.envyful.pixel.hunt.remastered.forge.EnvyHunt;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.events.CaptureEvent;
@@ -23,11 +23,11 @@ public class PokemonCaptureListener {
         ServerPlayerEntity player = event.getPlayer();
 
         UtilConcurrency.runAsync(() -> {
-            for (PixelHuntConfig.HuntConfig hunt : PixelHuntForge.getConfig().getHunts()) {
+            for (PixelHuntConfig.HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
                 if (hunt.canParticipate(player) && hunt.matchesHunt(caught)) {
                     hunt.rewardHunt(player, caught.getPokemon());
 
-                    if (!PixelHuntForge.getConfig().isCatchesCountForMultipleHunts()) {
+                    if (!EnvyHunt.getConfig().isCatchesCountForMultipleHunts()) {
                         break;
                     }
                 }
@@ -41,11 +41,11 @@ public class PokemonCaptureListener {
         ServerPlayerEntity player = event.getPlayer();
 
         UtilConcurrency.runAsync(() -> {
-            for (PixelHuntConfig.HuntConfig hunt : PixelHuntForge.getConfig().getHunts()) {
+            for (PixelHuntConfig.HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
                 if (hunt.canParticipate(player) && hunt.matchesHunt(caught)) {
                     hunt.rewardHunt(player, caught);
 
-                    if (!PixelHuntForge.getConfig().isCatchesCountForMultipleHunts()) {
+                    if (!EnvyHunt.getConfig().isCatchesCountForMultipleHunts()) {
                         break;
                     }
                 }

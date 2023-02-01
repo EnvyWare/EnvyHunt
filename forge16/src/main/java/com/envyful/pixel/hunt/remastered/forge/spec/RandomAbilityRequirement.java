@@ -1,7 +1,7 @@
 package com.envyful.pixel.hunt.remastered.forge.spec;
 
 import com.envyful.api.math.UtilRandom;
-import com.envyful.pixel.hunt.remastered.forge.PixelHuntForge;
+import com.envyful.pixel.hunt.remastered.forge.EnvyHunt;
 import com.google.common.collect.Sets;
 import com.pixelmonmod.api.pokemon.requirement.AbstractPokemonRequirement;
 import com.pixelmonmod.api.requirement.Requirement;
@@ -51,7 +51,7 @@ public class RandomAbilityRequirement extends AbstractPokemonRequirement<Ability
         Ability randomAbility = AbilityRegistry.getAbility(abilityName.toLowerCase(Locale.ROOT)).orElse(null);
 
         if (randomAbility == null) {
-            PixelHuntForge.getLogger().error("Unable to find ability: " + abilityName);
+            EnvyHunt.getLogger().error("Unable to find ability: " + abilityName);
         }
 
         return randomAbility == null ? Collections.emptyList() : Collections.singletonList(this.createInstance(randomAbility));
