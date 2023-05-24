@@ -45,7 +45,11 @@ public class RandomGenderRequirement extends AbstractPokemonRequirement<Gender> 
 
     @Override
     public boolean isDataMatch(Pokemon pixelmon) {
-        if (pixelmon.getForm().isGenderless()) {
+        if (pixelmon.getForm().isGenderless() && !Objects.equals(this.gender, Gender.NONE)) {
+            return true;
+        }
+
+        if (!pixelmon.getForm().isGenderless() && Objects.equals(this.gender, Gender.NONE)) {
             return true;
         }
 
