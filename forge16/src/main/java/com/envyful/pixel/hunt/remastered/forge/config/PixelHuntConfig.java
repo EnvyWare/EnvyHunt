@@ -1,7 +1,6 @@
 package com.envyful.pixel.hunt.remastered.forge.config;
 
 import com.envyful.api.config.data.ConfigPath;
-import com.envyful.api.config.data.Serializers;
 import com.envyful.api.config.type.ConfigInterface;
 import com.envyful.api.config.type.ConfigItem;
 import com.envyful.api.config.type.ConfigRandomWeightedSet;
@@ -11,28 +10,28 @@ import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.player.util.UtilPlayer;
 import com.envyful.api.forge.server.UtilForgeServer;
 import com.envyful.api.type.Pair;
-import com.envyful.pixel.hunt.remastered.forge.config.typeadapter.ParticleDataTypeAdapter;
-import com.envyful.pixel.hunt.remastered.forge.config.typeadapter.PokemonSpecificationTypeAdapter;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.pixelmonmod.api.pokemon.PokemonSpecification;
 import com.pixelmonmod.api.pokemon.PokemonSpecificationProxy;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
+import com.pixelmonmod.pixelmon.api.util.helpers.ResourceLocationHelper;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Util;
+import net.minecraft.util.registry.Registry;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.awt.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @ConfigPath("config/EnvyHunt/config.yml")
 @ConfigSerializable
-@Serializers({ParticleDataTypeAdapter.class, PokemonSpecificationTypeAdapter.class})
 public class PixelHuntConfig extends AbstractYamlConfig {
 
     private Map<String, HuntConfig> hunts = ImmutableMap.of(
@@ -68,7 +67,8 @@ public class PixelHuntConfig extends AbstractYamlConfig {
 
         private String id = "one";
         private boolean playParticles = false;
-        private IParticleData particles = ParticleTypes.FLAME;
+        private String particles = "flame";
+        private transient IParticleData particleCache = ParticleTypes.FLAME;
         private boolean customColour = true;
         private String colour = "#c7f2cb";
         private transient Color colourCache = null;
@@ -97,11 +97,12 @@ public class PixelHuntConfig extends AbstractYamlConfig {
                         Lists.newArrayList("broadcast %reward%"),
                         Lists.newArrayList("hello %player%")))
         );
-        private List<PokemonSpecification> rewardSpecs = Lists.newArrayList(PokemonSpecificationProxy.create("maxivs"));
+        private List<String> rewardSpecs = Lists.newArrayList("maxivs");
+        private transient List<PokemonSpecification> rewardSpecsCache = null;
 
         private boolean persistent = false;
         private long maxDurationMinutes = 30;
-        private long currentStart = System.currentTimeMillis();
+        private transient long currentStart = System.currentTimeMillis();
 
         private ExtendedConfigItem displayItem = ExtendedConfigItem.builder()
                 .name("This is the example")
@@ -164,12 +165,12 @@ public class PixelHuntConfig extends AbstractYamlConfig {
             return this.playParticles;
         }
 
-        public boolean shouldTimeOut() {
-            return !this.persistent;
-        }
-
         public IParticleData getParticles() {
-            return this.particles;
+            if (this.particleCache == null) {
+                this.particleCache = (IParticleData) Registry.PARTICLE_TYPE.get(ResourceLocationHelper.of(this.particles));
+            }
+
+            return this.particleCache;
         }
 
         public boolean matchesHunt(PixelmonEntity pixelmon) {
@@ -206,21 +207,37 @@ public class PixelHuntConfig extends AbstractYamlConfig {
 
         public void reset() {
             this.requirementSpecCache = null;
+            this.currentStart = System.currentTimeMillis();
         }
 
         public void rewardHunt(ServerPlayerEntity player, Pokemon pokemon) {
-            this.reset();
+            if (!this.persistent) {
+                this.reset();
+            }
+
             Reward random = this.rewardCommands.getRandom();
 
             if (random != null) {
                 random.execute(player, pokemon);
             }
 
-            if (this.rewardSpecs != null) {
-                for (PokemonSpecification rewardSpec : this.rewardSpecs) {
-                    rewardSpec.apply(pokemon);
+            for (PokemonSpecification rewardSpec : this.getRewardSpecs()) {
+                rewardSpec.apply(pokemon);
+            }
+        }
+
+        private List<PokemonSpecification> getRewardSpecs() {
+            if (this.rewardSpecs == null || this.rewardSpecs.isEmpty()) {
+                return Collections.emptyList();
+            }
+
+            if (this.rewardSpecsCache == null) {
+                this.rewardSpecsCache = Lists.newArrayListWithCapacity(this.rewardSpecs.size());
+                for (String rewardSpec : this.rewardSpecs) {
+                    this.rewardSpecsCache.add(PokemonSpecificationProxy.create(rewardSpec));
                 }
             }
+            return this.rewardSpecsCache;
         }
 
         public ExtendedConfigItem getDisplayItem() {
@@ -248,6 +265,10 @@ public class PixelHuntConfig extends AbstractYamlConfig {
         }
 
         public boolean hasTimedOut() {
+            if (this.persistent) {
+                return false;
+            }
+
             return (System.currentTimeMillis() - this.currentStart) >= TimeUnit.MINUTES.toMillis(this.maxDurationMinutes);
         }
 
