@@ -35,7 +35,6 @@ public class RandomAbilityRequirement extends AbstractPokemonRequirement<Ability
         }
 
         String[] args = spec.split(":");
-        System.out.println("ARGS: " + args.length);
 
         if (args.length != 2) {
             return Collections.emptyList();
