@@ -3,10 +3,12 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
-forgeVersion = "1.16.5"
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+forgeVersion = "1.20.1"
 
 minecraft {
-    mappings channel: 'official', version: '1.16.5'
+    mappings channel: 'official', version: '1.20.1'
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
@@ -33,25 +35,27 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
+    minecraft "net.minecraftforge:forge:1.20.1-47.1.44"
 
-    implementation 'pixelmon:Pixelmon-1.16.5-9.1.7-server:9.1.7'
+    implementation 'pixelmon:Pixelmon-1.20.1-9.2.0-server:9.2.0'
 
-    shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
+    implementation group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow (group: 'com.envyful.api', name: 'commons', version: '5.0.1')
-    shadow (group: 'com.envyful.api', name: 'forge16', version: '5.0.1') {
-        transitive = false
+    shadow group: 'com.envyful.api', name: 'commons', version: '5.0.1'
+    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.0.1') {
+        transitive = false;
     }
-    shadow (group: 'com.envyful.api', name: 'reforged16', version: '5.0.1') {
-        transitive = false
+    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.0.1') {
+        transitive = false;
     }
 }
 
 shadowJar {
     finalizedBy('reobfJar')
     configurations = [project.configurations.shadow]
-    setArchiveBaseName(rootProject.name + '-Forge')
+    zip64 = true
+    setArchiveClassifier('')
+    setArchiveBaseName(rootProject.name + "-Forge")
 
     relocate('org.spongepowered.configurate', 'com.envyful.pixel.hunt.remastered.forge.shade.configurate')
     relocate('org.yaml.snakeyaml', 'com.envyful.pixel.hunt.remastered.forge.shade.snakeyaml')

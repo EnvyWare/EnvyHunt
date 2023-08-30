@@ -18,13 +18,13 @@ Adds PixelHunt
 [[dependencies.envyhunt]]
 modId="forge"
 mandatory=true
-versionRange="[36,)"
+versionRange="[47.1.28,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.envyhunt]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.16.5,1.17)"
+versionRange="[1.20.1,1.21)"
 ordering="NONE"
 side="BOTH"
