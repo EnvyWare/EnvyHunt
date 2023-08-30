@@ -13,26 +13,7 @@ minecraft {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-repositories {
-    maven {
-        name = 'spongepowered-repo'
-        url = 'https://repo.spongepowered.org/maven'
-    }
-
-    maven {
-        url "https://maven.envyware.co.uk/releases"
-    }
-
-    ivy {
-        setUrl('https://download.nodecdn.net/containers/reforged/server/release')
-        metadataSources {
-            artifact()
-        }
-        patternLayout {
-            artifact('[revision]/[artifact].[ext]')
-        }
-    }
-}
+repositories {}
 
 dependencies {
     minecraft "net.minecraftforge:forge:1.20.1-47.1.44"
@@ -41,21 +22,19 @@ dependencies {
 
     implementation group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow group: 'com.envyful.api', name: 'commons', version: '5.0.1'
-    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.0.1') {
+    shadow group: 'com.envyful.api', name: 'commons', version: '5.0.2'
+    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.0.2') {
         transitive = false;
     }
-    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.0.1') {
+    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.0.2') {
         transitive = false;
     }
 }
 
 shadowJar {
-    finalizedBy('reobfJar')
     configurations = [project.configurations.shadow]
-    zip64 = true
     setArchiveClassifier('')
-    setArchiveBaseName(rootProject.name + "-Forge")
+    setArchiveBaseName("${rootProject.name}-Forge")
 
     relocate('org.spongepowered.configurate', 'com.envyful.pixel.hunt.remastered.forge.shade.configurate')
     relocate('org.yaml.snakeyaml', 'com.envyful.pixel.hunt.remastered.forge.shade.snakeyaml')
@@ -65,10 +44,26 @@ shadowJar {
     relocate('org.slf4j', 'com.envyful.pixel.hunt.remastered.forge.shade.slf4j')
     relocate('com.envyful.api', 'com.envyful.pixel.hunt.remastered.forge.shade.envy.api')
     relocate('org.bstats', 'com.envyful.pixel.hunt.remastered.forge.shade.bstats')
-
+    relocate('com.google.common', 'com.envyful.pixel.hunt.remastered.forge.shade.guava')
+    relocate('org.apache.logging', 'com.envyful.pixel.hunt.remastered.forge.shade.log4j')
+    relocate('io.netty', 'com.envyful.pixel.hunt.remastered.forge.shade.netty')
+    relocate('io.lettuce', 'com.envyful.pixel.hunt.remastered.forge.shade.lettuce')
+    relocate('com.cronutils', 'com.envyful.pixel.hunt.remastered.forge.shade.cronutils')
+    relocate('com.cronutils', 'com.envyful.pixel.hunt.remastered.forge.shade.cronutils')
+    relocate('com.sun.el', 'com.envyful.pixel.hunt.remastered.forge.shade.sun.el')
+    relocate('javax', 'com.envyful.pixel.hunt.remastered.forge.shade.javax')
+    relocate('javax', 'com.envyful.pixel.hunt.remastered.forge.shade.javax')
+    relocate('org.reactivestreams', 'com.envyful.pixel.hunt.remastered.forge.shade.reactivestreams')
+    relocate('reactor', 'com.envyful.pixel.hunt.remastered.forge.shade.reactor')
 
     exclude "**/module-info.class"
+    exclude "**/*.properties"
+    exclude "**/*.xml"
+    exclude "META-INF/versions/9/**"
+    exclude "META-INF/native-image/**"
+    exclude "META-INF/services/**"
 }
 
 jar.finalizedBy('shadowJar')
+shadowJar.finalizedBy('reobfJar')
 build.finalizedBy('versionedRelease')
