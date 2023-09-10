@@ -1,6 +1,6 @@
 package com.envyful.pixel.hunt.remastered.forge.ui.transformer;
 
-import com.envyful.api.gui.Transformer;
+import com.envyful.api.text.parse.SimplePlaceholder;
 import com.envyful.api.time.UtilTimeFormat;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.spec.*;
@@ -19,7 +19,7 @@ import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class HuntTransformer implements Transformer {
+public class HuntTransformer implements SimplePlaceholder {
 
     private final PixelHuntConfig.HuntConfig hunt;
 
@@ -28,7 +28,7 @@ public class HuntTransformer implements Transformer {
     }
 
     @Override
-    public String transformName(String name) {
+    public String replace(String name) {
         RegistryValue<Species> species = this.getValue(this.hunt.getRequirementSpecs(), SpeciesRequirement.class);
 
         if (species != null && species.isInitialized() && species.getValue().isPresent()) {
