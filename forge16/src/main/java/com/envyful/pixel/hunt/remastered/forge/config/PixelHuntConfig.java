@@ -6,37 +6,23 @@ import com.envyful.api.config.type.ConfigItem;
 import com.envyful.api.config.type.ConfigRandomWeightedSet;
 import com.envyful.api.config.type.ExtendedConfigItem;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
-import com.envyful.api.forge.chat.UtilChatColour;
-import com.envyful.api.forge.player.util.UtilPlayer;
-import com.envyful.api.forge.server.UtilForgeServer;
+import com.envyful.api.config.yaml.DefaultConfig;
+import com.envyful.api.config.yaml.YamlConfigFactory;
+import com.envyful.api.forge.config.ConfigReward;
+import com.envyful.api.forge.config.ConfigRewardPool;
 import com.envyful.api.type.Pair;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.pixelmonmod.api.pokemon.PokemonSpecification;
-import com.pixelmonmod.api.pokemon.PokemonSpecificationProxy;
-import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
-import com.pixelmonmod.pixelmon.api.util.helpers.ResourceLocationHelper;
-import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.Util;
-import net.minecraft.util.registry.Registry;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
-import java.awt.*;
-import java.util.Collections;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @ConfigPath("config/EnvyHunt/config.yml")
 @ConfigSerializable
 public class PixelHuntConfig extends AbstractYamlConfig {
 
-    private Map<String, HuntConfig> hunts = ImmutableMap.of(
-            "one", new HuntConfig()
-    );
+    private transient List<HuntConfig> hunts = Lists.newArrayList();
 
     private List<String> blockedSpecies = Lists.newArrayList(
             "articuno",
@@ -46,12 +32,71 @@ public class PixelHuntConfig extends AbstractYamlConfig {
 
     private boolean catchesCountForMultipleHunts = false;
 
-    public PixelHuntConfig() {
+    public PixelHuntConfig() throws IOException {
         super();
+
+        this.hunts.addAll(YamlConfigFactory.getInstances(HuntConfig.class, "config/EnvyHunt/hunts/",
+                DefaultConfig.onlyNew("defaults/basic.yml", HuntConfig.builder("example")
+                                .playParticles("flame")
+                                .customColour("#c7f2cb")
+                                .page(1)
+                                .requiresPermission("envy.hunt.example")
+                                .startCommands(Lists.newArrayList("broadcast Example hunt is now begining!"))
+                                .timeoutCommands(Lists.newArrayList("broadcast Example hunt ran out of time!"))
+                                .requirementSpecs(Lists.newArrayList(
+                                        "randomnonblockedspecies",
+                                        "randomivpercent:10-20",
+                                        "randomability:stickyhold,cursedbody,shadowshield",
+                                        "randomgender",
+                                        "randomgrowths:Ordinary,Huge,Giant:2",
+                                        "randomnatures:hardy,serious,quirky,bashful:3"
+                                ))
+                                .rewards(ConfigRewardPool.builder()
+                                        .guranteedReward(new ConfigReward(Lists.newArrayList("broadcast Example hunt was completed by %player%"), Lists.newArrayList()))
+                                        .maxRolls(1)
+                                        .minRolls(1)
+                                        .rewards(new ConfigRandomWeightedSet<>(
+                                                new ConfigRandomWeightedSet.WeightedObject<>(10, new ConfigReward(Lists.newArrayList("broadcast Example hunt was completed by %player%"), Lists.newArrayList())),
+                                                new ConfigRandomWeightedSet.WeightedObject<>(1, new ConfigReward(Lists.newArrayList("broadcast Example hunt was completed by %player%"), Lists.newArrayList()))
+                                        ))
+                                        .build())
+                                .rewardSpecs(Lists.newArrayList("maxivs"))
+                                .maxDurationMinutes(30)
+                                .displayItem(ExtendedConfigItem.builder()
+                                        .name("This is the example")
+                                        .amount(1)
+                                        .type("pixelmon:pixelmon_sprite")
+                                        .positions(Pair.of(1, 1))
+                                        .lore(
+                                                "Requirements: ",
+                                                " > %species% ",
+                                                " > %ivs%",
+                                                " > %ability%",
+                                                " > %gender%",
+                                                " > %growth_1%",
+                                                " > %growth_2%",
+                                                " > %nature_1%",
+                                                " > %nature_2%",
+                                                " > %nature_3%"
+                                        )
+                                        .nbt("ndex", new ConfigItem.NBTValue("short", "%dex_number%"))
+                                        .nbt("form", new ConfigItem.NBTValue("string", ""))
+                                        .nbt("gender", new ConfigItem.NBTValue("byte", "0"))
+                                        .nbt("palette", new ConfigItem.NBTValue("string", "none"))
+                                        .build())
+                                .rewardUI(new HuntRewardUI())
+                                .rewardDisplayItems(ExtendedConfigItem.builder()
+                                        .name("Example reward")
+                                        .amount(1)
+                                        .type("minecraft:diamond")
+                                        .positions(Pair.of(1, 1))
+                                        .build())
+                        .build())
+        ));
     }
 
     public List<HuntConfig> getHunts() {
-        return Lists.newArrayList(this.hunts.values());
+        return this.hunts;
     }
 
     public boolean isCatchesCountForMultipleHunts() {
@@ -60,287 +105,6 @@ public class PixelHuntConfig extends AbstractYamlConfig {
 
     public List<String> getBlockedSpecies() {
         return this.blockedSpecies;
-    }
-
-    @ConfigSerializable
-    public static class HuntConfig {
-
-        private String id = "one";
-        private boolean playParticles = false;
-        private String particles = "flame";
-        private transient IParticleData particleCache = ParticleTypes.FLAME;
-        private boolean customColour = true;
-        private String colour = "#c7f2cb";
-        private transient Color colourCache = null;
-
-        private int page = 1;
-
-        private boolean requiresPermission = false;
-        private String permission = "none";
-
-        private List<String> startCommands = Lists.newArrayList();
-        private List<String> timeoutCommands = Lists.newArrayList();
-
-        private List<String> requirementSpecs = Lists.newArrayList(
-                "random",
-                "randomivpercent:10-20",
-                "randomability:stickyhold,cursedbody,shadowshield",
-                "randomgender",
-                "randomgrowths:Ordinary,Huge,Giant:2",
-                "randomnatures:hardy,serious,quirky,bashful:3"
-        );
-        private transient List<PokemonSpecification> requirementSpecCache = null;
-
-        private ConfigRandomWeightedSet<Reward> rewardCommands = new ConfigRandomWeightedSet<>(
-                new ConfigRandomWeightedSet.WeightedObject<>(10, new Reward(
-                        "hello",
-                        Lists.newArrayList("broadcast %reward%"),
-                        Lists.newArrayList("hello %player%")))
-        );
-        private List<String> rewardSpecs = Lists.newArrayList("maxivs");
-        private transient List<PokemonSpecification> rewardSpecsCache = null;
-
-        private boolean persistent = false;
-        private long maxDurationMinutes = 30;
-        private transient long currentStart = System.currentTimeMillis();
-
-        private ExtendedConfigItem displayItem = ExtendedConfigItem.builder()
-                .name("This is the example")
-                .amount(1)
-                .type("minecraft:diamond")
-                .positions(Pair.of(1, 1))
-                .lore(
-                        "Requirements: ",
-                        " > %species% ",
-                        " > %ivs%",
-                        " > %ability%",
-                        " > %gender%",
-                        " > %growth_1%",
-                        " > %growth_2%",
-                        " > %nature_1%",
-                        " > %nature_2%",
-                        " > %nature_3%"
-                )
-                .build();
-
-        private boolean allowRewardUI = true;
-        private HuntRewardUI rewardUI = new HuntRewardUI();
-
-        public HuntConfig() {}
-
-        public Color getColor() {
-            if (this.colourCache == null) {
-                this.colourCache = this.parseColor(this.colour);
-            }
-
-            return this.colourCache;
-        }
-
-        public boolean isCustomColour() {
-            return this.customColour;
-        }
-
-        private Color parseColor(String hex) {
-            if (hex.startsWith("#")) {
-                hex = hex.substring(1);
-            }
-
-            try {
-                int i = Integer.parseInt(hex, 16);
-                return new Color(i);
-            } catch (NumberFormatException numberformatexception) {
-                return null;
-            }
-        }
-
-        public int getPage() {
-            return this.page;
-        }
-
-        public String getId() {
-            return this.id;
-        }
-
-        public boolean shouldPlayParticles() {
-            return this.playParticles;
-        }
-
-        public IParticleData getParticles() {
-            if (this.particleCache == null) {
-                this.particleCache = (IParticleData) Registry.PARTICLE_TYPE.get(ResourceLocationHelper.of(this.particles));
-            }
-
-            return this.particleCache;
-        }
-
-        public boolean matchesHunt(PixelmonEntity pixelmon) {
-            for (PokemonSpecification requirementSpec : this.getRequirementSpecs()) {
-                if (requirementSpec != null && !requirementSpec.matches(pixelmon)) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public boolean matchesHunt(Pokemon pokemon) {
-            for (PokemonSpecification requirementSpec : this.getRequirementSpecs()) {
-                if (requirementSpec != null && !requirementSpec.matches(pokemon)) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public List<PokemonSpecification> getRequirementSpecs() {
-            if (this.requirementSpecCache == null) {
-                this.requirementSpecCache = Lists.newArrayList();
-
-                for (String requirementSpec : this.requirementSpecs) {
-                    this.requirementSpecCache.add(PokemonSpecificationProxy.create(requirementSpec));
-                }
-            }
-
-            return this.requirementSpecCache;
-        }
-
-        public void reset() {
-            this.requirementSpecCache = null;
-            this.currentStart = System.currentTimeMillis();
-        }
-
-        public void rewardHunt(ServerPlayerEntity player, Pokemon pokemon) {
-            if (!this.persistent) {
-                this.reset();
-            }
-
-            Reward random = this.rewardCommands.getRandom();
-
-            if (random != null) {
-                random.execute(player, pokemon);
-            }
-
-            for (PokemonSpecification rewardSpec : this.getRewardSpecs()) {
-                rewardSpec.apply(pokemon);
-            }
-        }
-
-        private List<PokemonSpecification> getRewardSpecs() {
-            if (this.rewardSpecs == null || this.rewardSpecs.isEmpty()) {
-                return Collections.emptyList();
-            }
-
-            if (this.rewardSpecsCache == null) {
-                this.rewardSpecsCache = Lists.newArrayListWithCapacity(this.rewardSpecs.size());
-                for (String rewardSpec : this.rewardSpecs) {
-                    this.rewardSpecsCache.add(PokemonSpecificationProxy.create(rewardSpec));
-                }
-            }
-            return this.rewardSpecsCache;
-        }
-
-        public ExtendedConfigItem getDisplayItem() {
-            return this.displayItem;
-        }
-
-        public boolean canParticipate(ServerPlayerEntity player) {
-            if (!this.requiresPermission) {
-                return true;
-            }
-
-            return UtilPlayer.hasPermission(player, this.permission);
-        }
-
-        public boolean isAllowRewardUI() {
-            return this.allowRewardUI;
-        }
-
-        public ConfigRandomWeightedSet<Reward> getRewardCommands() {
-            return this.rewardCommands;
-        }
-
-        public HuntRewardUI getRewardUI() {
-            return this.rewardUI;
-        }
-
-        public boolean hasTimedOut() {
-            if (this.persistent) {
-                return false;
-            }
-
-            return (System.currentTimeMillis() - this.currentStart) >= TimeUnit.MINUTES.toMillis(this.maxDurationMinutes);
-        }
-
-        public void end() {
-            this.reset();
-
-            for (String s : this.timeoutCommands) {
-                UtilForgeServer.executeCommand(s);
-            }
-
-            for (String spawnCommand : this.startCommands) {
-                UtilForgeServer.executeCommand(spawnCommand);
-            }
-        }
-
-        public long getCurrentStart() {
-            return this.currentStart;
-        }
-
-        public long getMaxDurationMinutes() {
-            return this.maxDurationMinutes;
-        }
-    }
-
-    @ConfigSerializable
-    public static class Reward {
-
-        private String name;
-        private int page = 1;
-        private List<String> commands;
-        private List<String> messages;
-        private ExtendedConfigItem displayItem = ExtendedConfigItem.builder()
-                .type("minecraft:stone")
-                .amount(1)
-                .name("Rewrad")
-                .lore("reward")
-                .positions(Pair.of(1, 1))
-                .build();
-
-        public Reward(String name, List<String> commands, List<String> messages) {
-            this.name = name;
-            this.commands = commands;
-            this.messages = messages;
-        }
-        public Reward() {
-        }
-
-        public int getPage() {
-            return this.page;
-        }
-
-        public ExtendedConfigItem getDisplayItem() {
-            return this.displayItem;
-        }
-
-        public void execute(ServerPlayerEntity player, Pokemon pokemon) {
-            if (this.commands != null && !this.commands.isEmpty()) {
-                for (String command : this.commands) {
-                    UtilForgeServer.executeCommand(command.replace("%player%", player.getName().getString())
-                            .replace("%reward%", this.name)
-                            .replace("%pokemon%", pokemon.getDisplayName()));
-                }
-            }
-
-            if (this.messages != null && !this.messages.isEmpty()) {
-                for (String message : this.messages) {
-                    player.sendMessage(UtilChatColour.colour(message.replace("%player%", player.getName().getString())
-                            .replace("%reward%", this.name)
-                            .replace("%pokemon%", pokemon.getDisplayName())), Util.NIL_UUID);
-                }
-            }
-        }
     }
 
     @ConfigSerializable

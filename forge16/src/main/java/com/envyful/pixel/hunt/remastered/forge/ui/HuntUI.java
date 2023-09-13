@@ -7,7 +7,7 @@ import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.gui.pane.Pane;
 import com.envyful.pixel.hunt.remastered.forge.EnvyHunt;
-import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
+import com.envyful.pixel.hunt.remastered.forge.config.HuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntGraphics;
 import com.envyful.pixel.hunt.remastered.forge.ui.transformer.HuntTransformer;
 
@@ -29,7 +29,7 @@ public class HuntUI {
 
         UtilConfigInterface.fillBackground(pane, guiConfig.getGuiSettings());
 
-        for (PixelHuntConfig.HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
+        for (HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
             if (page != hunt.getPage()) {
                 continue;
             }

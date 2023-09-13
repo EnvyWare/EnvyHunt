@@ -3,7 +3,7 @@ package com.envyful.pixel.hunt.remastered.forge.listener;
 import com.envyful.api.concurrency.UtilConcurrency;
 import com.envyful.api.forge.listener.LazyListener;
 import com.envyful.pixel.hunt.remastered.forge.EnvyHunt;
-import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
+import com.envyful.pixel.hunt.remastered.forge.config.HuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.task.ParticleDisplayTask;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import net.minecraft.entity.Entity;
@@ -27,7 +27,7 @@ public class PokemonSpawnListener extends LazyListener {
 
             PixelmonEntity pixelmon = (PixelmonEntity) entity;
 
-            for (PixelHuntConfig.HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
+            for (HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
                 if (hunt.matchesHunt(pixelmon)) {
                     if (hunt.shouldPlayParticles()) {
                         ParticleDisplayTask.addPokemon(pixelmon);
