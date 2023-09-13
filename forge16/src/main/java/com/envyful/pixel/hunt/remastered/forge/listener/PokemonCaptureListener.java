@@ -24,6 +24,10 @@ public class PokemonCaptureListener {
 
         UtilConcurrency.runAsync(() -> {
             for (HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
+                if (!hunt.isEnabled()) {
+                    continue;
+                }
+
                 if (hunt.canParticipate(player) && hunt.matchesHunt(caught)) {
                     hunt.rewardHunt(player, caught.getPokemon());
 
@@ -42,6 +46,10 @@ public class PokemonCaptureListener {
 
         UtilConcurrency.runAsync(() -> {
             for (HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
+                if (!hunt.isEnabled()) {
+                    continue;
+                }
+
                 if (hunt.canParticipate(player) && hunt.matchesHunt(caught)) {
                     hunt.rewardHunt(player, caught);
 

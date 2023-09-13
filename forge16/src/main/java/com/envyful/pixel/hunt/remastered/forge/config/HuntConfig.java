@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 @ConfigSerializable
 public class HuntConfig extends AbstractYamlConfig {
 
+    private boolean enabled = true;
     private String id;
     private boolean playParticles;
     private String particles;
@@ -87,6 +88,10 @@ public class HuntConfig extends AbstractYamlConfig {
         super();
     }
 
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
     public Color getColor() {
         if (this.colourCache == null) {
             this.colourCache = this.parseColor(this.colour);
@@ -133,6 +138,10 @@ public class HuntConfig extends AbstractYamlConfig {
     }
 
     public boolean matchesHunt(PixelmonEntity pixelmon) {
+        if (!this.isEnabled()) {
+            return false;
+        }
+
         for (PokemonSpecification requirementSpec : this.getRequirementSpecs()) {
             if (requirementSpec != null && !requirementSpec.matches(pixelmon)) {
                 return false;
