@@ -2,7 +2,7 @@ package com.envyful.pixel.hunt.remastered.forge.ui.transformer;
 
 import com.envyful.api.text.parse.SimplePlaceholder;
 import com.envyful.api.time.UtilTimeFormat;
-import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
+import com.envyful.pixel.hunt.remastered.forge.config.HuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.spec.*;
 import com.pixelmonmod.api.pokemon.PokemonSpecification;
 import com.pixelmonmod.api.pokemon.requirement.impl.SpeciesRequirement;
@@ -15,9 +15,9 @@ import java.util.concurrent.TimeUnit;
 
 public class HuntTransformer implements SimplePlaceholder {
 
-    private final PixelHuntConfig.HuntConfig hunt;
+    private final HuntConfig hunt;
 
-    public HuntTransformer(PixelHuntConfig.HuntConfig hunt) {
+    public HuntTransformer(HuntConfig hunt) {
         this.hunt = hunt;
     }
 
@@ -79,7 +79,7 @@ public class HuntTransformer implements SimplePlaceholder {
     private <T> T getValue(List<PokemonSpecification> specs,
                            Class<? extends Requirement<Pokemon, PixelmonEntity, T>> requirementClazz) {
         for (PokemonSpecification spec : specs) {
-            T value = spec.getValue(requirementClazz).orElse(null);
+            var value = spec.getValue(requirementClazz).orElse(null);
             if (value == null) {
                 continue;
             }

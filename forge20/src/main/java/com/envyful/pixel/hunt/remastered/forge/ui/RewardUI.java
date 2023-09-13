@@ -1,5 +1,6 @@
 package com.envyful.pixel.hunt.remastered.forge.ui;
 
+import com.envyful.api.config.type.ExtendedConfigItem;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.config.UtilConfigInterface;
 import com.envyful.api.forge.config.UtilConfigItem;
@@ -7,6 +8,7 @@ import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.gui.pane.Pane;
 import com.envyful.pixel.hunt.remastered.forge.EnvyHunt;
+import com.envyful.pixel.hunt.remastered.forge.config.HuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 
 public class RewardUI {
@@ -15,7 +17,7 @@ public class RewardUI {
         throw new UnsupportedOperationException("Static UI class");
     }
 
-    public static void open(ForgeEnvyPlayer player, PixelHuntConfig.HuntConfig hunt, int page) {
+    public static void open(ForgeEnvyPlayer player, HuntConfig hunt, int page) {
         PixelHuntConfig.HuntRewardUI rewardUI = hunt.getRewardUI();
 
         Pane pane = GuiFactory.paneBuilder()
@@ -27,13 +29,10 @@ public class RewardUI {
 
         UtilConfigInterface.fillBackground(pane, rewardUI.getGuiSettings());
 
-        for (PixelHuntConfig.Reward entry : hunt.getRewardCommands().getWeightedSet().keySet()) {
-            if (page != entry.getPage()) {
-                continue;
-            }
+        for (ExtendedConfigItem entry : hunt.getRewardDisplayItems()) {
 
             UtilConfigItem.builder()
-                    .extendedConfigItem(player, pane, entry.getDisplayItem());
+                    .extendedConfigItem(player, pane, entry);
         }
 
         if (page != rewardUI.getPages()) {
