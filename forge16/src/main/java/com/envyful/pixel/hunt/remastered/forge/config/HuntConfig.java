@@ -272,16 +272,9 @@ public class HuntConfig extends AbstractYamlConfig {
         private String permission;
         private List<String> startCommands = Lists.newArrayList();
         private List<String> timeoutCommands = Lists.newArrayList();
-        private List<String> requirementSpecs = Lists.newArrayList(
-                "random",
-                "randomivpercent:10-20",
-                "randomability:stickyhold,cursedbody,shadowshield",
-                "randomgender",
-                "randomgrowths:Ordinary,Huge,Giant:2",
-                "randomnatures:hardy,serious,quirky,bashful:3"
-        );
+        private List<String> requirementSpecs = Lists.newArrayList();
         private ConfigRewardPool rewards;
-        private List<String> rewardSpecs = Lists.newArrayList("maxivs");
+        private List<String> rewardSpecs = Lists.newArrayList();
         private boolean persistent = false;
         private long maxDurationMinutes = 30;
 
