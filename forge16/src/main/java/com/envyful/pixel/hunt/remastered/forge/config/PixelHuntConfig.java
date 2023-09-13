@@ -68,16 +68,16 @@ public class PixelHuntConfig extends AbstractYamlConfig {
                                         .type("pixelmon:pixelmon_sprite")
                                         .positions(Pair.of(1, 1))
                                         .lore(
-                                                "Requirements: ",
-                                                " > %species% ",
-                                                " > %ivs%",
-                                                " > %ability%",
-                                                " > %gender%",
-                                                " > %growth_1%",
-                                                " > %growth_2%",
-                                                " > %nature_1%",
-                                                " > %nature_2%",
-                                                " > %nature_3%"
+                                                "&fRequirements: ",
+                                                "&a > %species% ",
+                                                "&a > %ivs%",
+                                                "&a > %ability%",
+                                                "&a > %gender%",
+                                                "&a > %growth_1%",
+                                                "&a > %growth_2%",
+                                                "&a > %nature_1%",
+                                                "&a > %nature_2%",
+                                                "&a > %nature_3%"
                                         )
                                         .nbt("ndex", new ConfigItem.NBTValue("short", "%dex_number%"))
                                         .nbt("form", new ConfigItem.NBTValue("string", ""))
@@ -91,6 +91,63 @@ public class PixelHuntConfig extends AbstractYamlConfig {
                                         .type("minecraft:diamond")
                                         .positions(Pair.of(1, 1))
                                         .build())
+                        .build()),
+                DefaultConfig.onlyNew("defaults/shinies.yml", HuntConfig.builder("shinies")
+                        .playParticles("flame")
+                        .customColour("#c7f2cb")
+                        .page(1)
+                        .requiresPermission("envy.hunt.example.shinies")
+                        .startCommands(Lists.newArrayList("broadcast Shiny hunt is now begining!"))
+                        .timeoutCommands(Lists.newArrayList("broadcast Shiny hunt ran out of time!"))
+                        .requirementSpecs(Lists.newArrayList(
+                                "randomnonblockedspecies",
+                                "randomivpercent:10-20",
+                                "randomability:stickyhold,cursedbody,shadowshield",
+                                "randomgender",
+                                "randomgrowths:Ordinary,Huge,Giant:2",
+                                "randomnatures:hardy,serious,quirky,bashful:3",
+                                "shiny"
+                        ))
+                        .rewards(ConfigRewardPool.builder()
+                                .guranteedReward(new ConfigReward(Lists.newArrayList("broadcast Shiny hunt was completed by %player%"), Lists.newArrayList()))
+                                .maxRolls(1)
+                                .minRolls(1)
+                                .rewards(new ConfigRandomWeightedSet<>(
+                                        new ConfigRandomWeightedSet.WeightedObject<>(10, new ConfigReward(Lists.newArrayList("broadcast Shiny hunt was completed by %player%"), Lists.newArrayList())),
+                                        new ConfigRandomWeightedSet.WeightedObject<>(1, new ConfigReward(Lists.newArrayList("broadcast Shiny hunt was completed by %player%"), Lists.newArrayList()))
+                                ))
+                                .build())
+                        .rewardSpecs(Lists.newArrayList("maxivs"))
+                        .maxDurationMinutes(30)
+                        .displayItem(ExtendedConfigItem.builder()
+                                .name("This is the example")
+                                .amount(1)
+                                .type("pixelmon:pixelmon_sprite")
+                                .positions(Pair.of(3, 1))
+                                .lore(
+                                        "&fRequirements: ",
+                                        "&a > %species% ",
+                                        "&a > %ivs%",
+                                        "&a > %ability%",
+                                        "&a > %gender%",
+                                        "&a > %growth_1%",
+                                        "&a > %growth_2%",
+                                        "&a > %nature_1%",
+                                        "&a > %nature_2%",
+                                        "&a > %nature_3%"
+                                )
+                                .nbt("ndex", new ConfigItem.NBTValue("short", "%dex_number%"))
+                                .nbt("form", new ConfigItem.NBTValue("string", ""))
+                                .nbt("gender", new ConfigItem.NBTValue("byte", "0"))
+                                .nbt("palette", new ConfigItem.NBTValue("string", "shiny"))
+                                .build())
+                        .rewardUI(new HuntRewardUI())
+                        .rewardDisplayItems(ExtendedConfigItem.builder()
+                                .name("Example reward")
+                                .amount(1)
+                                .type("minecraft:diamond")
+                                .positions(Pair.of(1, 1))
+                                .build())
                         .build())
         ));
     }
