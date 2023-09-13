@@ -6,15 +6,9 @@ import com.envyful.pixel.hunt.remastered.forge.config.PixelHuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.spec.*;
 import com.pixelmonmod.api.pokemon.PokemonSpecification;
 import com.pixelmonmod.api.pokemon.requirement.impl.SpeciesRequirement;
-import com.pixelmonmod.api.registry.RegistryValue;
 import com.pixelmonmod.api.requirement.Requirement;
-import com.pixelmonmod.pixelmon.api.pokemon.Nature;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
-import com.pixelmonmod.pixelmon.api.pokemon.ability.Ability;
-import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
-import com.pixelmonmod.pixelmon.api.pokemon.species.gender.Gender;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
-import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -29,26 +23,33 @@ public class HuntTransformer implements SimplePlaceholder {
 
     @Override
     public String replace(String name) {
-        RegistryValue<Species> species = this.getValue(this.hunt.getRequirementSpecs(), SpeciesRequirement.class);
+        var species = this.getValue(this.hunt.getRequirementSpecs(), SpeciesRequirement.class);
 
         if (species != null && species.isInitialized() && species.getValue().isPresent()) {
             name = name.replace("%species%", species.getValueUnsafe().getName())
                     .replace("%dex_number%", String.valueOf(species.getValueUnsafe().getDex()));
         }
 
-        Ability ability = this.getValue(this.hunt.getRequirementSpecs(), RandomAbilityRequirement.class);
+        var value = this.getValue(this.hunt.getRequirementSpecs(), RandomSpeciesIngoringBlockedRequirement.class);
+
+        if (value != null)  {
+            name = name.replace("%species%", value.getName())
+                    .replace("%dex_number%", String.valueOf(value.getDex()));
+        }
+
+        var ability = this.getValue(this.hunt.getRequirementSpecs(), RandomAbilityRequirement.class);
 
         if (ability != null) {
             name = name.replace("%ability%", ability.getLocalizedName());
         }
 
-        Gender gender = this.getValue(this.hunt.getRequirementSpecs(), RandomGenderRequirement.class);
+        var gender = this.getValue(this.hunt.getRequirementSpecs(), RandomGenderRequirement.class);
 
         if (gender != null) {
             name = name.replace("%gender%", gender.getLocalizedName());
         }
 
-        List<EnumGrowth> growths = this.getValue(this.hunt.getRequirementSpecs(), RandomGrowthsRequirement.class);
+        var growths = this.getValue(this.hunt.getRequirementSpecs(), RandomGrowthsRequirement.class);
 
         if (growths != null) {
             for (int i = 0; i < growths.size(); i++) {
@@ -56,13 +57,13 @@ public class HuntTransformer implements SimplePlaceholder {
             }
         }
 
-        Integer percentage = this.getValue(this.hunt.getRequirementSpecs(), RandomIVPercentageRequirement.class);
+        var percentage = this.getValue(this.hunt.getRequirementSpecs(), RandomIVPercentageRequirement.class);
 
         if (percentage != null) {
             name = name.replace("%ivs%", String.valueOf(percentage));
         }
 
-        List<Nature> natures = this.getValue(this.hunt.getRequirementSpecs(), RandomNaturesRequirement.class);
+        var natures = this.getValue(this.hunt.getRequirementSpecs(), RandomNaturesRequirement.class);
 
         if (natures != null) {
             for (int i = 0; i < natures.size(); i++) {
