@@ -3,6 +3,7 @@ package com.envyful.pixel.hunt.remastered.forge;
 import com.envyful.api.concurrency.UtilLogger;
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.command.ForgeCommandFactory;
+import com.envyful.api.forge.command.parser.ForgeAnnotationCommandParser;
 import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.api.gui.factory.GuiFactory;
@@ -29,8 +30,8 @@ public class EnvyHunt {
 
     private static EnvyHunt instance;
 
-    private final ForgeCommandFactory commandFactory = new ForgeCommandFactory();
     private final ForgePlayerManager playerManager = new ForgePlayerManager();
+    private final ForgeCommandFactory commandFactory = new ForgeCommandFactory(ForgeAnnotationCommandParser::new, playerManager);
     private final Logger logger = LogManager.getLogger("envyhunt");
 
     private PixelHuntConfig config;
@@ -75,7 +76,7 @@ public class EnvyHunt {
 
     @SubscribeEvent
     public void onServerStarting(RegisterCommandsEvent event) {
-        this.commandFactory.registerCommand(event.getDispatcher(), new PixelHuntCommand());
+        this.commandFactory.registerCommand(event.getDispatcher(), this.commandFactory.parseCommand(new PixelHuntCommand()));
     }
 
     public static EnvyHunt getInstance() {

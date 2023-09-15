@@ -10,9 +10,8 @@ import com.envyful.pixel.hunt.remastered.forge.ui.HuntUI;
 import net.minecraft.entity.player.ServerPlayerEntity;
 
 @Command(
-       value = "hunt",
-        description = "A command to open the PixelHunt UI",
-        aliases = {
+        value = {
+                "hunt",
                 "pixelhunt",
                 "pokemonhunt",
                 "pokehunt",
