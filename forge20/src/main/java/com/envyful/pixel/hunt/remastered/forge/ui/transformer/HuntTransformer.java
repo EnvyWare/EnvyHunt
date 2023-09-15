@@ -27,14 +27,16 @@ public class HuntTransformer implements SimplePlaceholder {
 
         if (species != null && species.isInitialized() && species.getValue().isPresent()) {
             name = name.replace("%species%", species.getValueUnsafe().getName())
-                    .replace("%dex_number%", String.valueOf(species.getValueUnsafe().getDex()));
+                    .replace("%dex_number%", String.valueOf(species.getValueUnsafe().getDex()))
+                    .replace("%default_form%", species.getValueUnsafe().getDefaultForm().getName());
         }
 
         var value = this.getValue(this.hunt.getRequirementSpecs(), RandomSpeciesIngoringBlockedRequirement.class);
 
         if (value != null)  {
             name = name.replace("%species%", value.getName())
-                    .replace("%dex_number%", String.valueOf(value.getDex()));
+                    .replace("%dex_number%", String.valueOf(value.getDex()))
+                    .replace("%default_form%", value.getDefaultForm().getName());
         }
 
         var ability = this.getValue(this.hunt.getRequirementSpecs(), RandomAbilityRequirement.class);
