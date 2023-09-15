@@ -51,8 +51,7 @@ public class PixelHuntConfig extends AbstractYamlConfig {
                                         "randomgrowths:Ordinary,Huge,Giant:2",
                                         "randomnatures:hardy,serious,quirky,bashful:3"
                                 ))
-                                .rewards(ConfigRewardPool.builder()
-                                        .guranteedReward(new ConfigReward(Lists.newArrayList("broadcast Example hunt was completed by %player%"), Lists.newArrayList()))
+                                .rewards(ConfigRewardPool.builder(new ConfigReward(Lists.newArrayList("broadcast Example hunt was completed by %player%"), Lists.newArrayList()))
                                         .maxRolls(1)
                                         .minRolls(1)
                                         .rewards(new ConfigRandomWeightedSet<>(
@@ -108,8 +107,7 @@ public class PixelHuntConfig extends AbstractYamlConfig {
                                 "randomnatures:hardy,serious,quirky,bashful:3",
                                 "shiny"
                         ))
-                        .rewards(ConfigRewardPool.builder()
-                                .guranteedReward(new ConfigReward(Lists.newArrayList("broadcast Shiny hunt was completed by %player%"), Lists.newArrayList()))
+                        .rewards(ConfigRewardPool.builder(new ConfigReward(Lists.newArrayList("broadcast Shiny hunt was completed by %player%"), Lists.newArrayList()))
                                 .maxRolls(1)
                                 .minRolls(1)
                                 .rewards(new ConfigRandomWeightedSet<>(
