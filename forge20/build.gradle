@@ -18,15 +18,15 @@ repositories {}
 dependencies {
     minecraft "net.minecraftforge:forge:1.20.1-47.1.44"
 
-    implementation 'pixelmon:Pixelmon-1.20.1-9.2.2-server:9.2.2'
+    implementation 'pixelmon:Pixelmon-1.20.1-9.2.3-server:9.2.3'
 
     implementation group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow group: 'com.envyful.api', name: 'commons', version: '5.1.9'
-    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.1.9') {
+    shadow group: 'com.envyful.api', name: 'commons', version: '5.4.8'
+    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.4.8') {
         transitive = false;
     }
-    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.1.9') {
+    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.4.8') {
         transitive = false;
     }
 }
