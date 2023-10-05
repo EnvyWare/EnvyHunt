@@ -4,6 +4,7 @@ import com.envyful.api.math.UtilRandom;
 import com.envyful.api.type.UtilParse;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.pixelmonmod.api.parsing.ParseAttempt;
 import com.pixelmonmod.api.pokemon.requirement.AbstractPokemonRequirement;
 import com.pixelmonmod.api.requirement.Requirement;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
@@ -14,7 +15,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class RandomGrowthsRequirement extends AbstractPokemonRequirement<List<EnumGrowth>> {
 
@@ -33,22 +33,22 @@ public class RandomGrowthsRequirement extends AbstractPokemonRequirement<List<En
     }
 
     @Override
-    public List<Requirement<Pokemon, PixelmonEntity, ?>> createSimple(String key, String spec) {
+    public ParseAttempt<List<Requirement<Pokemon, PixelmonEntity, ?>>> create(String key, String spec) {
         if (!spec.startsWith(key + ":")) {
-            return Collections.emptyList();
+            return ParseAttempt.error("No key found");
         }
 
-        String[] args = spec.split( ":");
+        String[] args = spec.split(":");
 
         if (args.length != 3) {
-            return Collections.emptyList();
+            return ParseAttempt.error("No key found");
         }
 
         String[] growths = args[1].split(",");
         int amount = UtilParse.parseInteger(args[2]).orElse(1);
 
         if (amount > growths.length) {
-            return Collections.emptyList();
+            return ParseAttempt.error("Invalid amount specified. It cannot be more than the number of growths given");
         }
 
         List<String> randomGrowths = Lists.newArrayList();
@@ -61,12 +61,13 @@ public class RandomGrowthsRequirement extends AbstractPokemonRequirement<List<En
             }
         }
 
-        return Collections.singletonList(this.createInstance(randomGrowths.stream().map(EnumGrowth::getGrowthFromString).collect(Collectors.toList())));
+        return this.createInstance(randomGrowths.stream().map(EnumGrowth::getGrowthFromString).toList())
+                .map(Collections::singletonList);
     }
 
     @Override
-    public Requirement<Pokemon, PixelmonEntity, List<EnumGrowth>> createInstance(List<EnumGrowth> growths) {
-        return new RandomGrowthsRequirement(growths);
+    public ParseAttempt<Requirement<Pokemon, PixelmonEntity, List<EnumGrowth>>> createInstance(List<EnumGrowth> growths) {
+        return ParseAttempt.success(new RandomGrowthsRequirement(growths));
     }
 
     @Override

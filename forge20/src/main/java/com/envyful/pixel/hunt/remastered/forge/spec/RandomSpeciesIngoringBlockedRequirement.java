@@ -2,6 +2,7 @@ package com.envyful.pixel.hunt.remastered.forge.spec;
 
 import com.envyful.pixel.hunt.remastered.forge.EnvyHunt;
 import com.google.common.collect.Sets;
+import com.pixelmonmod.api.parsing.ParseAttempt;
 import com.pixelmonmod.api.pokemon.requirement.AbstractPokemonRequirement;
 import com.pixelmonmod.api.requirement.Requirement;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
@@ -29,9 +30,9 @@ public class RandomSpeciesIngoringBlockedRequirement extends AbstractPokemonRequ
     }
 
     @Override
-    public List<Requirement<Pokemon, PixelmonEntity, ?>> createSimple(String key, String spec) {
+    public ParseAttempt<List<Requirement<Pokemon, PixelmonEntity, ?>>> create(String key, String spec) {
         if (!spec.startsWith(key)) {
-            return Collections.emptyList();
+            return ParseAttempt.error("No key found");
         }
 
         Species randomSpecies = PixelmonSpecies.getRandomSpecies();
@@ -40,12 +41,12 @@ public class RandomSpeciesIngoringBlockedRequirement extends AbstractPokemonRequ
             randomSpecies = PixelmonSpecies.getRandomSpecies();
         }
 
-        return Collections.singletonList(new RandomSpeciesIngoringBlockedRequirement(randomSpecies));
+        return this.createInstance(randomSpecies).map(Collections::singletonList);
     }
 
     @Override
-    public Requirement<Pokemon, PixelmonEntity, Species> createInstance(Species value) {
-        return new RandomSpeciesIngoringBlockedRequirement(value);
+    public ParseAttempt<Requirement<Pokemon, PixelmonEntity, Species>> createInstance(Species value) {
+        return ParseAttempt.success(new RandomSpeciesIngoringBlockedRequirement(value));
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.envyful.api.math.UtilRandom;
 import com.envyful.api.type.UtilParse;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.pixelmonmod.api.parsing.ParseAttempt;
 import com.pixelmonmod.api.pokemon.requirement.AbstractPokemonRequirement;
 import com.pixelmonmod.api.requirement.Requirement;
 import com.pixelmonmod.pixelmon.api.pokemon.Nature;
@@ -14,7 +15,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class RandomNaturesRequirement extends AbstractPokemonRequirement<List<Nature>> {
 
@@ -33,22 +33,22 @@ public class RandomNaturesRequirement extends AbstractPokemonRequirement<List<Na
     }
 
     @Override
-    public List<Requirement<Pokemon, PixelmonEntity, ?>> createSimple(String key, String spec) {
+    public ParseAttempt<List<Requirement<Pokemon, PixelmonEntity, ?>>> create(String key, String spec) {
         if (!spec.startsWith(key + ":")) {
-            return Collections.emptyList();
+            return ParseAttempt.error("No key found");
         }
 
         String[] args = spec.split(":");
 
         if (args.length != 3) {
-            return Collections.emptyList();
+            return ParseAttempt.error("No key found");
         }
 
         String[] natures = args[1].split(",");
         int amount = UtilParse.parseInteger(args[2]).orElse(1);
 
         if (amount > natures.length) {
-            return Collections.emptyList();
+            return ParseAttempt.error("Invalid amount specified. It cannot be more than the number of natures given");
         }
 
         List<String> randomNatures = Lists.newArrayList();
@@ -61,12 +61,13 @@ public class RandomNaturesRequirement extends AbstractPokemonRequirement<List<Na
             }
         }
 
-        return Collections.singletonList(this.createInstance(randomNatures.stream().map(Nature::natureFromString).collect(Collectors.toList())));
+        return this.createInstance(randomNatures.stream().map(Nature::natureFromString).toList())
+                .map(Collections::singletonList);
     }
 
     @Override
-    public Requirement<Pokemon, PixelmonEntity, List<Nature>> createInstance(List<Nature> natures) {
-        return new RandomNaturesRequirement(natures);
+    public ParseAttempt<Requirement<Pokemon, PixelmonEntity, List<Nature>>> createInstance(List<Nature> natures) {
+        return ParseAttempt.success(new RandomNaturesRequirement(natures));
     }
 
     @Override

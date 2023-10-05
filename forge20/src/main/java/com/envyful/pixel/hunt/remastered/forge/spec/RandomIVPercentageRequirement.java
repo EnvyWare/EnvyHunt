@@ -3,6 +3,7 @@ package com.envyful.pixel.hunt.remastered.forge.spec;
 import com.envyful.api.math.UtilRandom;
 import com.envyful.api.type.UtilParse;
 import com.google.common.collect.Sets;
+import com.pixelmonmod.api.parsing.ParseAttempt;
 import com.pixelmonmod.api.pokemon.requirement.AbstractIntegerPokemonRequirement;
 import com.pixelmonmod.api.requirement.Requirement;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
@@ -25,32 +26,32 @@ public class RandomIVPercentageRequirement extends AbstractIntegerPokemonRequire
     }
 
     @Override
-    public List<Requirement<Pokemon, PixelmonEntity, ?>> createSimple(String key, String spec) {
+    public ParseAttempt<List<Requirement<Pokemon, PixelmonEntity, ?>>> create(String key, String spec) {
         if (!spec.startsWith(key + ":")) {
-            return Collections.emptyList();
+            return ParseAttempt.error("No key found");
         }
 
         String[] args = spec.split(key + ":");
 
         if (args.length != 2) {
-            return Collections.emptyList();
+            return ParseAttempt.error("No key found");
         }
 
         String[] range = args[1].split("-");
 
         if (range.length != 2) {
-            return Collections.emptyList();
+            return ParseAttempt.error("Range must be formatted like so: <min>-<max> (i.e. 1-100)");
         }
 
         int min = UtilParse.parseInteger(range[0]).orElse(0);
         int max = UtilParse.parseInteger(range[1]).orElse(100);
 
-        return Collections.singletonList(new RandomIVPercentageRequirement(UtilRandom.randomInteger(min, max)));
+        return this.createInstance(UtilRandom.randomInteger(min, max)).map(Collections::singletonList);
     }
 
     @Override
-    public Requirement<Pokemon, PixelmonEntity, Integer> createInstance(Integer percentage) {
-        return new RandomIVPercentageRequirement(percentage);
+    public ParseAttempt<Requirement<Pokemon, PixelmonEntity, Integer>> createInstance(Integer percentage) {
+        return ParseAttempt.success(new RandomIVPercentageRequirement(percentage));
     }
 
     @Override

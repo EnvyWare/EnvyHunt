@@ -166,7 +166,7 @@ public class HuntConfig extends AbstractYamlConfig {
             this.requirementSpecCache = Lists.newArrayList();
 
             for (String requirementSpec : this.requirementSpecs) {
-                this.requirementSpecCache.add(PokemonSpecificationProxy.create(requirementSpec));
+                this.requirementSpecCache.add(PokemonSpecificationProxy.create(requirementSpec).get());
             }
         }
 
@@ -198,7 +198,7 @@ public class HuntConfig extends AbstractYamlConfig {
         if (this.rewardSpecsCache == null) {
             this.rewardSpecsCache = Lists.newArrayListWithCapacity(this.rewardSpecs.size());
             for (String rewardSpec : this.rewardSpecs) {
-                this.rewardSpecsCache.add(PokemonSpecificationProxy.create(rewardSpec));
+                this.rewardSpecsCache.add(PokemonSpecificationProxy.create(rewardSpec).get());
             }
         }
         return this.rewardSpecsCache;
