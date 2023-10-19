@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class RandomSpeciesIngoringBlockedRequirement extends AbstractPokemonRequirement<Species> {
 
-    private static final Set<String> KEYS = Sets.newHashSet("randomnonblockedspecies");
+    private static final Set<String> KEYS = Sets.newHashSet("randomnonblockedspecies", "standardrandom", "randomstandard");
     private Species species;
 
     public RandomSpeciesIngoringBlockedRequirement() {
@@ -34,6 +34,8 @@ public class RandomSpeciesIngoringBlockedRequirement extends AbstractPokemonRequ
         if (!spec.startsWith(key)) {
             return ParseAttempt.error("No key found");
         }
+
+        System.out.println("CReATING?");
 
         Species randomSpecies = PixelmonSpecies.getRandomSpecies();
 

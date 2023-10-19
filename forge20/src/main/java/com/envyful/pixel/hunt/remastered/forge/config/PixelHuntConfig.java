@@ -44,7 +44,10 @@ public class PixelHuntConfig extends AbstractYamlConfig {
                         .startCommands(Lists.newArrayList("broadcast Example hunt is now begining!"))
                         .timeoutCommands(Lists.newArrayList("broadcast Example hunt ran out of time!"))
                         .requirementSpecs(Lists.newArrayList(
-                                "randomnonblockedspecies",
+                                "standardrandom",
+                                "!mew",
+                                "!leg",
+                                "!bulbasaur",
                                 "randomivpercent:10-20",
                                 "randomability:stickyhold,cursedbody,shadowshield",
                                 "randomgender",
@@ -99,7 +102,7 @@ public class PixelHuntConfig extends AbstractYamlConfig {
                         .startCommands(Lists.newArrayList("broadcast Shiny hunt is now begining!"))
                         .timeoutCommands(Lists.newArrayList("broadcast Shiny hunt ran out of time!"))
                         .requirementSpecs(Lists.newArrayList(
-                                "randomnonblockedspecies",
+                                "standardrandom",
                                 "randomivpercent:10-20",
                                 "randomability:stickyhold,cursedbody,shadowshield",
                                 "randomgender",

@@ -36,12 +36,18 @@ public class PokemonSpawnListener extends LazyListener {
                     }
 
                     if (hunt.isCustomColour() && hunt.getColor() != null) {
-                        pixelmon.setRenderColor(
-                                hunt.getColor().getRed(),
-                                hunt.getColor().getGreen(),
-                                hunt.getColor().getBlue(),
-                                hunt.getColor().getAlpha()
-                        );
+                        var colour = hunt.getColor().getComponents(null);
+
+//                        pixelmon.setShaderParameters(ShaderParameters.builder() //TODO: wait for Pixelmon bug to be fixed
+//                                .id(ResourceLocationHelper.of(Pixelmon.MODID, "rendertype_entity_smooth_cutout_fresnel"))
+//                                .noTexture()
+//                                .modelAndShader()
+//                                .withParameter("FresnelBias", Codec.FLOAT, 0.35F)
+//                                .withParameter("FresnelScale", Codec.FLOAT, 20F)
+//                                .withParameter("FresnelPower", Codec.FLOAT, 0.85F)
+//                                .withParameter("FresnelColor", Codec.FLOAT.listOf(), List.of(colour[0], colour[1], colour[2], colour[3]))
+//                                .renderColor(new Color(1F, 1F, 1F, 0.1F))
+//                                .build());
                     }
                 }
             }

@@ -5,6 +5,7 @@ import com.envyful.api.time.UtilTimeFormat;
 import com.envyful.pixel.hunt.remastered.forge.config.HuntConfig;
 import com.envyful.pixel.hunt.remastered.forge.spec.*;
 import com.pixelmonmod.api.pokemon.PokemonSpecification;
+import com.pixelmonmod.api.pokemon.requirement.impl.LogicalNOTRequirement;
 import com.pixelmonmod.api.pokemon.requirement.impl.SpeciesRequirement;
 import com.pixelmonmod.api.requirement.Requirement;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
@@ -82,7 +83,9 @@ public class HuntTransformer implements SimplePlaceholder {
                            Class<? extends Requirement<Pokemon, PixelmonEntity, T>> requirementClazz) {
         for (PokemonSpecification spec : specs) {
             var value = spec.getValue(requirementClazz).orElse(null);
-            if (value == null) {
+            var logicalNot = spec.getValue(LogicalNOTRequirement.class).orElse(null);
+
+            if (value == null || logicalNot != null) {
                 continue;
             }
 

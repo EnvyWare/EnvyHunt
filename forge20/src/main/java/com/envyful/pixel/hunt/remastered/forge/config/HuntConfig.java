@@ -2,10 +2,12 @@ package com.envyful.pixel.hunt.remastered.forge.config;
 
 import com.envyful.api.config.type.ExtendedConfigItem;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
+import com.envyful.api.forge.config.ConfigReward;
 import com.envyful.api.forge.config.ConfigRewardPool;
 import com.envyful.api.forge.player.util.UtilPlayer;
 import com.envyful.api.forge.server.UtilForgeServer;
 import com.envyful.api.type.Pair;
+import com.envyful.pixel.hunt.remastered.forge.EnvyHunt;
 import com.google.common.collect.Lists;
 import com.pixelmonmod.api.pokemon.PokemonSpecification;
 import com.pixelmonmod.api.pokemon.PokemonSpecificationProxy;
@@ -46,7 +48,7 @@ public class HuntConfig extends AbstractYamlConfig {
     private List<String> requirementSpecs;
     private transient List<PokemonSpecification> requirementSpecCache = null;
 
-    private ConfigRewardPool rewards;
+    private ConfigRewardPool<ConfigReward> rewards;
     private List<String> rewardSpecs;
     private transient List<PokemonSpecification> rewardSpecsCache = null;
 
@@ -166,7 +168,14 @@ public class HuntConfig extends AbstractYamlConfig {
             this.requirementSpecCache = Lists.newArrayList();
 
             for (String requirementSpec : this.requirementSpecs) {
-                this.requirementSpecCache.add(PokemonSpecificationProxy.create(requirementSpec).get());
+                var parseAttempt = PokemonSpecificationProxy.create(requirementSpec);
+
+                if (!parseAttempt.wasSuccess()) {
+                    EnvyHunt.getLogger().error("Failed to parse spec in hunt " + this.id + " for spec " + requirementSpec + " for reason: " + parseAttempt.getError());
+                    continue;
+                }
+
+                this.requirementSpecCache.add(parseAttempt.get());
             }
         }
 
