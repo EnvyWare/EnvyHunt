@@ -43,7 +43,6 @@ shadowJar {
     relocate('org.slf4j', 'com.envyful.pixel.hunt.remastered.forge.shade.slf4j')
     relocate('com.envyful.api', 'com.envyful.pixel.hunt.remastered.forge.shade.envy.api')
     relocate('org.bstats', 'com.envyful.pixel.hunt.remastered.forge.shade.bstats')
-    relocate('org.apache.logging', 'com.envyful.pixel.hunt.remastered.forge.shade.log4j')
     relocate('io.netty', 'com.envyful.pixel.hunt.remastered.forge.shade.netty')
     relocate('io.lettuce', 'com.envyful.pixel.hunt.remastered.forge.shade.lettuce')
     relocate('com.cronutils', 'com.envyful.pixel.hunt.remastered.forge.shade.cronutils')
