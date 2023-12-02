@@ -15,11 +15,11 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {}
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
+    minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
 
-    implementation 'pixelmon:Pixelmon-1.16.5-9.1.7-server:9.1.9'
 
-    shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
+    implementation 'pixelmon:Pixelmon-1.16.5-9.1.9-server:9.1.9'
+    shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.2.0-COMMENTS'
 
     shadow (group: 'com.envyful.api', name: 'commons', version: '5.6.6')
     shadow (group: 'com.envyful.api', name: 'forge16', version: '5.6.6') {
@@ -43,14 +43,11 @@ shadowJar {
     relocate('org.slf4j', 'com.envyful.pixel.hunt.remastered.forge.shade.slf4j')
     relocate('com.envyful.api', 'com.envyful.pixel.hunt.remastered.forge.shade.envy.api')
     relocate('org.bstats', 'com.envyful.pixel.hunt.remastered.forge.shade.bstats')
-    relocate('org.apache.logging', 'com.envyful.pixel.hunt.remastered.forge.shade.log4j')
     relocate('io.netty', 'com.envyful.pixel.hunt.remastered.forge.shade.netty')
     relocate('io.lettuce', 'com.envyful.pixel.hunt.remastered.forge.shade.lettuce')
     relocate('com.cronutils', 'com.envyful.pixel.hunt.remastered.forge.shade.cronutils')
     relocate('com.cronutils', 'com.envyful.pixel.hunt.remastered.forge.shade.cronutils')
     relocate('com.sun.el', 'com.envyful.pixel.hunt.remastered.forge.shade.sun.el')
-    relocate('javax', 'com.envyful.pixel.hunt.remastered.forge.shade.javax')
-    relocate('javax', 'com.envyful.pixel.hunt.remastered.forge.shade.javax')
     relocate('org.reactivestreams', 'com.envyful.pixel.hunt.remastered.forge.shade.reactivestreams')
     relocate('reactor', 'com.envyful.pixel.hunt.remastered.forge.shade.reactor')
 
