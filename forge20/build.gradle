@@ -22,11 +22,11 @@ dependencies {
 
     implementation group: 'org.spongepowered', name: 'configurate-yaml', version: '4.2.0-COMMENTS'
 
-    shadow group: 'com.envyful.api', name: 'commons', version: '5.5.2'
-    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.5.2') {
+    shadow group: 'com.envyful.api', name: 'commons', version: '5.6.6'
+    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.6.6') {
         transitive = false;
     }
-    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.5.2') {
+    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.6.6') {
         transitive = false;
     }
 }
