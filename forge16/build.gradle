@@ -17,7 +17,7 @@ repositories {}
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
 
-    implementation 'pixelmon:Pixelmon-1.16.5-9.1.7-server:9.1.7'
+    implementation 'pixelmon:Pixelmon-1.16.5-9.1.7-server:9.1.9'
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
