@@ -282,7 +282,7 @@ public class HuntConfig extends AbstractYamlConfig {
         private List<String> startCommands = Lists.newArrayList();
         private List<String> timeoutCommands = Lists.newArrayList();
         private List<String> requirementSpecs = Lists.newArrayList();
-        private ConfigRewardPool rewards;
+        private ConfigRewardPool<ConfigReward> rewards;
         private List<String> rewardSpecs = Lists.newArrayList();
         private boolean persistent = false;
         private long maxDurationMinutes = 30;
@@ -354,7 +354,7 @@ public class HuntConfig extends AbstractYamlConfig {
             return this;
         }
 
-        public Builder rewards(ConfigRewardPool rewards) {
+        public Builder rewards(ConfigRewardPool<ConfigReward> rewards) {
             this.rewards = rewards;
             return this;
         }

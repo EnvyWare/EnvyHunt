@@ -2,6 +2,7 @@ package com.envyful.pixel.hunt.remastered.forge.config;
 
 import com.envyful.api.config.type.ExtendedConfigItem;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
+import com.envyful.api.forge.config.ConfigReward;
 import com.envyful.api.forge.config.ConfigRewardPool;
 import com.envyful.api.forge.player.util.UtilPlayer;
 import com.envyful.api.forge.server.UtilForgeServer;
@@ -46,7 +47,7 @@ public class HuntConfig extends AbstractYamlConfig {
     private List<String> requirementSpecs;
     private transient List<PokemonSpecification> requirementSpecCache = null;
 
-    private ConfigRewardPool rewards;
+    private ConfigRewardPool<ConfigReward> rewards;
     private List<String> rewardSpecs;
     private transient List<PokemonSpecification> rewardSpecsCache = null;
 
