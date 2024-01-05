@@ -16,17 +16,17 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {}
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.2-48.0.30'
+    minecraft 'net.minecraftforge:forge:1.20.2-48.1.0'
 
-    implementation 'pixelmon:Pixelmon-1.20.2-9.2.4-server:9.2.4'
+    implementation 'pixelmon:Pixelmon-1.20.2-9.2.6-server:9.2.6'
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.2.0-COMMENTS'
 
-    shadow group: 'com.envyful.api', name: 'commons', version: '5.6.6'
-    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.6.6') {
+    shadow group: 'com.envyful.api', name: 'commons', version: '5.7.7'
+    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.7.7') {
         transitive = false;
     }
-    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.6.6') {
+    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.7.7') {
         transitive = false;
     }
 }
@@ -46,16 +46,14 @@ shadowJar {
     relocate('io.netty', 'com.envyful.pixel.hunt.remastered.forge.shade.netty')
     relocate('io.lettuce', 'com.envyful.pixel.hunt.remastered.forge.shade.lettuce')
     relocate('com.cronutils', 'com.envyful.pixel.hunt.remastered.forge.shade.cronutils')
-    relocate('com.cronutils', 'com.envyful.pixel.hunt.remastered.forge.shade.cronutils')
     relocate('com.sun.el', 'com.envyful.pixel.hunt.remastered.forge.shade.sun.el')
     relocate('org.reactivestreams', 'com.envyful.pixel.hunt.remastered.forge.shade.reactivestreams')
     relocate('reactor', 'com.envyful.pixel.hunt.remastered.forge.shade.reactor')
+    relocate('com.mysql', 'com.envyful.pixel.hunt.remastered.forge.shade.mysql')
 
     exclude "com/google/**"
     exclude "javax/**"
     exclude "**/module-info.class"
-    exclude "**/*.properties"
-    exclude "**/*.xml"
     exclude "META-INF/versions/9/**"
     exclude "META-INF/native-image/**"
     exclude "META-INF/services/**"
