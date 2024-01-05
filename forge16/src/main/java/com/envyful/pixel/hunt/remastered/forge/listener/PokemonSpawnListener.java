@@ -36,15 +36,6 @@ public class PokemonSpawnListener extends LazyListener {
                     if (hunt.shouldPlayParticles()) {
                         ParticleDisplayTask.addPokemon(pixelmon);
                     }
-
-                    if (hunt.isCustomColour() && hunt.getColor() != null) {
-                        pixelmon.setRenderColor(
-                                hunt.getColor().getRed(),
-                                hunt.getColor().getGreen(),
-                                hunt.getColor().getBlue(),
-                                hunt.getColor().getAlpha()
-                        );
-                    }
                 }
             }
         });
