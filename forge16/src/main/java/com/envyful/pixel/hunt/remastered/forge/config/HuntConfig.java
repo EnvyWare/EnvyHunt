@@ -182,6 +182,10 @@ public class HuntConfig extends AbstractYamlConfig {
     public void rewardHunt(ServerPlayerEntity player, Pokemon pokemon) {
         if (!this.persistent) {
             this.reset();
+
+            for (String spawnCommand : this.startCommands) {
+                UtilForgeServer.executeCommand(spawnCommand);
+            }
         }
 
         this.rewards.give(player);
