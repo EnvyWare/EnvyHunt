@@ -27,6 +27,9 @@ public class IVPercentageRangeRequirement extends AbstractPokemonRequirement<Pai
 
     public IVPercentageRangeRequirement(int min, int max) {
         super(KEYS);
+
+        this.min = min;
+        this.max = max;
     }
 
     @Override
