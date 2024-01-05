@@ -50,7 +50,7 @@ public class ParticleDisplayTask extends LazyListener {
                 }
 
                 for (HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
-                    if (hunt.shouldPlayParticles() && hunt.matchesHunt(pixelmon)) {
+                    if (hunt.shouldPlayParticles() && hunt.matchesDisplay(pixelmon)) {
                         ((ServerWorld) pixelmon.level).sendParticles(hunt.getParticles(),
                                 pixelmon.getX(),
                                 pixelmon.getY(),

@@ -32,7 +32,7 @@ public class PokemonSpawnListener extends LazyListener {
                     continue;
                 }
 
-                if (hunt.matchesHunt(pixelmon)) {
+                if (hunt.matchesDisplay(pixelmon)) {
                     if (hunt.shouldPlayParticles()) {
                         ParticleDisplayTask.addPokemon(pixelmon);
                     }

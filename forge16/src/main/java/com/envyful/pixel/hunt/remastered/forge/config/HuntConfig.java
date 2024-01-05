@@ -46,6 +46,8 @@ public class HuntConfig extends AbstractYamlConfig {
 
     private List<String> requirementSpecs;
     private transient List<PokemonSpecification> requirementSpecCache = null;
+    private List<String> particleSpecs;
+    private transient List<PokemonSpecification> particleSpecCache = null;
 
     private ConfigRewardPool<ConfigReward> rewards;
     private List<String> rewardSpecs;
@@ -83,6 +85,7 @@ public class HuntConfig extends AbstractYamlConfig {
         this.allowRewardUI = builder.allowRewardUI;
         this.rewardUI = builder.rewardUI;
         this.rewardDisplayItems = builder.rewardDisplayItems;
+        this.particleSpecs = builder.requirementSpecs;
     }
 
     public HuntConfig() {
@@ -162,6 +165,31 @@ public class HuntConfig extends AbstractYamlConfig {
         return true;
     }
 
+
+    public boolean matchesDisplay(PixelmonEntity pixelmon) {
+        if (!this.isEnabled()) {
+            return false;
+        }
+
+        for (PokemonSpecification requirementSpec : this.getParticleSpecs()) {
+            if (requirementSpec != null && !requirementSpec.matches(pixelmon)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean matchesDisplay(Pokemon pokemon) {
+        for (PokemonSpecification requirementSpec : this.getParticleSpecs()) {
+            if (requirementSpec != null && !requirementSpec.matches(pokemon)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public List<PokemonSpecification> getRequirementSpecs() {
         if (this.requirementSpecCache == null) {
             this.requirementSpecCache = Lists.newArrayList();
@@ -172,6 +200,22 @@ public class HuntConfig extends AbstractYamlConfig {
         }
 
         return this.requirementSpecCache;
+    }
+
+    public List<PokemonSpecification> getParticleSpecs() {
+        if (this.particleSpecs == null || this.particleSpecs.isEmpty()) {
+            return this.getRequirementSpecs();
+        }
+
+        if (this.particleSpecCache == null) {
+            this.particleSpecCache = Lists.newArrayList();
+
+            for (String particleSpec : this.particleSpecs) {
+                this.particleSpecCache.add(PokemonSpecificationProxy.create(particleSpec));
+            }
+        }
+
+        return this.particleSpecCache;
     }
 
     public void reset() {
