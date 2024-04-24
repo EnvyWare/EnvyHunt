@@ -32,12 +32,30 @@ public class RandomGenderRequirement extends AbstractPokemonRequirement<Gender> 
 
     @Override
     public ParseAttempt<List<Requirement<Pokemon, PixelmonEntity, ?>>> create(String key, String spec) {
-        if (!spec.startsWith(key)) {
+        if (!spec.startsWith(key + ":")) {
             return ParseAttempt.error("No key found");
         }
 
-        return this.createInstance(UtilRandom.getRandomElement(Gender.values()))
-                .map(Collections::singletonList);
+        String[] args = spec.split(":");
+
+        if (args.length != 2) {
+            this.createInstance(UtilRandom.getRandomElement(Gender.values())).map(Collections::singletonList);
+        }
+
+        String[] genders = args[1].split(",");
+        String genderName = UtilRandom.getRandomElement(genders);
+
+        if (genderName == null) {
+            return ParseAttempt.error("Error gender " + genderName + " is not valid");
+        }
+
+        var randomGender = Gender.getGender(genderName);
+
+        if (randomGender == null) {
+            return ParseAttempt.error("Error gender " + genderName + " is not valid");
+        }
+
+        return this.createInstance(randomGender).map(Collections::singletonList);
     }
 
     @Override

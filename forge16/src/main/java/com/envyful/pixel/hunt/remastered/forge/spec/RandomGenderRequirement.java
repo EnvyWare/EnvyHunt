@@ -1,6 +1,7 @@
 package com.envyful.pixel.hunt.remastered.forge.spec;
 
 import com.envyful.api.math.UtilRandom;
+import com.envyful.pixel.hunt.remastered.forge.EnvyHunt;
 import com.google.common.collect.Sets;
 import com.pixelmonmod.api.pokemon.requirement.AbstractPokemonRequirement;
 import com.pixelmonmod.api.requirement.Requirement;
@@ -31,11 +32,30 @@ public class RandomGenderRequirement extends AbstractPokemonRequirement<Gender> 
 
     @Override
     public List<Requirement<Pokemon, PixelmonEntity, ?>> createSimple(String key, String spec) {
-        if (!spec.startsWith(key)) {
+        if (!spec.startsWith(key + ":")) {
             return Collections.emptyList();
         }
 
-        return Collections.singletonList(this.createInstance(UtilRandom.getRandomElement(Gender.values())));
+        String[] args = spec.split(":");
+
+        if (args.length != 2) {
+            return Collections.singletonList(this.createInstance(UtilRandom.getRandomElement(Gender.values())));
+        }
+
+        String[] genders = args[1].split(",");
+        String genderName = UtilRandom.getRandomElement(genders);
+
+        if (genderName == null) {
+            return Collections.emptyList();
+        }
+
+        var randomGender = Gender.getGender(genderName);
+
+        if (randomGender == null) {
+            EnvyHunt.getLogger().error("Unable to find gender: " + genderName);
+        }
+
+        return randomGender == null ? Collections.emptyList() : Collections.singletonList(this.createInstance(randomGender));
     }
 
     @Override
