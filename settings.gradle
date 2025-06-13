@@ -7,6 +7,7 @@ pluginManagement {
             name = 'MinecraftForge'
             url = 'https://maven.minecraftforge.net/'
         }
+        maven { url = 'https://maven.neoforged.net/releases' }
     }
 }
 
@@ -17,5 +18,6 @@ plugins {
 rootProject.name = 'EnvyHunt'
 //include 'api'
 //include 'forge'
-include 'forge16'
-include 'forge20'
+//include 'forge16'
+//include 'forge20'
+include 'neo21'

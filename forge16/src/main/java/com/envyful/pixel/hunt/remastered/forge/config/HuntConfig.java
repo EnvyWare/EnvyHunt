@@ -7,6 +7,7 @@ import com.envyful.api.forge.config.ConfigRewardPool;
 import com.envyful.api.forge.player.util.UtilPlayer;
 import com.envyful.api.forge.server.UtilForgeServer;
 import com.envyful.api.type.Pair;
+import com.envyful.pixel.hunt.remastered.forge.spec.RandomSpeciesIngoringBlockedRequirement;
 import com.google.common.collect.Lists;
 import com.pixelmonmod.api.pokemon.PokemonSpecification;
 import com.pixelmonmod.api.pokemon.PokemonSpecificationProxy;
@@ -142,10 +143,6 @@ public class HuntConfig extends AbstractYamlConfig {
     }
 
     public boolean matchesHunt(PixelmonEntity pixelmon) {
-        if (!this.isEnabled()) {
-            return false;
-        }
-
         for (PokemonSpecification requirementSpec : this.getRequirementSpecs()) {
             if (requirementSpec != null && !requirementSpec.matches(pixelmon)) {
                 return false;
@@ -156,7 +153,7 @@ public class HuntConfig extends AbstractYamlConfig {
     }
 
     public boolean matchesHunt(Pokemon pokemon) {
-        for (PokemonSpecification requirementSpec : this.getRequirementSpecs()) {
+        for (var requirementSpec : this.getRequirementSpecs()) {
             if (requirementSpec != null && !requirementSpec.matches(pokemon)) {
                 return false;
             }
@@ -164,25 +161,18 @@ public class HuntConfig extends AbstractYamlConfig {
 
         return true;
     }
-
 
     public boolean matchesDisplay(PixelmonEntity pixelmon) {
-        if (!this.isEnabled()) {
-            return false;
-        }
+        for (var requirementSpec : this.getRequirementSpecs()) {
+            var nonBlockedSpecies = requirementSpec.getValue(RandomSpeciesIngoringBlockedRequirement.class);
 
-        for (PokemonSpecification requirementSpec : this.getParticleSpecs()) {
-            if (requirementSpec != null && !requirementSpec.matches(pixelmon)) {
+            if (nonBlockedSpecies.isPresent() && !nonBlockedSpecies.get().is(pixelmon.getSpecies())) {
                 return false;
             }
         }
 
-        return true;
-    }
-
-    public boolean matchesDisplay(Pokemon pokemon) {
-        for (PokemonSpecification requirementSpec : this.getParticleSpecs()) {
-            if (requirementSpec != null && !requirementSpec.matches(pokemon)) {
+        for (var requirementSpec : this.getParticleSpecs()) {
+            if (requirementSpec != null && !requirementSpec.matches(pixelmon)) {
                 return false;
             }
         }

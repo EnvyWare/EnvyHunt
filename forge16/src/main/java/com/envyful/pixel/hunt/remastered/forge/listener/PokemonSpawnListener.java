@@ -28,10 +28,6 @@ public class PokemonSpawnListener extends LazyListener {
             PixelmonEntity pixelmon = (PixelmonEntity) entity;
 
             for (HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
-                if (!hunt.isEnabled()) {
-                    continue;
-                }
-
                 if (hunt.matchesDisplay(pixelmon)) {
                     if (hunt.shouldPlayParticles()) {
                         ParticleDisplayTask.addPokemon(pixelmon);

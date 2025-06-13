@@ -28,17 +28,18 @@ import java.io.IOException;
 @Mod("envyhunt")
 public class EnvyHunt {
 
+    private static final Logger LOGGER = LogManager.getLogger("envyhunt");
+
     private static EnvyHunt instance;
 
     private final ForgePlayerManager playerManager = new ForgePlayerManager();
     private final ForgeCommandFactory commandFactory = new ForgeCommandFactory(ForgeAnnotationCommandParser::new, playerManager);
-    private final Logger logger = LogManager.getLogger("envyhunt");
 
     private PixelHuntConfig config;
     private PixelHuntGraphics graphics;
 
     public EnvyHunt() {
-        UtilLogger.setLogger(this.logger);
+        UtilLogger.setLogger(LOGGER);
         MinecraftForge.EVENT_BUS.register(this);
         instance = this;
 
@@ -71,7 +72,7 @@ public class EnvyHunt {
             this.config = YamlConfigFactory.getInstance(PixelHuntConfig.class);
             this.graphics = YamlConfigFactory.getInstance(PixelHuntGraphics.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Error reloading configs for EnvyHunt", e);
         }
     }
 
@@ -97,7 +98,7 @@ public class EnvyHunt {
     }
 
     public static Logger getLogger() {
-        return instance.logger;
+        return LOGGER;
     }
 
 }

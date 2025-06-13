@@ -1,8 +1,10 @@
 subprojects {
+    apply plugin: 'idea'
     apply plugin: 'java'
+    apply plugin: 'maven-publish'
 
     group = 'com.envyful.pixel.hunt.remastered'
-    version = '4.4.2'
+    version = '4.5.0'
 
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
@@ -10,10 +12,7 @@ subprojects {
 
     ext {
         forgeVersion = "none"
-    }
-
-    jar {
-        setArchiveBaseName("${rootProject.name}-Forge")
+        platform = "Forge"
     }
 
     repositories {
@@ -25,27 +24,36 @@ subprojects {
         maven { url = "https://repo.spongepowered.org/maven" }
         maven { url = "https://maven.envyware.co.uk/releases" }
         ivy {
-            setUrl('https://download.nodecdn.net/containers/reforged/server/release')
+            setUrl('https://download.nodecdn.net/containers/reforged/universal/release')
+
             metadataSources {
                 artifact()
+                gradleMetadata()
             }
             patternLayout {
-                artifact('[revision]/[artifact].[ext]')
+                artifact('[artifact].[ext]')
             }
         }
     }
 
-    task versionedRelease(type: Copy) {
-        dependsOn('shadowJar')
-        delete fileTree('../release/') {
-            include '**/*.jar'
+    afterEvaluate {
+        jar {
+            setArchiveBaseName("${rootProject.name}-${platform}")
         }
-        group "build"
-        from("./build/libs/${rootProject.name}-Forge-${version}.jar")
-        into('../release/')
-        include '*.jar'
-        rename { String filename ->
-            filename.replace("-${version}.jar", "-${project.version}-${forgeVersion}.jar")
+
+        task versionedRelease(type: Copy) {
+            dependsOn('shadowJar')
+            delete fileTree('../release/') {
+                include '**/*.jar'
+            }
+            group "build"
+            print("${platform} - ${version} - ${forgeVersion}")
+            from("./build/libs/${rootProject.name}-${platform}-${version}.jar")
+            into('../release/')
+            include '*.jar'
+            rename { String filename ->
+                filename.replace("-${version}.jar", "-${project.version}-${forgeVersion}.jar")
+            }
         }
     }
 }

@@ -148,6 +148,8 @@ public class PixelHuntConfig extends AbstractYamlConfig {
                                 .build())
                         .build())
         ));
+
+        this.hunts.removeIf(huntConfig -> !huntConfig.isEnabled());
     }
 
     public List<HuntConfig> getHunts() {

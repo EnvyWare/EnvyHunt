@@ -30,7 +30,7 @@ public class HuntUI {
         UtilConfigInterface.fillBackground(pane, guiConfig.getGuiSettings());
 
         for (HuntConfig hunt : EnvyHunt.getConfig().getHunts()) {
-            if (page != hunt.getPage() || !hunt.isEnabled()) {
+            if (page != hunt.getPage()) {
                 continue;
             }
 
